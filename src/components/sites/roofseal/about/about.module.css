@@ -141,7 +141,7 @@
 }
 .valueGrid article {
   padding: 20px;
-  min-height: 172px;
+  min-height: 167.2px;
   background: #fff;
   border: 1px solid #b7c3c099;
   display: flex;
@@ -262,10 +262,20 @@
   padding: 80px 0;
 }
 .certGrid {
+  max-width: 1236px;
   display: grid;
   grid-template-columns: 540fr 610fr;
   gap: 86px;
   align-items: center;
+}
+@media (min-width: 1800px) {
+  .introCopy {
+    align-self: start;
+    padding-top: 78px;
+  }
+  .esgPanels {
+    left: 12px;
+  }
 }
 .certGrid > div > p {
   margin-top: 30px;
@@ -387,7 +397,7 @@
   place-items: center;
   background: #6b0d10;
   color: #fde8e9;
-  font-size: 26px;
+  font-size: 20px;
 }
 .milestoneCards article > img {
   height: 250px;

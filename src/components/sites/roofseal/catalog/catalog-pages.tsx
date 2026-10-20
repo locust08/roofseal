@@ -5,7 +5,12 @@ import styles from "./catalog.module.css";
 export function DivisionContent() {
   return (
     <>
-      <Breadcrumbs items={[{ label: "Metal Roofing Division" }]} />
+      <Breadcrumbs
+        items={[
+          { label: "Products", href: "/metal-roofing-division" },
+          { label: "Metal Roofing Division" },
+        ]}
+      />
       <Banner title="Metal Roofing Division" node="28352:1837" />
       <section className={styles.body}>
         <div className={styles.intro}>
@@ -39,6 +44,7 @@ export function CoveringContent() {
     <>
       <Breadcrumbs
         items={[
+          { label: "Products", href: "/metal-roofing-division" },
           { label: "Metal Roofing Division", href: "/metal-roofing-division" },
           { label: "Roof Covering" },
         ]}
@@ -124,6 +130,7 @@ export function SystemContent() {
     <>
       <Breadcrumbs
         items={[
+          { label: "Products", href: "/metal-roofing-division" },
           { label: "Metal Roofing Division", href: "/metal-roofing-division" },
           { label: "Roof Covering", href: "/roof-covering" },
           { label: "Metal Roof System" },

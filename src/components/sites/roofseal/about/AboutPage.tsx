@@ -280,14 +280,16 @@ export function AboutPage() {
               onClick={() => setOffset((offset + 1) % 3)}
               aria-label="Next milestones"
             >
-              <Icon name="arrow-right" />
+              <Icon name="chevron-right" />
             </button>
             <div className={styles.milestoneCards}>
               {[0, 1, 2].map((n) => {
                 const [year, copy, img] = milestones[(n + offset) % 3];
                 return (
                   <article key={year}>
-                    <span className={styles.calendar}>▦</span>
+                    <span className={styles.calendar}>
+                      <Icon name="calendar" />
+                    </span>
                     <h2>
                       <em>{year}</em>
                     </h2>

@@ -1,0 +1,80 @@
+[
+  {
+    "backs": [],
+    "broken": 0,
+    "cards": [],
+    "footerCorner": "/sites/roofseal/shared/95b97682f83015c2-698dc.svg",
+    "height": 3993,
+    "overflow": false,
+    "path": "/metal-roofing-division",
+    "width": 1920
+  },
+  {
+    "backs": [],
+    "broken": 0,
+    "cards": [],
+    "footerCorner": "/sites/roofseal/shared/95b97682f83015c2-698dc.svg",
+    "height": 6793,
+    "overflow": false,
+    "path": "/",
+    "width": 1920
+  },
+  {
+    "backs": [],
+    "broken": 0,
+    "cards": [],
+    "footerCorner": "/sites/roofseal/shared/95b97682f83015c2-698dc.svg",
+    "height": 6155,
+    "overflow": false,
+    "path": "/about",
+    "width": 1920
+  },
+  {
+    "backs": [
+      {
+        "href": "/metal-roofing-division",
+        "top": 177
+      }
+    ],
+    "broken": 0,
+    "cards": [],
+    "footerCorner": "/sites/roofseal/shared/95b97682f83015c2-698dc.svg",
+    "height": 3892,
+    "overflow": false,
+    "path": "/roof-covering",
+    "width": 1920
+  },
+  {
+    "backs": [
+      {
+        "href": "/roof-covering",
+        "top": 177
+      }
+    ],
+    "broken": 0,
+    "cards": [
+      566.5,
+      566.5,
+      566.5,
+      566.5,
+      536.5,
+      536.5,
+      536.5
+    ],
+    "footerCorner": "/sites/roofseal/shared/95b97682f83015c2-698dc.svg",
+    "height": 4344,
+    "overflow": false,
+    "path": "/metal-roof-system",
+    "width": 1920
+  },
+  {
+    "backs": [],
+    "broken": 0,
+    "cards": [],
+    "footerCorner": "/sites/roofseal/shared/95b97682f83015c2-698dc.svg",
+    "height": 2720,
+    "overflow": false,
+    "path": "/products/roofseal-deck762",
+    "width": 1920
+  }
+]

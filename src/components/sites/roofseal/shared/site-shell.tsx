@@ -392,7 +392,7 @@ function Footer() {
                 placeholder="EMAIL"
                 required
               />
-              <DiagonalButton type="submit" icon="envelope">
+              <DiagonalButton type="submit" icon="envelope" corner="white">
                 Submit
               </DiagonalButton>
             </form>

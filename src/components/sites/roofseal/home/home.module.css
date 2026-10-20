@@ -121,6 +121,39 @@
 .credentials > div:last-child {
   border: 0;
 }
+@media (min-width: 1800px) {
+  .credentials {
+    display: grid;
+    grid-template-columns: 1fr 0 1fr 0 1fr;
+  }
+  .credentials > div {
+    border: 0;
+    padding: 0;
+    grid-row: 1;
+  }
+  .credentials > div:nth-child(1) {
+    grid-column: 1;
+  }
+  .credentials > div:nth-child(2) {
+    grid-column: 3;
+  }
+  .credentials > div:nth-child(3) {
+    grid-column: 5;
+  }
+  .credentials::before,
+  .credentials::after {
+    content: "";
+    height: 150px;
+    border-right: 1px solid #b7c3c0;
+    grid-row: 1;
+  }
+  .credentials::before {
+    grid-column: 2;
+  }
+  .credentials::after {
+    grid-column: 4;
+  }
+}
 .credentialIcon {
   border-radius: 50%;
   width: 80px;

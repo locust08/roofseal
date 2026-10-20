@@ -27,6 +27,8 @@
   color: #ee1d24;
 }
 .largeImage {
+  width: 609px;
+  max-width: 100%;
   aspect-ratio: 1;
   border: 1px solid #b7c3c099;
 }
@@ -36,6 +38,8 @@
   object-fit: cover;
 }
 .thumbnails {
+  width: 609px;
+  max-width: 100%;
   display: flex;
   justify-content: center;
   gap: 10px;

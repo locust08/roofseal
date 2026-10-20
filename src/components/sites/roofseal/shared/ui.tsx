@@ -14,6 +14,8 @@ export function Icon({
     "arrow-left": "\uf060",
     "chevron-down": "\uf078",
     "chevron-left": "\uf053",
+    "chevron-right": "\uf054",
+    calendar: "\uf133",
     "caret-down": "\uf0d7",
     "shopping-cart": "\uf07a",
     comments: "\uf086",
@@ -50,6 +52,7 @@ export function DiagonalButton({
   className = "",
   type = "button",
   ariaLabel,
+  corner = "black",
 }: {
   children: ReactNode;
   href?: string;
@@ -59,6 +62,7 @@ export function DiagonalButton({
   className?: string;
   type?: "button" | "submit";
   ariaLabel?: string;
+  corner?: "black" | "white";
 }) {
   const content = (
     <>
@@ -69,7 +73,10 @@ export function DiagonalButton({
       <span className="diagonal-button__tip" aria-hidden="true">
         <img
           className="diagonal-button__tip-default"
-          src={asset("28318:4175", "imgGroup1171274885")}
+          src={asset(
+            corner === "white" ? "28318:4045" : "28318:4175",
+            "imgGroup1171274885",
+          )}
           alt=""
           width={10}
           height={50}
@@ -182,6 +189,14 @@ export function Banner({
         )}
       </div>
       <div className="banner-shade" />
+      {(covering || system) && (
+        <Link
+          className="banner-back wide"
+          href={covering ? "/metal-roofing-division" : "/roof-covering"}
+        >
+          <Icon name="chevron-left" /> Back
+        </Link>
+      )}
       <h1 className="wide">{title}</h1>
       <div className="banner-cut" />
     </section>

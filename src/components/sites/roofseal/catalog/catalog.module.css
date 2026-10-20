@@ -66,6 +66,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  align-items: flex-start;
   gap: 40px 30px;
   width: calc(100% - 100px);
   max-width: 1820px;
@@ -92,7 +93,10 @@
 }
 .productCopy {
   padding: 20px;
-  min-height: 132px;
+  min-height: 104px;
+}
+.product:nth-child(-n + 4) .productCopy {
+  min-height: 134px;
 }
 .productCopy span {
   font-family: Arial, sans-serif;
@@ -157,7 +161,7 @@
   cursor: pointer;
   list-style: none;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
   color: #1f1f1f;

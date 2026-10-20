@@ -392,9 +392,25 @@ a:focus-visible {
   background: linear-gradient(
     180deg,
     transparent 60.348%,
-    #0005 80.139%,
-    #000b
+    rgba(0, 0, 0, 0.35) 80.139%,
+    rgba(0, 0, 0, 0.7)
   );
+}
+.banner-back {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-weight: 700;
+  line-height: normal;
+  text-transform: uppercase;
+  color: #fff;
+}
+.banner-back .icon-solid {
+  color: var(--red);
 }
 .page-banner h1 {
   position: absolute;
@@ -491,6 +507,7 @@ a:focus-visible {
   margin-left: -8.5px;
 }
 .category-card {
+  text-align: left;
   display: block;
   position: relative;
   aspect-ratio: 580/640;

@@ -241,7 +241,7 @@ function Building() {
                     alt="Metal door frame"
                   />
                   <Destination label="Metal Door Frame" className={s.learn}>
-                    Learn More <Icon name="arrow-right" />
+                    Learn More <Icon name="chevron-right" />
                   </Destination>
                 </>
               ) : (
@@ -466,7 +466,7 @@ function Projects() {
           aria-label="Next projects"
           onClick={() => setOffset((offset + 1) % 3)}
         >
-          <Icon name="arrow-right" />
+          <Icon name="chevron-right" />
         </button>
       </div>
     </section>
