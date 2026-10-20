@@ -1,0 +1,80 @@
+[
+  {
+    "path": "/",
+    "menu": true,
+    "closed": true,
+    "quote": true,
+    "submit": {
+      "background": "rgb(238, 29, 36)",
+      "hover": true,
+      "invalid": true,
+      "overflow": false,
+      "transition": "0.3s, 0.3s"
+    }
+  },
+  {
+    "path": "/about",
+    "menu": true,
+    "closed": true,
+    "quote": true,
+    "submit": {
+      "background": "rgb(238, 29, 36)",
+      "hover": true,
+      "invalid": true,
+      "overflow": false,
+      "transition": "0.3s, 0.3s"
+    }
+  },
+  {
+    "path": "/metal-roofing-division",
+    "menu": true,
+    "closed": true,
+    "quote": true,
+    "submit": {
+      "background": "rgb(238, 29, 36)",
+      "hover": true,
+      "invalid": true,
+      "overflow": false,
+      "transition": "0.3s, 0.3s"
+    }
+  },
+  {
+    "path": "/roof-covering",
+    "menu": true,
+    "closed": true,
+    "quote": true,
+    "submit": {
+      "background": "rgb(238, 29, 36)",
+      "hover": true,
+      "invalid": true,
+      "overflow": false,
+      "transition": "0.3s, 0.3s"
+    }
+  },
+  {
+    "path": "/metal-roof-system",
+    "menu": true,
+    "closed": true,
+    "quote": true,
+    "submit": {
+      "background": "rgb(238, 29, 36)",
+      "hover": true,
+      "invalid": true,
+      "overflow": false,
+      "transition": "0.3s, 0.3s"
+    }
+  },
+  {
+    "path": "/products/roofseal-deck762",
+    "menu": true,
+    "closed": true,
+    "quote": true,
+    "submit": {
+      "background": "rgb(238, 29, 36)",
+      "hover": true,
+      "invalid": true,
+      "overflow": false,
+      "transition": "0.3s, 0.3s"
+    }
+  }
+]

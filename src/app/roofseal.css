@@ -307,11 +307,11 @@ a:focus-visible {
   left: 0;
   right: 0;
   display: flex;
-  background: #ffffffef;
+  background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(15px);
   min-height: 202px;
-  box-shadow: 0 10px 20px #0002;
   border-bottom: 1px solid #b7c3c099;
+  border-radius: 0 0 8px 8px;
 }
 .mega-divisions {
   width: 400px;
@@ -332,6 +332,23 @@ a:focus-visible {
   text-transform: uppercase;
   white-space: nowrap;
   font-size: 16px;
+  line-height: normal;
+}
+.mega-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 60px;
+  background: var(--red);
+  color: #fff;
+  font-size: 10px;
+  line-height: 1.6;
+}
+.active > .mega-arrow {
+  background: #181818;
 }
 :is(.mega-divisions button, .mega-divisions > a).active {
   background: var(--red);
@@ -341,7 +358,8 @@ a:focus-visible {
 .mega-categories {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 20px 50px;
+  gap: 20px 100px;
+  align-items: start;
   padding: 50px;
   flex: 1;
 }
@@ -350,6 +368,7 @@ a:focus-visible {
   text-transform: uppercase;
   border-bottom: 1px solid #b7c3c099;
   padding: 10px 0;
+  line-height: normal;
 }
 .mega-categories > a:hover {
   color: var(--red);

@@ -174,7 +174,7 @@ function Header({
     { name: "Insulation" },
     { name: "Gutter & Roof Component" },
     { name: "Structural" },
-    { name: "Skylight" },
+    { name: "Skylights" },
   ];
   return (
     <header
@@ -252,14 +252,20 @@ function Header({
               onFocus={() => setDivision("metal")}
               onClick={close}
             >
-              Metal Roofing Division <Icon name="caret-down" />
+              Metal Roofing Division{" "}
+              <span className="mega-arrow">
+                <Icon name="arrow-right" />
+              </span>
             </Link>
             <button
               className={division === "doors" ? "active" : ""}
               onClick={() => setDivision("doors")}
               onMouseEnter={() => setDivision("doors")}
             >
-              Doors &amp; Frames Division <Icon name="caret-down" />
+              Doors &amp; Frames Division{" "}
+              <span className="mega-arrow">
+                <Icon name="arrow-right" />
+              </span>
             </button>
           </div>
           <div className="mega-categories">
@@ -313,7 +319,7 @@ function Footer() {
     {
       title: "Metal Roofing Division",
       items: [
-        ["Roof Covering", "/roof-covering"],
+        ["Roof Covering", "/metal-roofing-division"],
         ["Insulation", ""],
         ["Gutter & Roof Component", ""],
         ["Structural", ""],

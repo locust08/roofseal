@@ -428,6 +428,16 @@
   display: grid;
   place-items: center;
   cursor: pointer;
+  transition:
+    background-color 0.3s ease-out,
+    color 0.3s ease-out,
+    border-color 0.3s ease-out;
+}
+.timelineArrow:hover,
+.timelineArrow:focus-visible {
+  background: #b3161b;
+  border-color: #b3161b;
+  color: #fff;
 }
 .previous {
   left: 0;

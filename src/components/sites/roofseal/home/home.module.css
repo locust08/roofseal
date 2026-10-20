@@ -855,7 +855,18 @@
   inset: 0;
   opacity: 0;
   text-align: left;
-  transition: opacity 0.3s ease-out;
+}
+.carouselArrow {
+  transition:
+    background-color 0.3s ease-out,
+    color 0.3s ease-out,
+    border-color 0.3s ease-out;
+}
+.carouselArrow:hover,
+.carouselArrow:focus-visible {
+  background: #b3161b;
+  border-color: #b3161b;
+  color: #fff;
 }
 .brandHover > img {
   width: 100%;

@@ -113,8 +113,9 @@
   line-height: 30px;
   margin: 0;
 }
-.product:hover {
-  border-color: #ee1d24;
+.product:hover,
+.product:focus-visible {
+  box-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.1);
 }
 .faq,
 .info {

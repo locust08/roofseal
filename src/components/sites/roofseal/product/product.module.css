@@ -193,11 +193,9 @@
   font-weight: 700;
   letter-spacing: 0;
 }
-.card:hover h3 {
-  color: #ee1d24;
-}
-.card:hover {
-  border-color: #ee1d24;
+.card:hover,
+.card:focus-visible {
+  box-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.1);
 }
 @media (max-width: 1350px) {
   .info > h1 {
