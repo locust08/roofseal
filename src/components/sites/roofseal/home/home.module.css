@@ -1,0 +1,989 @@
+.hero {
+  height: 948px;
+  position: relative;
+  overflow: hidden;
+}
+.heroBackground,
+.heroFade {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.heroFade {
+  background: linear-gradient(transparent, #fff);
+}
+.heroInner {
+  height: 100%;
+  position: relative;
+}
+.heroCopy {
+  position: absolute;
+  top: 170px;
+  left: 0;
+  width: 48%;
+}
+.heroCopy > p {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 36px;
+  color: white;
+  margin: 0 0 10px;
+}
+.heroCopy h1 {
+  font-size: clamp(80px, 7.3vw, 140px);
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+  font-weight: 800;
+  margin: 0;
+}
+.heroCopy h1 span {
+  color: #ee1d24;
+  display: block;
+}
+.heroCards {
+  position: absolute;
+  top: 170px;
+  left: 50.55%;
+  width: 49.45%;
+  height: 700px;
+}
+.heroCards > :is(a, button) {
+  position: absolute;
+  width: 88.9%;
+  height: 600px;
+  transition: transform 0.1s ease-out;
+}
+.heroCards > :is(a, button):hover {
+  transform: translateY(-5px);
+}
+.heroCards img {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+}
+.frontCard {
+  left: 0;
+  top: 0;
+}
+.backCard {
+  left: 11.1%;
+  top: 100px;
+}
+.heroCards :is(a, button) > div {
+  position: absolute;
+  bottom: 30px;
+  left: 30px;
+  right: 30px;
+  color: white;
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -0.9px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.backCard > div {
+  opacity: 0.65;
+}
+.round {
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ee1d24;
+  color: white;
+  font-size: 24px;
+  flex-shrink: 0;
+}
+.credentials {
+  position: absolute;
+  left: -50px;
+  top: 732px;
+  display: flex;
+  width: 800px;
+  gap: 25px;
+}
+.credentials > div {
+  flex: 1;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+  padding: 0 15px;
+  border-right: 1px solid #b7c3c0;
+}
+.credentials > div:last-child {
+  border: 0;
+}
+.credentialIcon {
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  background: #b3161b;
+  display: grid;
+  place-items: center;
+}
+.credentialIcon img {
+  height: 50px;
+  width: 50px;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+}
+.credentials strong {
+  font-size: 18px;
+  line-height: 1.4;
+}
+.intro {
+  min-height: 750px;
+  display: grid;
+  grid-template-columns: 1fr 0.835fr;
+  gap: 100px;
+  padding-top: 80px;
+  padding-bottom: 50px;
+  align-items: center;
+}
+.intro > img {
+  width: 100%;
+  height: 620px;
+  object-fit: fill;
+}
+.intro > div {
+  padding-right: 50px;
+}
+.intro h2 {
+  margin: 0 0 20px;
+}
+.intro p {
+  font-size: 16px;
+  line-height: 24px;
+  margin: 0 0 24px;
+}
+.intro b {
+  color: #ee1d24;
+}
+.learn {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.learn > span {
+  color: #ee1d24;
+}
+.intro .learn {
+  margin-top: 40px;
+}
+.building {
+  height: 1126px;
+  background: #f5f5f5;
+  position: relative;
+  padding-top: 110px;
+}
+.topEdge,
+.bottomEdge {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50px;
+  pointer-events: none;
+}
+.building > :global(.section-title) {
+  max-width: 736px;
+  margin: auto;
+}
+.buildingImage {
+  position: relative;
+  width: min(1240px, 95%);
+  height: auto;
+  aspect-ratio: 1240/800;
+  margin: 50px auto 0;
+}
+.ellipse {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.buildingMask {
+  position: absolute;
+  left: 4.68%;
+  top: 4.63%;
+  width: 90.65%;
+  height: 90.63%;
+  mask-size: 100% 100%;
+  mask-repeat: no-repeat;
+  background: white;
+}
+.buildingMask img {
+  position: absolute;
+  left: 8.72%;
+  top: 6.62%;
+  width: 82.56%;
+  height: 86.9%;
+  object-fit: cover;
+}
+.hotspot {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background: #ee1d24;
+  border: 0;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+.hotspot > span {
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: white;
+}
+.hotspot:hover,
+.selected {
+  background: #b3161b;
+}
+.productPopup {
+  position: absolute;
+  left: 6.85%;
+  top: 34.1%;
+  width: 320px;
+  filter: drop-shadow(0 5px 5px #0004);
+  z-index: 2;
+}
+.productPopup > div {
+  background: black;
+  color: white;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 20px;
+}
+.productPopup button {
+  color: #ee1d24;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.productPopup > section {
+  background: white;
+  padding: 20px;
+}
+.productPopup section > img {
+  width: 100%;
+  height: 200px;
+  object-fit: contain;
+  background: #f5f5f5;
+  margin-bottom: 20px;
+}
+.divisions {
+  height: 1000px;
+  position: relative;
+  overflow: hidden;
+}
+.divisionBg,
+.blueOverlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: bottom;
+}
+.blueOverlay {
+  background: #0070c08c;
+}
+.divisionContent {
+  position: relative;
+  padding-top: 100px;
+}
+.divisions :global(.section-title) {
+  max-width: 650px;
+  margin: 0 auto;
+  color: white;
+}
+.divisions :global(.description) {
+  color: #f8f8f8;
+}
+.divisionGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 50px;
+  margin-top: 50px;
+}
+.divisionCard {
+  position: relative;
+  display: block;
+  aspect-ratio: 885/634;
+  transition: transform 0.1s ease-out;
+}
+.divisionCard:hover {
+  transform: translateY(-5px);
+}
+.divisionCard > img {
+  width: 100%;
+  height: 100%;
+}
+.divisionCard > div {
+  position: absolute;
+  bottom: 30px;
+  left: 30px;
+  right: 30px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  justify-content: space-between;
+  color: white;
+}
+.divisionCard h2 {
+  margin: 0;
+}
+.bottomEdge {
+  top: auto;
+  bottom: 0;
+  transform: rotate(180deg);
+}
+.brands {
+  height: 555px;
+  padding-top: 80px;
+  text-align: center;
+}
+.brands h2 {
+  margin: 0 0 50px;
+}
+.brands > div {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 50px;
+}
+.brands :is(a, button) {
+  display: block;
+  transition: transform 0.3s ease-out;
+}
+.brands :is(a, button):hover {
+  transform: translateY(-8px);
+}
+.brands img {
+  width: 100%;
+  aspect-ratio: 418/297;
+}
+.projects {
+  height: 891px;
+  padding-top: 80px;
+}
+.projects :global(.section-title) {
+  max-width: 1030px;
+  margin: auto;
+}
+.projects h2 > span {
+  color: #ee1d24;
+}
+.tabs {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 40px 0;
+}
+.tabs button {
+  width: 241px;
+  padding: 15px;
+  font-size: 18px;
+  line-height: 25px;
+  font-weight: 700;
+  clip-path: polygon(6.2% 0, 100% 0, 93.8% 100%, 0 100%);
+  background: #d2d2d2;
+  border: 0;
+  cursor: pointer;
+}
+.tabs button.active {
+  background: #ee1d24;
+  color: white;
+}
+.projectCarousel {
+  position: relative;
+  width: min(1240px, calc(100% - 100px));
+  margin: auto;
+}
+.projectGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+.projectGrid article > img {
+  width: 100%;
+  aspect-ratio: 400/365;
+  object-fit: fill;
+}
+.projectGrid article > div {
+  height: 115px;
+  background-size: 100% 100%;
+  padding: 25px;
+}
+.projectGrid strong {
+  font-size: 20px;
+  line-height: 30px;
+  color: white;
+}
+.projectGrid p {
+  font-size: 18px;
+  line-height: 25px;
+  color: #ee1d24;
+  font-weight: 700;
+  margin-top: 10px;
+}
+.carouselArrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 60px;
+  height: 60px;
+  border: 1px solid #b7c3c0;
+  border-radius: 50%;
+  background: white;
+  color: #ee1d24;
+  font-size: 30px;
+  cursor: pointer;
+  z-index: 2;
+}
+.previous {
+  left: -28px;
+}
+.next {
+  right: -28px;
+}
+@media (max-width: 1500px) {
+  .heroCards > :is(a, button) {
+    height: auto;
+    aspect-ratio: 4/3;
+  }
+  .heroCards :is(a, button) > div {
+    font-size: 24px;
+  }
+  .heroCards {
+    top: 220px;
+  }
+  .heroCopy {
+    top: 190px;
+  }
+  .credentials {
+    left: 0;
+    width: 48%;
+    gap: 10px;
+  }
+  .intro {
+    gap: 60px;
+  }
+  .intro > div {
+    padding-right: 0;
+  }
+  .intro > img {
+    height: auto;
+  }
+  .divisionCard h2 {
+    font-size: 30px;
+    line-height: 36px;
+  }
+  .divisions {
+    height: auto;
+    min-height: 800px;
+    padding-bottom: 100px;
+  }
+  .projectGrid strong {
+    font-size: 17px;
+  }
+  .projectGrid p {
+    font-size: 15px;
+  }
+  .brands {
+    height: auto;
+    min-height: 450px;
+    padding-bottom: 70px;
+  }
+  .building {
+    height: auto;
+    min-height: 1000px;
+    padding-bottom: 50px;
+  }
+}
+@media (max-width: 900px) {
+  .hero {
+    height: auto;
+    min-height: 1150px;
+  }
+  .heroInner {
+    padding-top: 130px;
+  }
+  .heroCopy {
+    position: relative;
+    top: auto;
+    width: 100%;
+  }
+  .heroCopy h1 {
+    font-size: 80px;
+    max-width: 650px;
+  }
+  .heroCards {
+    left: 0;
+    top: 450px;
+    width: 100%;
+    max-width: 650px;
+  }
+  .credentials {
+    top: 930px;
+    width: 100%;
+  }
+  .intro {
+    grid-template-columns: 1fr;
+    gap: 35px;
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
+  .intro > img {
+    max-height: 600px;
+    object-fit: contain;
+  }
+  .building {
+    min-height: 0;
+    padding-top: 100px;
+  }
+  .building > :global(.section-title) {
+    width: calc(100% - 48px);
+  }
+  .productPopup {
+    width: 240px;
+  }
+  .productPopup section > img {
+    height: 120px;
+  }
+  .buildingImage {
+    margin-top: 40px;
+  }
+  .hotspot {
+    width: 25px;
+    height: 25px;
+  }
+  .hotspot > span {
+    width: 10px;
+    height: 10px;
+  }
+  .divisionGrid {
+    gap: 25px;
+  }
+  .divisionCard > div {
+    left: 15px;
+    right: 15px;
+    bottom: 15px;
+  }
+  .divisionCard h2 {
+    font-size: 23px;
+    line-height: 28px;
+  }
+  .round {
+    width: 45px;
+    height: 45px;
+    font-size: 20px;
+  }
+  .brands > div {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 25px;
+  }
+  .projects {
+    height: auto;
+    padding: 70px 24px;
+  }
+  .projects :global(.section-title) {
+    width: 100%;
+  }
+  .projectCarousel {
+    width: 100%;
+  }
+  .projectGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .projectGrid article:last-child {
+    display: none;
+  }
+  .projectGrid article > div {
+    padding: 15px;
+  }
+  .previous {
+    left: -18px;
+  }
+  .next {
+    right: -18px;
+  }
+  .carouselArrow {
+    width: 40px;
+    height: 40px;
+    font-size: 22px;
+  }
+}
+@media (max-width: 600px) {
+  .hero {
+    min-height: 980px;
+  }
+  .heroInner {
+    padding-top: 110px;
+  }
+  .heroCopy > p {
+    font-size: 18px;
+  }
+  .heroCopy h1 {
+    font-size: 58px;
+    line-height: 1.15;
+  }
+  .heroCards {
+    top: 350px;
+    height: 370px;
+  }
+  .heroCards :is(a, button) > div {
+    font-size: 17px;
+    left: 15px;
+    right: 15px;
+    bottom: 20px;
+  }
+  .backCard {
+    top: 70px;
+  }
+  .heroCards .round {
+    width: 35px;
+    height: 35px;
+    font-size: 16px;
+  }
+  .credentials {
+    top: 750px;
+    gap: 0;
+  }
+  .credentials > div {
+    padding: 0 8px;
+    gap: 15px;
+  }
+  .credentials strong {
+    font-size: 13px;
+  }
+  .credentialIcon {
+    height: 60px;
+    width: 60px;
+  }
+  .credentialIcon img {
+    height: 38px;
+    width: 38px;
+  }
+  .intro h2 {
+    font-size: 30px;
+    line-height: 36px;
+  }
+  .intro .learn {
+    margin-top: 30px;
+  }
+  .building :global(.section-title) h2 {
+    font-size: 30px;
+    line-height: 36px;
+  }
+  .buildingImage {
+    width: 100%;
+    margin-top: 30px;
+  }
+  .hotspot {
+    width: 19px;
+    height: 19px;
+  }
+  .hotspot > span {
+    width: 7px;
+    height: 7px;
+  }
+  .productPopup {
+    width: 180px;
+    left: 4%;
+    top: 42%;
+  }
+  .productPopup > div {
+    font-size: 13px;
+  }
+  .productPopup > section {
+    padding: 10px;
+  }
+  .productPopup section > img {
+    height: 70px;
+    margin-bottom: 10px;
+  }
+  .productPopup .learn {
+    font-size: 11px;
+  }
+  .divisionContent {
+    padding-top: 100px;
+  }
+  .divisionGrid {
+    grid-template-columns: 1fr;
+    margin-top: 30px;
+  }
+  .divisions :global(.section-title) h2 {
+    font-size: 30px;
+    line-height: 36px;
+  }
+  .divisionCard h2 {
+    font-size: 25px;
+    line-height: 30px;
+  }
+  .brands {
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
+  .brands h2 {
+    margin-bottom: 30px;
+  }
+  .brands > div {
+    gap: 15px;
+  }
+  .tabs {
+    gap: 5px;
+    margin: 30px 0;
+  }
+  .tabs button {
+    font-size: 13px;
+    width: 50%;
+    padding: 15px 6px;
+  }
+  .projectGrid {
+    grid-template-columns: 1fr;
+  }
+  .projectGrid article:nth-child(2) {
+    display: none;
+  }
+  .projectGrid article > div {
+    padding: 20px;
+  }
+  .projectGrid strong {
+    font-size: 20px;
+  }
+  .projectGrid p {
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 1501px) {
+  .intro {
+    grid-template-columns: minmax(0, 910fr) minmax(0, 760fr);
+    padding-right: 50px;
+  }
+  .intro > div {
+    padding-right: 0;
+  }
+}
+
+/* Exact Figma variants replace the default artwork and expose authored copy. */
+.heroCards > :is(a, button):hover,
+.divisionCard:hover,
+.brands :is(a, button):hover {
+  transform: none;
+}
+.divisionCard > img.hoverImage {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.1s ease-out;
+}
+.divisionCard:hover > img.hoverImage,
+.divisionCard:focus-visible > img.hoverImage {
+  opacity: 1;
+}
+.divisionCard > div > section {
+  flex: 1;
+  min-width: 0;
+}
+.divisionCard > div p {
+  font-size: 16px;
+  line-height: 24px;
+  color: #f8f8f8;
+  margin: 10px 0 0;
+  display: none;
+}
+.divisionCard:hover > div p,
+.divisionCard:focus-visible > div p {
+  display: block;
+}
+.divisionCard > div > .round {
+  align-self: flex-end;
+}
+.brands :is(a, button) {
+  position: relative;
+}
+.brandHover {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  text-align: left;
+  transition: opacity 0.3s ease-out;
+}
+.brandHover > img {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+}
+.brandHover > section {
+  position: absolute;
+  left: 7.18%;
+  right: 7.18%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.brandHover h3 {
+  font-size: 20px;
+  line-height: 30px;
+  font-weight: 700;
+  margin: 0 0 10px;
+}
+.brandHover p {
+  font-size: 16px;
+  line-height: 24px;
+  margin: 0;
+}
+.brandHover b {
+  color: #ee1d24;
+}
+.brands :is(a, button):hover > .brandHover,
+.brands :is(a, button):focus-visible > .brandHover {
+  opacity: 1;
+}
+.projectNotice {
+  max-width: 1240px;
+  margin: -24px auto 20px;
+  text-align: center;
+  font-size: 14px;
+  line-height: 20px;
+  color: #303030;
+  padding: 0 24px;
+}
+@media (max-width: 1500px) and (min-width: 901px) {
+  .brandHover h3 {
+    font-size: 16px;
+    line-height: 20px;
+    margin-bottom: 5px;
+  }
+  .brandHover p {
+    font-size: 12px;
+    line-height: 16px;
+  }
+  .divisionCard > div p {
+    font-size: 14px;
+    line-height: 20px;
+  }
+}
+@media (max-width: 900px) {
+  .brandHover h3 {
+    font-size: 17px;
+    line-height: 22px;
+    margin-bottom: 5px;
+  }
+  .brandHover p {
+    font-size: 13px;
+    line-height: 18px;
+  }
+  .divisionCard > div p {
+    font-size: 12px;
+    line-height: 16px;
+  }
+  .divisionCard:hover h2 {
+    font-size: 20px;
+    line-height: 24px;
+  }
+}
+@media (max-width: 600px) {
+  .brands :is(a, button) {
+    aspect-ratio: 418/297;
+  }
+  .brandHover {
+    overflow: auto;
+    background: #f5f5f5;
+    clip-path: polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%);
+  }
+  .brandHover > section {
+    position: relative;
+    top: auto;
+    left: auto;
+    right: auto;
+    padding: 15px;
+    transform: none;
+  }
+  .brandHover > img {
+    display: none;
+  }
+  .brandHover h3 {
+    font-size: 13px;
+    line-height: 17px;
+  }
+  .brandHover p {
+    font-size: 11px;
+    line-height: 15px;
+  }
+}
+.hotspotLabel {
+  position: absolute;
+  bottom: calc(100% + 12px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #181818;
+  border-radius: 4px;
+  color: white;
+  white-space: nowrap;
+  font-size: 16px;
+  line-height: 20px;
+  text-transform: uppercase;
+  padding: 5px 15px;
+}
+.hotspotLabel:after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: calc(50% - 8px);
+  border: 8px solid transparent;
+  border-top-color: #181818;
+}
+@media (max-width: 600px) {
+  .hotspotLabel {
+    font-size: 9px;
+    line-height: 12px;
+    padding: 3px 5px;
+    bottom: calc(100% + 7px);
+  }
+}
+
+.divisionCard h2,
+.divisions :global(.section-title) h2 {
+  color: #fff;
+}
+.divisionCard:hover {
+  transform: none;
+}
+
+.heroCards button,
+.divisionCard:where(button),
+.brands button,
+.productPopup button.learn {
+  border: 0;
+  padding: 0;
+  font: inherit;
+  text-align: inherit;
+  cursor: pointer;
+  background: transparent;
+  color: inherit;
+}
+.brands button {
+  width: 100%;
+}
+
+.productPopup button.learn {
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+}

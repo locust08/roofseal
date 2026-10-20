@@ -1,0 +1,2 @@
+# Home building
+Source extraction: ../28318-3214.md; screenshot ../../../design-references/roofseal/home.png. Exact source asset slots and verbatim text are retained in extraction. Geometry: 1126px; building1240x800; exact hotspot positions. CSS module implementation uses fluid containers at smaller desktop widths, stacked mobile layout. Preserve source images, vectors, palette, and typography. Interactive controls use navigation, hover, hotspots, tabs and carousel as applicable.

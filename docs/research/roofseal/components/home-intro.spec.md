@@ -1,0 +1,2 @@
+# Home intro
+Source extraction: ../28318-3279.md; screenshot ../../../design-references/roofseal/home.png. Exact source asset slots and verbatim text are retained in extraction. Geometry: 750px; image910x620; text760px; heading40/48. CSS module implementation uses fluid containers at smaller desktop widths, stacked mobile layout. Preserve source images, vectors, palette, and typography. Interactive controls use navigation, hover, hotspots, tabs and carousel as applicable.

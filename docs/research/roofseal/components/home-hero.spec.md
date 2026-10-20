@@ -1,0 +1,4 @@
+# Home hero
+Source extraction: ../28585-5690.md; screenshot ../../../design-references/roofseal/home.png. Exact source asset slots and verbatim text are retained in extraction. Geometry: 948px; heading140/168px; layered800x600 division cards; credentials80px. CSS module implementation uses fluid containers at smaller desktop widths, stacked mobile layout. Preserve source images, vectors, palette, and typography. Interactive controls use navigation, hover, hotspots, tabs and carousel as applicable.
+
+Shader appearance: exact Figma rendered background node28585:5691 is baked into local hero-shader-background.png (1920x948). Original WGSL and parameters remain preserved in ../28585-5690.md. Runtime resource retrieval unavailable; this static rendering preserves the authored nonanimated appearance.
