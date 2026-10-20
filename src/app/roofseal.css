@@ -121,36 +121,89 @@ a:focus-visible {
 }
 .diagonal-button {
   display: inline-flex;
-  justify-content: center;
   align-items: center;
-  gap: 20px;
-  padding: 15px 30px;
-  min-height: 50px;
+  flex: none;
+  height: 50px;
+  padding: 0;
+  border: 0;
+  background: transparent;
   color: #fff;
-  background: var(--red);
   font-size: 16px;
   line-height: 20px;
+  font-weight: 700;
   letter-spacing: 1.6px;
   text-transform: uppercase;
-  font-weight: 700;
-  clip-path: polygon(0 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+  white-space: nowrap;
+}
+.diagonal-button__body {
+  display: flex;
+  flex: 1;
+  height: 50px;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+  padding: 15px 20px 15px 30px;
+  background: var(--red);
   transition:
     background 0.3s ease-out,
     color 0.3s ease-out;
-  white-space: nowrap;
 }
-.diagonal-button:hover {
-  background: #1f1f1f;
+.diagonal-button__label {
+  flex: none;
+  margin-right: -1.6px;
 }
 .diagonal-button .icon-solid {
   letter-spacing: 0;
+  font-size: 16px;
+  color: #f8f8f8;
+  flex: none;
 }
-.diagonal-button.white {
+.diagonal-button__tip {
+  position: relative;
+  display: block;
+  width: 10px;
+  height: 50px;
+  flex: none;
+}
+.diagonal-button__tip img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 10px;
+  height: 50px;
+  max-width: none;
+  transition: opacity 0.3s ease-out;
+}
+.diagonal-button__tip-hover {
+  opacity: 0;
+}
+.diagonal-button:hover .diagonal-button__body {
+  background: #000;
+}
+.diagonal-button:hover .diagonal-button__tip-hover {
+  opacity: 1;
+}
+.diagonal-button:hover .diagonal-button__tip-default {
+  opacity: 0;
+}
+.diagonal-button.white .diagonal-button__body {
   background: #fff;
   color: var(--heading);
 }
-.diagonal-button.white:hover {
-  background: var(--red);
+.diagonal-button.white .diagonal-button__tip-default {
+  filter: brightness(0) invert(1);
+}
+.diagonal-button.white:hover .diagonal-button__body {
+  background: #000;
+  color: #fff;
+}
+.quote-button {
+  width: 205px;
+}
+.newsletter .diagonal-button {
+  width: 165px;
+}
+.newsletter .diagonal-button .icon-solid {
   color: #fff;
 }
 .arrow-circle {
@@ -695,11 +748,6 @@ a:focus-visible {
   .main-nav > button {
     font-size: 14px;
   }
-  .quote-button {
-    font-size: 14px;
-    gap: 12px;
-    padding-inline: 22px;
-  }
   .footer-columns {
     gap: 20px;
   }
@@ -756,7 +804,7 @@ a:focus-visible {
     font-size: 48px;
   }
 }
-@media (max-width: 1000px) {
+@media (max-width: 1150px) {
   .site-header {
     height: 80px;
   }
@@ -857,17 +905,13 @@ a:focus-visible {
     gap: 12px;
   }
   .quote-button {
-    font-size: 0 !important;
-    padding: 12px 18px;
-    gap: 0;
-    min-height: 40px;
+    width: 60px;
   }
-  .quote-button > .icon-solid {
-    font-size: 16px;
+  .quote-button .diagonal-button__body {
+    padding: 15px 17px;
   }
-  .quote-button > .quote-count {
-    font-size: 10px;
-    margin-left: 4px;
+  .quote-button .diagonal-button__label {
+    display: none;
   }
   .main-nav.mobile-open,
   .mega-menu {
@@ -1001,11 +1045,6 @@ a:focus-visible {
     right: 15px;
     bottom: 20px;
   }
-  .diagonal-button {
-    font-size: 14px;
-    letter-spacing: 1.4px;
-    gap: 15px;
-  }
   .toast {
     left: 15px;
     bottom: 80px;
@@ -1038,9 +1077,6 @@ a:focus-visible {
   display: flex;
   flex-direction: column;
   gap: 10px;
-}
-.diagonal-button:hover {
-  background: #000;
 }
 
 .banner-source {
@@ -1092,4 +1128,12 @@ a:focus-visible {
 
 .attribution {
   font-family: var(--font-inter), Arial, sans-serif;
+}
+@media (min-width: 1001px) and (max-width: 1400px) {
+  .header-inner > .main-logo {
+    width: 233px;
+  }
+  .main-nav {
+    gap: 12px;
+  }
 }

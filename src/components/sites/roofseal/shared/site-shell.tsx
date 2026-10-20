@@ -222,6 +222,7 @@ function Header({
           icon="shopping-cart"
           onClick={onQuote}
           className="quote-button"
+          ariaLabel="Quote List"
         >
           Quote List
           {quoteCount > 0 && <span className="quote-count">{quoteCount}</span>}

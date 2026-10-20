@@ -1,0 +1,70 @@
+[
+  {
+    "buttons": [
+      {
+        "height": 50,
+        "text": "Quote List",
+        "width": 205
+      },
+      {
+        "height": 50,
+        "text": "Submit",
+        "width": 165
+      }
+    ],
+    "client": 1425,
+    "scrollWidth": 1425,
+    "viewport": 1440
+  },
+  {
+    "buttons": [
+      {
+        "height": 50,
+        "text": "Quote List",
+        "width": 205
+      },
+      {
+        "height": 50,
+        "text": "Submit",
+        "width": 165
+      }
+    ],
+    "client": 1265,
+    "scrollWidth": 1265,
+    "viewport": 1280
+  },
+  {
+    "buttons": [
+      {
+        "height": 50,
+        "text": "Quote List",
+        "width": 205
+      },
+      {
+        "height": 50,
+        "text": "Submit",
+        "width": 165
+      }
+    ],
+    "client": 1085,
+    "scrollWidth": 1085,
+    "viewport": 1100
+  },
+  {
+    "buttons": [
+      {
+        "height": 50,
+        "text": "Quote List",
+        "width": 60
+      },
+      {
+        "height": 50,
+        "text": "Submit",
+        "width": 165
+      }
+    ],
+    "client": 375,
+    "scrollWidth": 375,
+    "viewport": 390
+  }
+]

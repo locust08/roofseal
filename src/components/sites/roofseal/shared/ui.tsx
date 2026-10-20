@@ -49,6 +49,7 @@ export function DiagonalButton({
   variant = "red",
   className = "",
   type = "button",
+  ariaLabel,
 }: {
   children: ReactNode;
   href?: string;
@@ -57,20 +58,44 @@ export function DiagonalButton({
   variant?: "red" | "white";
   className?: string;
   type?: "button" | "submit";
+  ariaLabel?: string;
 }) {
   const content = (
     <>
-      {icon && <Icon name={icon} />}
-      <span>{children}</span>
+      <span className="diagonal-button__body">
+        {icon && <Icon name={icon} />}
+        <span className="diagonal-button__label">{children}</span>
+      </span>
+      <span className="diagonal-button__tip" aria-hidden="true">
+        <img
+          className="diagonal-button__tip-default"
+          src={asset("28318:4175", "imgGroup1171274885")}
+          alt=""
+          width={10}
+          height={50}
+        />
+        <img
+          className="diagonal-button__tip-hover"
+          src={asset("28318:5199", "imgGroup1171274885")}
+          alt=""
+          width={10}
+          height={50}
+        />
+      </span>
     </>
   );
   const cls = `diagonal-button ${variant} ${className}`;
   return href ? (
-    <Link href={href} className={cls} onClick={onClick}>
+    <Link href={href} className={cls} onClick={onClick} aria-label={ariaLabel}>
       {content}
     </Link>
   ) : (
-    <button type={type} className={cls} onClick={onClick}>
+    <button
+      type={type}
+      className={cls}
+      onClick={onClick}
+      aria-label={ariaLabel}
+    >
       {content}
     </button>
   );
