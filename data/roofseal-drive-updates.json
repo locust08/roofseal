@@ -1,0 +1,230 @@
+{
+  "version": "2026-10-21",
+  "sourceNotes": "https://docs.google.com/document/d/1XmzH0ngkvNHfxBzDYXOcwf9wWUsSMi_PoWBiDUPLEXU/edit",
+  "retiredProducts": [
+    "strip-ceiling",
+    "solid-polycarbonate-sheet-colour-selection",
+    "multiwall-profiled-polycarbonate-sheet-colour-selection"
+  ],
+  "retiredCategories": [
+    "aluminium-metal-ceiling"
+  ],
+  "retiredResources": [
+    "catalogue-om3",
+    "gallery-metal-ceiling-louvres"
+  ],
+  "assets": [
+    {
+      "key": "sealframe",
+      "sourceUrl": "https://drive.google.com/file/d/10pJnMy6QDuI991x6FqV4RIUsdhcymCpn/view",
+      "path": ".data/drive-materials/sealframe-catalogue-projects-certificates.pdf",
+      "alt": "Sealframe catalogue with project references and certificates",
+      "sha256": "0367077897bd2bc68ab3651ddaa17ac1e28a672ec5ecb53bab6dfc5d7e2d72cc"
+    },
+    {
+      "key": "additions",
+      "sourceUrl": "https://drive.google.com/file/d/19Rn6fkA84XDuf7Csi99oi5eKv-dTDNmA/view",
+      "path": ".data/drive-materials/product-additions.pdf",
+      "alt": "Roofseal client product additions sheet"
+    },
+    {
+      "key": "batten",
+      "sourceUrl": "https://drive.google.com/file/d/1gF_0QlSVTOZnmBKrY20xWYBGJZu-6wsv/view",
+      "path": ".data/drive-materials/lightweight-steel-batten.png",
+      "alt": "Lightweight Steel Batten"
+    }
+  ],
+  "drafts": [
+    {
+      "slug": "sealframe-sf1",
+      "title": "Sealframe SF1",
+      "category": "metal-door-frames",
+      "description": "Sealframe SF1 metal door frame profile.",
+      "notes": "Editorial review required before publication. Product dimensions, material options, availability and approved imagery require Roofseal confirmation. Confirm whether this profile should be a separate product or a selectable variant of the existing Sealframe product.",
+      "catalogue": "sealframe",
+      "sourceUrl": "https://drive.google.com/file/d/19Rn6fkA84XDuf7Csi99oi5eKv-dTDNmA/view#sealframe-sf1"
+    },
+    {
+      "slug": "sealframe-sf2",
+      "title": "Sealframe SF2",
+      "category": "metal-door-frames",
+      "description": "Sealframe SF2 metal door frame profile.",
+      "notes": "Editorial review required before publication. Product dimensions, material options, availability and approved imagery require Roofseal confirmation. Confirm whether this profile should be a separate product or a selectable variant of the existing Sealframe product.",
+      "catalogue": "sealframe",
+      "sourceUrl": "https://drive.google.com/file/d/19Rn6fkA84XDuf7Csi99oi5eKv-dTDNmA/view#sealframe-sf2"
+    },
+    {
+      "slug": "sealframe-sf3",
+      "title": "Sealframe SF3",
+      "category": "metal-door-frames",
+      "description": "Sealframe SF3 metal door frame profile.",
+      "notes": "Editorial review required before publication. Product dimensions, material options, availability and approved imagery require Roofseal confirmation. Confirm whether this profile should be a separate product or a selectable variant of the existing Sealframe product.",
+      "catalogue": "sealframe",
+      "sourceUrl": "https://drive.google.com/file/d/19Rn6fkA84XDuf7Csi99oi5eKv-dTDNmA/view#sealframe-sf3"
+    },
+    {
+      "slug": "sealframe-sf4",
+      "title": "Sealframe SF4",
+      "category": "metal-door-frames",
+      "description": "Sealframe SF4 metal door frame profile.",
+      "notes": "Editorial review required before publication. Product dimensions, material options, availability and approved imagery require Roofseal confirmation. Confirm whether this profile should be a separate product or a selectable variant of the existing Sealframe product.",
+      "catalogue": "sealframe",
+      "sourceUrl": "https://drive.google.com/file/d/19Rn6fkA84XDuf7Csi99oi5eKv-dTDNmA/view#sealframe-sf4"
+    },
+    {
+      "slug": "sealframe-sf5",
+      "title": "Sealframe SF5",
+      "category": "metal-door-frames",
+      "description": "Sealframe SF5 metal door frame profile.",
+      "notes": "Editorial review required before publication. Product dimensions, material options, availability and approved imagery require Roofseal confirmation. Confirm whether this profile should be a separate product or a selectable variant of the existing Sealframe product.",
+      "catalogue": "sealframe",
+      "sourceUrl": "https://drive.google.com/file/d/19Rn6fkA84XDuf7Csi99oi5eKv-dTDNmA/view#sealframe-sf5"
+    },
+    {
+      "slug": "sealframe-sf6",
+      "title": "Sealframe SF6",
+      "category": "metal-door-frames",
+      "description": "Sealframe SF6 metal door frame profile.",
+      "notes": "Editorial review required before publication. Product dimensions, material options, availability and approved imagery require Roofseal confirmation. Confirm whether this profile should be a separate product or a selectable variant of the existing Sealframe product.",
+      "catalogue": "sealframe",
+      "sourceUrl": "https://drive.google.com/file/d/19Rn6fkA84XDuf7Csi99oi5eKv-dTDNmA/view#sealframe-sf6"
+    },
+    {
+      "slug": "sealframe-sf7",
+      "title": "Sealframe SF7",
+      "category": "metal-door-frames",
+      "description": "Sealframe SF7 metal door frame profile.",
+      "notes": "Editorial review required before publication. Product dimensions, material options, availability and approved imagery require Roofseal confirmation. Confirm whether this profile should be a separate product or a selectable variant of the existing Sealframe product.",
+      "catalogue": "sealframe",
+      "sourceUrl": "https://drive.google.com/file/d/19Rn6fkA84XDuf7Csi99oi5eKv-dTDNmA/view#sealframe-sf7"
+    },
+    {
+      "slug": "sealframe-sf8",
+      "title": "Sealframe SF8",
+      "category": "metal-door-frames",
+      "description": "Sealframe SF8 metal door frame profile.",
+      "notes": "Editorial review required before publication. Product dimensions, material options, availability and approved imagery require Roofseal confirmation. Confirm whether this profile should be a separate product or a selectable variant of the existing Sealframe product.",
+      "catalogue": "sealframe",
+      "sourceUrl": "https://drive.google.com/file/d/19Rn6fkA84XDuf7Csi99oi5eKv-dTDNmA/view#sealframe-sf8"
+    },
+    {
+      "slug": "sealframe-sf9",
+      "title": "Sealframe SF9",
+      "category": "metal-door-frames",
+      "description": "Sealframe SF9 metal door frame profile.",
+      "notes": "Editorial review required before publication. Product dimensions, material options, availability and approved imagery require Roofseal confirmation. Confirm whether this profile should be a separate product or a selectable variant of the existing Sealframe product.",
+      "catalogue": "sealframe",
+      "sourceUrl": "https://drive.google.com/file/d/19Rn6fkA84XDuf7Csi99oi5eKv-dTDNmA/view#sealframe-sf9"
+    },
+    {
+      "slug": "sealframe-sf10",
+      "title": "Sealframe SF10",
+      "category": "metal-door-frames",
+      "description": "Sealframe SF10 metal door frame profile.",
+      "notes": "Editorial review required before publication. Product dimensions, material options, availability and approved imagery require Roofseal confirmation. Confirm whether this profile should be a separate product or a selectable variant of the existing Sealframe product.",
+      "catalogue": "sealframe",
+      "sourceUrl": "https://drive.google.com/file/d/19Rn6fkA84XDuf7Csi99oi5eKv-dTDNmA/view#sealframe-sf10"
+    },
+    {
+      "slug": "sealframe-kd-frame",
+      "title": "Sealframe KD Frame",
+      "category": "metal-door-frames",
+      "description": "KD Frame shown in the client-supplied additions sheet.",
+      "notes": "Editorial review required before publication. Product dimensions, material options, availability and approved imagery require Roofseal confirmation. Confirm approved model name, construction and specifications; the sheet provides a label and image only.",
+      "sourceUrl": "https://drive.google.com/file/d/19Rn6fkA84XDuf7Csi99oi5eKv-dTDNmA/view#sealframe-kd-frame",
+      "catalogue": "additions"
+    },
+    {
+      "slug": "sealdor-steel-door-dl",
+      "title": "Sealdor Steel Door – DL",
+      "category": "metal-door-frames",
+      "description": "Sealdor DL steel door shown in the client-supplied additions sheet.",
+      "notes": "Editorial review required before publication. Product dimensions, material options, availability and approved imagery require Roofseal confirmation. Confirm division/category, double-leaf designation, dimensions, hardware and fire-rating status. Do not inherit the generic Fire-Rated Doors certification.",
+      "sourceUrl": "https://drive.google.com/file/d/19Rn6fkA84XDuf7Csi99oi5eKv-dTDNmA/view#sealdor-steel-door-dl",
+      "catalogue": "additions"
+    },
+    {
+      "slug": "sealdor-steel-door-sl",
+      "title": "Sealdor Steel Door – SL",
+      "category": "metal-door-frames",
+      "description": "Sealdor SL steel door shown in the client-supplied additions sheet.",
+      "notes": "Editorial review required before publication. Product dimensions, material options, availability and approved imagery require Roofseal confirmation. Confirm division/category, single-leaf designation, dimensions, hardware and fire-rating status. Do not inherit the generic Fire-Rated Doors certification.",
+      "sourceUrl": "https://drive.google.com/file/d/19Rn6fkA84XDuf7Csi99oi5eKv-dTDNmA/view#sealdor-steel-door-sl",
+      "catalogue": "additions"
+    },
+    {
+      "slug": "fascia-board",
+      "title": "Fascia Board",
+      "category": "capping-flashing",
+      "description": "Fascia board shown in the client-supplied additions sheet.",
+      "notes": "Editorial review required before publication. Product dimensions, material options, availability and approved imagery require Roofseal confirmation. Source label is FACSIA BOARD. Confirm approved spelling, profile and product category.",
+      "sourceUrl": "https://drive.google.com/file/d/19Rn6fkA84XDuf7Csi99oi5eKv-dTDNmA/view#fascia-board",
+      "catalogue": "additions"
+    },
+    {
+      "slug": "lightweight-steel-batten",
+      "title": "Lightweight Steel Batten",
+      "category": "structural",
+      "description": "Lightweight steel batten shown in the client-supplied product materials.",
+      "notes": "Editorial review required before publication. Product dimensions, material options, availability and approved imagery require Roofseal confirmation. Confirm whether this is a separate product or a component of the existing steel truss system.",
+      "sourceUrl": "https://drive.google.com/file/d/1gF_0QlSVTOZnmBKrY20xWYBGJZu-6wsv/view",
+      "image": "batten"
+    },
+    {
+      "slug": "dek-pro-740-hi-rib",
+      "title": "DEK PRO 740 HI RIB",
+      "category": "metal-deck-roofing-sheets",
+      "description": "DEK PRO 740 HI RIB roofing profile shown in the client-supplied additions sheet.",
+      "notes": "Editorial review required before publication. Product dimensions, material options, availability and approved imagery require Roofseal confirmation. UNCERTAIN NAME / POSSIBLE ALIAS: may correspond to Roofseal High Rib 30. Confirm model identity and effective cover; do not publish a duplicate.",
+      "candidate": true,
+      "sourceUrl": "https://drive.google.com/file/d/19Rn6fkA84XDuf7Csi99oi5eKv-dTDNmA/view#dek-pro-740-hi-rib",
+      "catalogue": "additions"
+    },
+    {
+      "slug": "ct-protek",
+      "title": "CT PROTEK",
+      "category": "waterproofing",
+      "description": "CT PROTEK membrane shown in the client-supplied additions sheet.",
+      "notes": "Editorial review required before publication. Product dimensions, material options, availability and approved imagery require Roofseal confirmation. UNCERTAIN NAME / POSSIBLE REPLACEMENT: confirm relationship to existing Bitufelt / CT MASTAR, intended application and technical specification.",
+      "candidate": true,
+      "sourceUrl": "https://drive.google.com/file/d/19Rn6fkA84XDuf7Csi99oi5eKv-dTDNmA/view#ct-protek",
+      "catalogue": "additions"
+    },
+    {
+      "slug": "sealpro-ii-dry-fix",
+      "title": "SealPro II Dry Fix",
+      "category": "capping-flashing",
+      "description": "SealPro II Dry Fix shown in the client-supplied additions sheet.",
+      "notes": "Editorial review required before publication. Product dimensions, material options, availability and approved imagery require Roofseal confirmation. UNCERTAIN SERIES / POSSIBLE ALIAS: confirm whether Series II replaces or supplements the existing SealPro Dry Fix.",
+      "candidate": true,
+      "sourceUrl": "https://drive.google.com/file/d/19Rn6fkA84XDuf7Csi99oi5eKv-dTDNmA/view#sealpro-ii-dry-fix",
+      "catalogue": "additions"
+    }
+  ],
+  "flags": [
+    {
+      "slug": "roofseal-deck762",
+      "note": "UNCERTAIN NAME: October client photograph is labelled SealDek 762. Confirm approved public naming before changing the existing title or URL."
+    },
+    {
+      "slug": "roofseal-clip720",
+      "note": "UNCERTAIN MODEL: source website says Clip720 with 720 mm cover; October photograph is SealKlip 725, while the October 2023 catalogue includes Clip Lock 700/720 mm. Confirm model identity, current width and matching PDF before changing claims."
+    },
+    {
+      "slug": "roofseal-high-rib-30",
+      "note": "UNCERTAIN NAME: DEK PRO 740 HI RIB in the additions sheet may be an alias or another profile. Candidate draft created; confirm identity before publishing or renaming."
+    },
+    {
+      "slug": "sealpro-dry-fix",
+      "note": "UNCERTAIN SERIES: SealPro II Dry Fix in the additions sheet may replace or supplement this product. Candidate draft created for review."
+    },
+    {
+      "slug": "roofseal-bitufelt",
+      "note": "UNCERTAIN MODEL: supplied sheet names CT PROTEK; current attachment is CT MASTAR. Confirm equivalence or replacement before changing product identity or specifications."
+    },
+    {
+      "slug": "roofseal-deck762-with-pu-foammetal",
+      "note": "SPECIFICATION CONFLICT: website/import states 18 mm PU; supplied catalogue pages 6–7 state 20 mm PU and 1.06 m²K/W at 20 mm. The supplied catalogue is dated October 2023. Roofseal confirmation required; no technical claims have been changed."
+    }
+  ]
+}

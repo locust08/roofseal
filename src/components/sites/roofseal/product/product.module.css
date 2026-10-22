@@ -37,6 +37,14 @@
   height: 100%;
   object-fit: cover;
 }
+.pendingImage {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  padding: 24px;
+  color: #666;
+  text-align: center;
+}
 .thumbnails {
   width: 609px;
   max-width: 100%;
@@ -72,7 +80,8 @@
   font-size: 60px;
   line-height: 72px;
   letter-spacing: -1.8px;
-  white-space: nowrap;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 .description {
   border-top: 1px solid #b7c3c099;

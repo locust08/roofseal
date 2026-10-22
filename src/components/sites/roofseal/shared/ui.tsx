@@ -1,4 +1,6 @@
+"use client";
 import type { ReactNode } from "react";
+import { useEnquiry } from "./enquiry-context";
 import Link from "next/link";
 import { asset } from "./assets";
 
@@ -53,6 +55,7 @@ export function DiagonalButton({
   type = "button",
   ariaLabel,
   corner = "black",
+  disabled = false,
 }: {
   children: ReactNode;
   href?: string;
@@ -63,6 +66,7 @@ export function DiagonalButton({
   type?: "button" | "submit";
   ariaLabel?: string;
   corner?: "black" | "white";
+  disabled?: boolean;
 }) {
   const content = (
     <>
@@ -99,6 +103,7 @@ export function DiagonalButton({
   ) : (
     <button
       type={type}
+      disabled={disabled}
       className={cls}
       onClick={onClick}
       aria-label={ariaLabel}
@@ -204,6 +209,7 @@ export function Banner({
 }
 
 export function Cta() {
+  const openEnquiry = useEnquiry();
   const a = (v: string) => asset("28397:5562", v);
   return (
     <section className="roof-cta">
@@ -220,7 +226,7 @@ export function Cta() {
           systems, insulation products, metal door frames, and fire-rated doors
           designed for residential, commercial, and industrial applications.
         </p>
-        <DiagonalButton href="mailto:enquiry@roofseal.com.my" icon="comments">
+        <DiagonalButton onClick={openEnquiry} icon="comments">
           Contact Us Today
         </DiagonalButton>
       </div>

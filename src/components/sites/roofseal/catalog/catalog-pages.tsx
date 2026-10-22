@@ -1,8 +1,15 @@
+import { notFound } from "next/navigation";
+import { getCategories, getCategory, getProductCards } from "@/lib/cms-content";
+import { categoryView } from "@/cms/view-models";
+import type { Category } from "@/payload-types";
 import { asset } from "../shared/assets";
 import { Banner, Breadcrumbs, Cta } from "../shared/ui";
 import { CategoryGrid, ProductGrid } from "./catalog-grids";
 import styles from "./catalog.module.css";
-export function DivisionContent() {
+export async function DivisionContent() {
+  const all = (await getCategories()).map(categoryView);
+  const order = ["roof-covering", "insulation", "gutter-roof-component", "skylights", "structural"];
+  const categories = order.flatMap((slug) => all.filter((c) => c.slug === slug));
   return (
     <>
       <Breadcrumbs
@@ -33,13 +40,16 @@ export function DivisionContent() {
           </p>
         </div>
         <hr className={styles.divider} />
-        <CategoryGrid />
+        <CategoryGrid categories={categories} />
       </section>
       <Cta />
     </>
   );
 }
-export function CoveringContent() {
+export async function CoveringContent() {
+  const category = await getCategory("roof-covering");
+  if (!category) notFound();
+  const children = (await getCategories()).filter((c) => (typeof c.parent === "number" ? c.parent : c.parent?.id) === category.record.id).map(categoryView);
   return (
     <>
       <Breadcrumbs
@@ -55,77 +65,33 @@ export function CoveringContent() {
           <h2>
             Forms Of <em>Roof Covering</em> &amp; <em>Roof Systems</em>
           </h2>
-          <p>
-            Roof covering is the outermost layer that shields the building from
-            the elements. It includes materials like shingles or sheet metal.
-            Roof systems encompass all the components of a roof, including
-            structural, insulation, and drainage system. They work together to
-            provide protection, energy efficiency, and structural integrity.
-            Investing in quality roof coverings and robust roof systems ensures
-            a stable and secure living environment. Metal roofs provide energy
-            savings, beauty, and protection for your home that can last a
-            lifetime. Metal roofs are available in a wide variety of designs and
-            colors to complement any style.
-          </p>
+          <p>{category.view.description}</p>
         </div>
         <hr className={styles.divider} />
-        <CategoryGrid covering />
+        <CategoryGrid categories={children} />
       </section>
-      <RoofingFaq />
+      <RoofingFaq faqs={category.record.faqs || []} />
       <Cta />
     </>
   );
 }
-function RoofingFaq() {
-  const missing =
-    "The prototype does not include the expanded content for this item. Contact Roofseal at enquiry@roofseal.com.my for more information.";
-  return (
-    <section className={styles.faq}>
-      <img
-        className={styles.cut}
-        src={asset("28352:1975", "imgSectionBackground")}
-        alt=""
-      />
-      <div className={styles.columns}>
-        <div>
-          <h3>
-            Why <em>Metal Roofing</em>?
-          </h3>
-          <details open>
-            <summary>Expected life</summary>
-            <p>
-              A properly installed metal roof should last as long as the house,
-              sealing out water and surviving high winds. Metal is resistant to
-              fire, mildew, insects, and rot. Warranties are available.
-            </p>
-          </details>
-          <details>
-            <summary>Speed &amp; ease of roofing installation</summary>
-            <p>{missing}</p>
-          </details>
-          <details>
-            <summary>Minimal roof pitch</summary>
-            <p>{missing}</p>
-          </details>
-        </div>
-        <div>
-          <h3>
-            Why <em>Shingles Roofing</em>?
-          </h3>
-          <details>
-            <summary>Value</summary>
-            <p>{missing}</p>
-          </details>
-          <details>
-            <summary>Variety of style</summary>
-            <p>{missing}</p>
-          </details>
-        </div>
-      </div>
-    </section>
-  );
+function RoofingFaq({ faqs }: { faqs: NonNullable<Category["faqs"]> }) {
+  return <section className={styles.faq}>
+    <img className={styles.cut} src={asset("28352:1975", "imgSectionBackground")} alt="" />
+    <div className={styles.columns}>
+      {(["metal", "shingles"] as const).map((group) => <div key={group}>
+        <h3>Why <em>{group === "metal" ? "Metal Roofing" : "Shingles Roofing"}</em>?</h3>
+        {faqs.filter((faq) => faq.group === group).map((faq, i) => <details key={faq.id || faq.question} open={group === "metal" && i === 0}>
+          <summary>{faq.question}</summary><p>{faq.answer}</p>
+        </details>)}
+      </div>)}
+    </div>
+  </section>;
 }
-export function SystemContent() {
+export async function SystemContent() {
+  const category = await getCategory("metal-deck-roofing-sheets");
+  if (!category) notFound();
+  const products = await getProductCards(category.record.id);
   return (
     <>
       <Breadcrumbs
@@ -144,33 +110,10 @@ export function SystemContent() {
             <br />
             Supplier in Malaysia
           </h2>
-          <p>
-            Metal deck roof sheet are tough, durable, and lightweight, and they
-            can last for a long time especially with Malaysia’s climate. As a
-            leading metal roofing sheet supplier, we offer high-quality products
-            designed to withstand harsh wind and heavy rain, ensuring reliable
-            protection for your home or building. These zinc roofing and metal
-            roofing sheets provide long-lasting performance with minimal
-            maintenance, making them a practical and efficient roofing solution.
-            At our roofing sheet factory, we produce metal roofing sheets that
-            not only excel in durability but also enhance thermal comfort when
-            paired with good insulation, keeping buildings cool throughout the
-            day. In addition, these sheets can be cut to any specific size
-            needed; thus, they provide flexibility in any kind of construction.
-            Another advantage of these metal deck roofing sheets is their
-            environmentally friendly nature, as they can be recycled after
-            serving for decades and reduce waste, promoting sustainability.
-            Ready to upgrade your property with the best metal roofing and zinc
-            roofing from a trusted metal roofing sheet supplier in Malaysia?{" "}
-            <a href="mailto:enquiry@roofseal.com.my">
-              <strong className={styles.contact}>Contact us</strong>
-            </a>{" "}
-            today to explore our options and get expert installation for a
-            durable and eco-friendly roofing solution!
-          </p>
+          <p>{category.view.description}</p>
         </div>
         <hr className={styles.divider} />
-        <ProductGrid />
+        <ProductGrid products={products} />
       </section>
       <RoofingInformation />
       <Cta />

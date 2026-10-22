@@ -11,44 +11,96 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { asset } from "./assets";
+import { categoryHref, parseQuoteItems, type QuoteItem } from "@/cms/view-models";
 import { DiagonalButton, Icon } from "./ui";
+import { EnquiryContext, useEnquiry } from "./enquiry-context";
+import { EnquiryForm, type EnquiryDraft } from "./EnquiryForm";
 
 type QuoteContextValue = {
-  quoted: boolean;
-  addQuote: () => void;
+  items: QuoteItem[];
+  addQuote: (product: QuoteItem) => void;
   notify: (text: string) => void;
 };
 const QuoteContext = createContext<QuoteContextValue>({
-  quoted: false,
+  items: [],
   addQuote: () => {},
   notify: () => {},
 });
 export const useQuote = () => useContext(QuoteContext);
 
 export function SiteShell({ children }: { children: ReactNode }) {
-  const [quoted, setQuoted] = useState(false);
+  const [items, setItems] = useState<QuoteItem[]>([]);
   const [quoteOpen, setQuoteOpen] = useState(false);
+  const [contactOpen, setContactOpen] = useState(false);
+  const [submitted, setSubmitted] = useState("");
+  const [dialogPending, setDialogPending] = useState(false);
+  const pendingRef = useRef(false);
+  const [contactDraft, setContactDraft] = useState<EnquiryDraft>({});
+  const [quoteDraft, setQuoteDraft] = useState<EnquiryDraft>({});
+  const dialogOpen = quoteOpen || contactOpen;
   const [notice, setNotice] = useState("");
   const noticeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const panelRef = useRef<HTMLElement>(null);
+  const triggerRef = useRef<HTMLElement | null>(null);
   useEffect(() => {
-    const value = localStorage.getItem("roofseal-quote");
-    if (value === "deck762") {
-      requestAnimationFrame(() => setQuoted(true));
-    }
+    if (submitted) panelRef.current?.querySelector<HTMLButtonElement>("button")?.focus();
+  }, [submitted]);
+  useEffect(() => {
+    if (dialogPending) panelRef.current?.focus();
+  }, [dialogPending]);
+  useEffect(() => {
+    let saved: QuoteItem[] = [];
+    try { saved = parseQuoteItems(localStorage.getItem("roofseal-quote")); } catch {}
+    const frame = requestAnimationFrame(() => setItems(saved));
+    return () => cancelAnimationFrame(frame);
   }, []);
+  useEffect(() => {
+    if (!dialogOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    function keyboard(event: KeyboardEvent) {
+      if (event.key === "Escape" && !pendingRef.current) { setQuoteOpen(false); setContactOpen(false); }
+      if (event.key === "Tab") {
+        const controls = panelRef.current?.querySelectorAll<HTMLElement>('a[href], button:not(:disabled), input:not(:disabled):not([tabindex="-1"]), textarea:not(:disabled)');
+        if (!controls?.length) { event.preventDefault(); panelRef.current?.focus(); return; }
+        const first = controls[0], last = controls[controls.length - 1];
+        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+      }
+    }
+    document.addEventListener("keydown", keyboard);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", keyboard);
+      triggerRef.current?.focus();
+    };
+  }, [dialogOpen]);
+  function openEnquiry() {
+    if (pendingRef.current) return;
+    triggerRef.current = document.activeElement as HTMLElement;
+    setSubmitted(""); setQuoteOpen(false); setContactOpen(true);
+  }
+  function closeDialog() { if (!pendingRef.current) { setQuoteOpen(false); setContactOpen(false); } }
+  function submissionPending(pending: boolean) { pendingRef.current = pending; setDialogPending(pending); }
+  function persist(next: QuoteItem[]) {
+    setItems(next);
+    try { localStorage.setItem("roofseal-quote", JSON.stringify(next)); } catch {}
+  }
   function notify(text: string) {
     setNotice(text);
     if (noticeTimer.current) clearTimeout(noticeTimer.current);
     noticeTimer.current = setTimeout(() => setNotice(""), 5000);
   }
-  function addQuote() {
-    setQuoted(true);
-    localStorage.setItem("roofseal-quote", "deck762");
-    notify("Roofseal Deck762 added to your quote list.");
+  function addQuote(product: QuoteItem) {
+    if (!items.some((item) => item.id === product.id)) {
+      persist([...items, { id: product.id, title: product.title, slug: product.slug, image: product.image }]);
+    }
+    notify(`${product.title} added to your quote list.`);
   }
   return (
-    <QuoteContext.Provider value={{ quoted, addQuote, notify }}>
-      <Header quoteCount={quoted ? 1 : 0} onQuote={() => setQuoteOpen(true)} />
+    <QuoteContext.Provider value={{ items, addQuote, notify }}>
+      <EnquiryContext.Provider value={openEnquiry}>
+      <Header quoteCount={items.length} onQuote={() => { if (pendingRef.current) return; triggerRef.current = document.activeElement as HTMLElement; setSubmitted(""); setContactOpen(false); setQuoteOpen(true); }} />
       {children}
       <Footer />
       <a
@@ -71,10 +123,12 @@ export function SiteShell({ children }: { children: ReactNode }) {
           </button>
         </div>
       )}
-      {quoteOpen && (
-        <div className="modal-backdrop" onClick={() => setQuoteOpen(false)}>
+      {dialogOpen && (
+        <div className="modal-backdrop" onClick={closeDialog}>
           <section
+            ref={panelRef}
             role="dialog"
+            tabIndex={-1}
             aria-modal="true"
             aria-labelledby="quote-title"
             className="quote-panel"
@@ -82,38 +136,22 @@ export function SiteShell({ children }: { children: ReactNode }) {
           >
             <button
               className="modal-close"
+              disabled={dialogPending}
               autoFocus
-              aria-label="Close quote list"
-              onClick={() => setQuoteOpen(false)}
+              aria-label={contactOpen ? "Close enquiry" : "Close quote list"}
+              onClick={closeDialog}
             >
               <Icon name="close" />
             </button>
-            <h2 id="quote-title">Quote List</h2>
-            {quoted ? (
+            <h2 id="quote-title">{contactOpen ? "Contact Us" : "Quote List"}</h2>
+            {submitted ? <div role="status" className="enquiry-success"><p>Thank you. Your {quoteOpen ? "quotation request" : "enquiry"} has been received.</p><p>Reference: <strong>{submitted}</strong></p></div> : contactOpen ? <EnquiryForm kind="contact" draft={contactDraft} onDraftChange={setContactDraft} onPendingChange={submissionPending} onSuccess={(reference) => { setContactDraft({}); setSubmitted(reference); }} /> : items.length > 0 ? (
               <>
-                <div className="quote-item">
-                  <img
-                    src={asset("28318:4413", "imgProductImage")}
-                    alt="Roofseal Deck762"
-                  />
-                  <Link
-                    href="/products/roofseal-deck762"
-                    onClick={() => setQuoteOpen(false)}
-                  >
-                    Roofseal Deck762
-                  </Link>
-                  <button
-                    onClick={() => {
-                      setQuoted(false);
-                      localStorage.removeItem("roofseal-quote");
-                    }}
-                  >
-                    Remove
-                  </button>
-                </div>
-                <DiagonalButton href="mailto:enquiry@roofseal.com.my?subject=Roofseal%20Deck762%20quotation">
-                  Request a quotation
-                </DiagonalButton>
+                {items.map((item) => <div className="quote-item" key={item.id}>
+                  <img src={item.image} alt={item.title} />
+                  <Link href={`/products/${item.slug}`} onClick={(event) => { if (pendingRef.current) event.preventDefault(); else setQuoteOpen(false); }}>{item.title}</Link>
+                  <button disabled={dialogPending} onClick={() => persist(items.filter((other) => other.id !== item.id))}>Remove</button>
+                </div>)}
+                <EnquiryForm kind="quote" draft={quoteDraft} onDraftChange={setQuoteDraft} onPendingChange={submissionPending} productIds={items.map((item) => item.id)} onSuccess={(reference) => { setQuoteDraft({}); setSubmitted(reference); persist([]); }} />
               </>
             ) : (
               <>
@@ -129,6 +167,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
           </section>
         </div>
       )}
+      </EnquiryContext.Provider>
     </QuoteContext.Provider>
   );
 }
@@ -140,8 +179,8 @@ function Header({
   quoteCount: number;
   onQuote: () => void;
 }) {
+  const openEnquiry = useEnquiry();
   const pathname = usePathname();
-  const { notify } = useQuote();
   const [menu, setMenu] = useState(false);
   const [mobile, setMobile] = useState(false);
   const [division, setDivision] = useState<"metal" | "doors">("metal");
@@ -171,10 +210,10 @@ function Header({
   }
   const metal = [
     { name: "Roof Covering", href: "/roof-covering" },
-    { name: "Insulation" },
-    { name: "Gutter & Roof Component" },
-    { name: "Structural" },
-    { name: "Skylights" },
+    { name: "Insulation", href: categoryHref("insulation") },
+    { name: "Gutter & Roof Component", href: categoryHref("gutter-roof-component") },
+    { name: "Structural", href: categoryHref("structural") },
+    { name: "Skylights", href: categoryHref("skylights") },
   ];
   return (
     <header
@@ -209,14 +248,8 @@ function Header({
           <Link href="/#projects" onClick={close}>
             Portfolio <Icon name="caret-down" />
           </Link>
-          <button
-            onClick={() =>
-              notify("Resource pages were not supplied with this prototype.")
-            }
-          >
-            Resources <Icon name="caret-down" />
-          </button>
-          <a href="mailto:enquiry@roofseal.com.my">Contact Us</a>
+          <Link href="/resources" onClick={close}>Resources <Icon name="caret-down" /></Link>
+          <button onClick={() => { close(); openEnquiry(); }}>Contact Us</button>
         </nav>
         <DiagonalButton
           icon="shopping-cart"
@@ -292,8 +325,8 @@ function Header({
               </>
             ) : (
               <>
-                <a href="mailto:enquiry@roofseal.com.my">Metal Door Frames</a>
-                <a href="mailto:enquiry@roofseal.com.my">Fire-Rated Door</a>
+                <Link href={categoryHref("metal-door-frames")} onClick={close}>Metal Door Frames</Link>
+                <Link href={categoryHref("fire-rated-doors-supplier-malaysia")} onClick={close}>Fire-Rated Door</Link>
               </>
             )}
           </div>
@@ -304,6 +337,7 @@ function Header({
 }
 
 function Footer() {
+  const openEnquiry = useEnquiry();
   const { notify } = useQuote();
   const groups = [
     {
@@ -319,27 +353,27 @@ function Footer() {
     {
       title: "Metal Roofing Division",
       items: [
-        ["Roof Covering", "/metal-roofing-division"],
-        ["Insulation", ""],
-        ["Gutter & Roof Component", ""],
-        ["Structural", ""],
-        ["Skylights", ""],
+        ["Roof Covering", "/roof-covering"],
+        ["Insulation", categoryHref("insulation")],
+        ["Gutter & Roof Component", categoryHref("gutter-roof-component")],
+        ["Structural", categoryHref("structural")],
+        ["Skylights", categoryHref("skylights")],
       ],
     },
     {
       title: "Doors & Frames Division",
       items: [
-        ["Metal Door Frames", "mailto:enquiry@roofseal.com.my"],
-        ["Fire-Rated Door", "mailto:enquiry@roofseal.com.my"],
+        ["Metal Door Frames", categoryHref("metal-door-frames")],
+        ["Fire-Rated Door", categoryHref("fire-rated-doors-supplier-malaysia")],
       ],
     },
     {
       title: "Resources",
       items: [
-        ["Catalogues", ""],
-        ["News & Events", ""],
-        ["Materials", ""],
-        ["Blogs", ""],
+        ["Catalogues", "/resources?type=catalogue"],
+        ["News & Events", "/resources?type=article"],
+        ["Materials", "/resources?type=material"],
+        ["Blogs", "/resources?type=article"],
       ],
     },
   ];
@@ -411,7 +445,7 @@ function Footer() {
               <ul>
                 {group.items.map(([name, href]) => (
                   <li key={name}>
-                    {href ? (
+                    {name === "Contact Us" ? <button className="footer-link" onClick={openEnquiry}>{name}</button> : href ? (
                       <Link href={href}>{name}</Link>
                     ) : (
                       <button

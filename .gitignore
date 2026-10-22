@@ -47,3 +47,6 @@ next-env.d.ts
 
 # Local temp files
 temp/
+
+# Persistent local CMS database, uploads, import downloads and private access details
+.data/

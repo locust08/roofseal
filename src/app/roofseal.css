@@ -773,6 +773,21 @@ a:focus-visible {
   color: var(--red);
   font-size: 14px;
 }
+.enquiry-form fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+.enquiry-form label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 18px; }
+.enquiry-form label > span { font-weight: 400; }
+.enquiry-form input:not([type="checkbox"]), .enquiry-form textarea {
+  display: block; width: 100%; margin-top: 7px; padding: 12px;
+  border: 1px solid #c8c8c8; border-radius: 0; background: white; color: var(--black);
+  font: inherit; font-size: 16px;
+}
+.enquiry-form textarea { resize: vertical; }
+.enquiry-form .enquiry-consent { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; }
+.enquiry-consent input { flex-shrink: 0; width: 18px; height: 18px; margin-top: 2px; }
+.enquiry-form .enquiry-honeypot { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+.enquiry-form .enquiry-error { color: var(--red); font-size: 14px; }
+.enquiry-form fieldset:disabled { opacity: .65; }
+.enquiry-success strong { overflow-wrap: anywhere; }
 @media (max-width: 1650px) {
   .main-nav {
     gap: 24px;
@@ -1173,3 +1188,6 @@ a:focus-visible {
     gap: 12px;
   }
 }
+
+.cms-preview { padding: 10px 24px; background: #181818; color: white; text-align: center; }
+.cms-preview a { text-decoration: underline; margin-left: 16px; }
