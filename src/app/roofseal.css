@@ -142,15 +142,8 @@ a:focus-visible {
   align-items: center;
   justify-content: flex-start;
   gap: 20px;
-  padding: 15px 30px;
+  padding: 15px 20px 15px 30px;
   min-width: 0;
-  clip-path: polygon(
-    0 0,
-    100% 0,
-    100% calc(100% - 10px),
-    calc(100% - 10px) 100%,
-    0 100%
-  );
   background: var(--red);
   transition:
     background 0.3s ease-out,
@@ -168,7 +161,7 @@ a:focus-visible {
 }
 .diagonal-button__tip {
   position: relative;
-  display: none;
+  display: block;
   width: 10px;
   height: 50px;
   flex: none;
@@ -181,23 +174,6 @@ a:focus-visible {
   height: 50px;
   max-width: none;
   transition: opacity 0.3s ease-out;
-}
-.diagonal-button__tip {
-  background: var(--red);
-  clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
-  transition: background 0.3s ease-out;
-}
-.diagonal-button__tip img {
-  visibility: hidden;
-}
-.diagonal-button:hover .diagonal-button__tip {
-  background: #000;
-}
-.diagonal-button.white .diagonal-button__tip {
-  background: #fff;
-}
-.diagonal-button.white:hover .diagonal-button__tip {
-  background: #000;
 }
 .diagonal-button__tip-hover {
   opacity: 0;
