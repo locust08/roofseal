@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { asset } from "../shared/assets";
+import productStyles from "../product/product.module.css";
 import { Breadcrumbs, Cta, Icon } from "../shared/ui";
 import {
   catalogCategories,
@@ -43,7 +45,7 @@ export function ExpandedProductGrid({
   category: CatalogCategory;
 }) {
   return (
-    <div className={styles.products}>
+    <div className={`${styles.products} ${extra.productGrid}`}>
       {category.products.map((product) => (
         <Link
           className={`${styles.product} ${extra.productCard}`}
@@ -165,16 +167,39 @@ export function RelatedCatalog({
   excludeSlug?: string;
 }) {
   const category = categoryBySlug(categorySlug);
-  return category ? (
-    <section className={extra.moreProducts}>
-      <h2>Other Products</h2>
-      <ExpandedProductGrid
-        category={{
-          ...category,
-          products: category.products
-            .filter((product) => product.slug !== excludeSlug)
-            .slice(0, 4),
-        }}
+  const products =
+    category?.products
+      .filter((product) => product.slug !== excludeSlug)
+      .slice(0, 4) || [];
+  return category && products.length > 0 ? (
+    <section className={productStyles.recommendations}>
+      <img
+        className={productStyles.topCut}
+        src={asset("28318:4405", "imgSectionBackground1")}
+        alt=""
+      />
+      <div className="narrow">
+        <h2>You Might Also Like</h2>
+        <div className={productStyles.cards}>
+          {products.map((product) => (
+            <Link
+              className={productStyles.card}
+              key={product.slug}
+              href={`/products/${product.slug}`}
+            >
+              <EmptyProductImage name={product.name} />
+              <div>
+                <p>{category.name}</p>
+                <h3>{product.name}</h3>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </div>
+      <img
+        className={productStyles.bottomCut}
+        src={asset("28318:4405", "imgSectionBackground")}
+        alt=""
       />
     </section>
   ) : null;

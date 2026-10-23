@@ -142,7 +142,15 @@ a:focus-visible {
   align-items: center;
   justify-content: flex-start;
   gap: 20px;
-  padding: 15px 20px 15px 30px;
+  padding: 15px 30px;
+  min-width: 0;
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% calc(100% - 10px),
+    calc(100% - 10px) 100%,
+    0 100%
+  );
   background: var(--red);
   transition:
     background 0.3s ease-out,
@@ -160,7 +168,7 @@ a:focus-visible {
 }
 .diagonal-button__tip {
   position: relative;
-  display: block;
+  display: none;
   width: 10px;
   height: 50px;
   flex: none;

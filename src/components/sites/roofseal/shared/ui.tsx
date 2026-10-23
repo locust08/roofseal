@@ -53,6 +53,7 @@ export function DiagonalButton({
   type = "button",
   ariaLabel,
   corner = "black",
+  badge,
 }: {
   children: ReactNode;
   href?: string;
@@ -63,6 +64,7 @@ export function DiagonalButton({
   type?: "button" | "submit";
   ariaLabel?: string;
   corner?: "black" | "white";
+  badge?: ReactNode;
 }) {
   const content = (
     <>
@@ -89,6 +91,7 @@ export function DiagonalButton({
           height={50}
         />
       </span>
+      {badge}
     </>
   );
   const cls = `diagonal-button ${variant} ${className}`;

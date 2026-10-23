@@ -163,9 +163,13 @@ function Header({
           onClick={onQuote}
           className="quote-button"
           ariaLabel="Quote List"
+          badge={
+            quoteCount > 0 ? (
+              <span className="quote-count">{quoteCount}</span>
+            ) : undefined
+          }
         >
           Quote List
-          {quoteCount > 0 && <span className="quote-count">{quoteCount}</span>}
         </DiagonalButton>
         <button
           className="mobile-toggle"

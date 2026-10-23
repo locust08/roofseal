@@ -2,7 +2,11 @@
 import Link from "next/link";
 import { Breadcrumbs, DiagonalButton, Icon } from "../shared/ui";
 import { useQuoteList } from "../shared/quote-store";
-import { categoryBySlug, type CatalogProduct } from "./catalog-data";
+import {
+  categoryBySlug,
+  divisionFor,
+  type CatalogProduct,
+} from "./catalog-data";
 import { EmptyProductImage } from "./expanded-catalog";
 import styles from "../product/product.module.css";
 import extra from "./expanded-catalog.module.css";
@@ -15,7 +19,12 @@ export function CatalogProductPage({ product }: { product: CatalogProduct }) {
     <>
       <Breadcrumbs
         items={[
-          { label: "Products", href: "/metal-roofing-division" },
+          {
+            label: "Products",
+            href: category
+              ? `/${divisionFor(category).slug}`
+              : "/metal-roofing-division",
+          },
           ...(category
             ? [{ label: category.name, href: `/${category.slug}` }]
             : []),
