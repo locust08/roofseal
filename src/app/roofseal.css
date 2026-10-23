@@ -237,14 +237,16 @@ a:focus-visible {
 }
 .site-header {
   height: 90px;
-  position: relative;
+  position: sticky;
+  top: 0;
   z-index: 50;
   background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(15px);
   border-bottom: 1px solid #b7c3c099;
 }
 .site-header.home-header {
-  position: absolute;
+  position: sticky;
+  margin-bottom: -90px;
   top: 0;
   left: 0;
   right: 0;
@@ -855,6 +857,7 @@ a:focus-visible {
   .site-header {
     height: 80px;
   }
+  .site-header.home-header { margin-bottom: -80px; }
   .main-nav {
     display: none;
   }
@@ -948,6 +951,7 @@ a:focus-visible {
   .site-header {
     height: 72px;
   }
+  .site-header.home-header { margin-bottom: -72px; }
   .header-inner {
     gap: 12px;
   }
