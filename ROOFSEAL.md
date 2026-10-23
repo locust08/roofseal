@@ -28,3 +28,12 @@ The source contains complete desktop frames only. Tablet and phone layouts are a
 The asset downloader uses curl and rejects empty results. One transparent Boolean-operation export was replaced with the exact rendered source-node export. Keep the source artifacts if refreshing downloads after temporary Figma URLs expire.
 
 Fonts: Plus Jakarta Sans via Next.js; Font Awesome Free icon webfonts under their upstream SIL OFL license. Original project imagery and brand assets are from the supplied Figma design.
+
+## Cloudflare deployment
+
+Live URL: https://roofseal.easondev.workers.dev
+Account: Eason CF Main. Worker: roofseal.
+
+Run `npm run deploy:cloudflare` to create a static Next.js export and deploy the out directory with Wrangler. `npm run build:cloudflare` only builds. Normal development and standalone builds remain available. Cloudflare configuration is in wrangler.jsonc; authenticate with Wrangler before deploying. Credentials and local .wrangler state are not committed.
+
+Deployment version: d62d8212-5144-4785-8270-9e451516dad3. Verified homepage, About, Insulation, Doors & Frames, IKO Cambridge, Quote page and manufacturing video return HTTP200; unknown URLs return404. Live browser verified client-side Quote List navigation. The CMS and inquiry submission endpoint are still pending; deployment does not add them. No custom domain/DNS change was made.

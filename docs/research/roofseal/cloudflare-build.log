@@ -1,0 +1,44 @@
+
+> ai-website-clone-template@0.6.1 build
+> next build
+
+▲ Next.js 16.3.5 (Turbopack)
+✓ Running next.config.ts took 139ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 29.8s
+  Running TypeScript ...
+  Finished TypeScript in 7.9s ...
+  Collecting page data using 7 workers ...
+  Generating static pages using 7 workers (0/62) ...
+  Generating static pages using 7 workers (15/62) 
+  Generating static pages using 7 workers (30/62) 
+  Generating static pages using 7 workers (46/62) 
+✓ Generating static pages using 7 workers (62/62) in 4.0s
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├   /[category]
+│ ├ ● /shingles-roof-system
+│ ├ ● /insulation
+│ ├ ● /glasswool
+│ └ ● [+13 more paths]
+├ ○ /about
+├ ○ /icon.svg
+├ ○ /metal-roof-system
+├ ○ /metal-roofing-division
+├   /products/[slug]
+│ ├ ● /products/roofseal-deck762-with-pu-foammetal
+│ ├ ● /products/roofseal-euro762
+│ ├ ● /products/roofseal-high-rib-30
+│ └ ● [+33 more paths]
+├ ○ /products/roofseal-deck762
+├ ○ /quote
+└ ○ /roof-covering
+
+
+○  (Static)  prerendered as static content
+●  (SSG)     prerendered as static HTML (uses generateStaticParams)
+
