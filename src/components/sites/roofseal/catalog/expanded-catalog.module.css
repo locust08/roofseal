@@ -1,0 +1,73 @@
+.blankImage {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  background: #fff;
+  border-bottom: 1px solid #b7c3c099;
+}
+.categoryBlank {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(150deg, #dedee3, #a3a4aa);
+  transition: transform 0.3s ease;
+}
+.categoryLink {
+  isolation: isolate;
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% calc(100% - 64px),
+    calc(100% - 64px) 100%,
+    0 100%
+  );
+}
+.categoryLink:hover .categoryBlank {
+  transform: scale(1.04);
+}
+.categoryLink h3,
+.categoryLink > span:last-child {
+  z-index: 1;
+}
+.pageBanner {
+  background: #37393c;
+}
+.pageBanner h1 {
+  z-index: 2;
+}
+.productTitle {
+  white-space: normal !important;
+  font-size: clamp(30px, 3.2vw, 60px) !important;
+  line-height: 1.2 !important;
+  overflow-wrap: anywhere;
+}
+.description {
+  line-height: 1.6;
+}
+.description p + p {
+  margin-top: 16px;
+}
+.copy {
+  max-width: 1240px;
+  margin: auto;
+  padding: 70px 24px;
+  line-height: 1.65;
+}
+.content {
+  white-space: pre-line;
+}
+.productCard {
+  transition:
+    box-shadow 0.3s ease,
+    background 0.3s ease;
+}
+.productCard:hover {
+  background: linear-gradient(#e3d8f4, #fff);
+}
+.moreProducts {
+  padding: 80px 0;
+  background: #f5f5f5;
+}
+.moreProducts h2 {
+  text-align: center;
+  margin: 0 0 40px;
+}

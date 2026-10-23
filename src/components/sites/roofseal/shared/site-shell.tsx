@@ -9,7 +9,8 @@ import {
   type ReactNode,
 } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useQuoteList } from "./quote-store";
 import { asset } from "./assets";
 import { DiagonalButton, Icon } from "./ui";
 
@@ -26,29 +27,26 @@ const QuoteContext = createContext<QuoteContextValue>({
 export const useQuote = () => useContext(QuoteContext);
 
 export function SiteShell({ children }: { children: ReactNode }) {
-  const [quoted, setQuoted] = useState(false);
-  const [quoteOpen, setQuoteOpen] = useState(false);
+  const quotes = useQuoteList();
+  const quoted = quotes.items.some((item) => item.slug === "roofseal-deck762");
+  const router = useRouter();
   const [notice, setNotice] = useState("");
   const noticeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  useEffect(() => {
-    const value = localStorage.getItem("roofseal-quote");
-    if (value === "deck762") {
-      requestAnimationFrame(() => setQuoted(true));
-    }
-  }, []);
   function notify(text: string) {
     setNotice(text);
     if (noticeTimer.current) clearTimeout(noticeTimer.current);
     noticeTimer.current = setTimeout(() => setNotice(""), 5000);
   }
   function addQuote() {
-    setQuoted(true);
-    localStorage.setItem("roofseal-quote", "deck762");
+    quotes.add("roofseal-deck762", "Roofseal Deck762");
     notify("Roofseal Deck762 added to your quote list.");
   }
   return (
     <QuoteContext.Provider value={{ quoted, addQuote, notify }}>
-      <Header quoteCount={quoted ? 1 : 0} onQuote={() => setQuoteOpen(true)} />
+      <Header
+        quoteCount={quotes.items.length}
+        onQuote={() => router.push("/quote")}
+      />
       {children}
       <Footer />
       <a
@@ -69,64 +67,6 @@ export function SiteShell({ children }: { children: ReactNode }) {
           >
             <Icon name="close" />
           </button>
-        </div>
-      )}
-      {quoteOpen && (
-        <div className="modal-backdrop" onClick={() => setQuoteOpen(false)}>
-          <section
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="quote-title"
-            className="quote-panel"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              className="modal-close"
-              autoFocus
-              aria-label="Close quote list"
-              onClick={() => setQuoteOpen(false)}
-            >
-              <Icon name="close" />
-            </button>
-            <h2 id="quote-title">Quote List</h2>
-            {quoted ? (
-              <>
-                <div className="quote-item">
-                  <img
-                    src={asset("28318:4413", "imgProductImage")}
-                    alt="Roofseal Deck762"
-                  />
-                  <Link
-                    href="/products/roofseal-deck762"
-                    onClick={() => setQuoteOpen(false)}
-                  >
-                    Roofseal Deck762
-                  </Link>
-                  <button
-                    onClick={() => {
-                      setQuoted(false);
-                      localStorage.removeItem("roofseal-quote");
-                    }}
-                  >
-                    Remove
-                  </button>
-                </div>
-                <DiagonalButton href="mailto:enquiry@roofseal.com.my?subject=Roofseal%20Deck762%20quotation">
-                  Request a quotation
-                </DiagonalButton>
-              </>
-            ) : (
-              <>
-                <p>Your quote list is empty.</p>
-                <DiagonalButton
-                  href="/metal-roof-system"
-                  onClick={() => setQuoteOpen(false)}
-                >
-                  Browse Products
-                </DiagonalButton>
-              </>
-            )}
-          </section>
         </div>
       )}
     </QuoteContext.Provider>
@@ -171,10 +111,10 @@ function Header({
   }
   const metal = [
     { name: "Roof Covering", href: "/roof-covering" },
-    { name: "Insulation" },
-    { name: "Gutter & Roof Component" },
-    { name: "Structural" },
-    { name: "Skylights" },
+    { name: "Insulation", href: "/insulation" },
+    { name: "Gutter & Roof Component", href: "/gutter-roof-component" },
+    { name: "Structural", href: "/structural" },
+    { name: "Skylights", href: "/skylights" },
   ];
   return (
     <header
@@ -257,16 +197,18 @@ function Header({
                 <Icon name="arrow-right" />
               </span>
             </Link>
-            <button
+            <Link
               className={division === "doors" ? "active" : ""}
-              onClick={() => setDivision("doors")}
+              href="/doors-frames-division"
+              onClick={close}
+              onFocus={() => setDivision("doors")}
               onMouseEnter={() => setDivision("doors")}
             >
               Doors &amp; Frames Division{" "}
               <span className="mega-arrow">
                 <Icon name="arrow-right" />
               </span>
-            </button>
+            </Link>
           </div>
           <div className="mega-categories">
             {division === "metal" ? (
@@ -292,8 +234,12 @@ function Header({
               </>
             ) : (
               <>
-                <a href="mailto:enquiry@roofseal.com.my">Metal Door Frames</a>
-                <a href="mailto:enquiry@roofseal.com.my">Fire-Rated Door</a>
+                <Link href="/metal-door-frames" onClick={close}>
+                  Metal Door Frames
+                </Link>
+                <Link href="/fire-rated-door" onClick={close}>
+                  Fire-Rated Door
+                </Link>
               </>
             )}
           </div>
@@ -320,17 +266,17 @@ function Footer() {
       title: "Metal Roofing Division",
       items: [
         ["Roof Covering", "/metal-roofing-division"],
-        ["Insulation", ""],
-        ["Gutter & Roof Component", ""],
-        ["Structural", ""],
-        ["Skylights", ""],
+        ["Insulation", "/insulation"],
+        ["Gutter & Roof Component", "/gutter-roof-component"],
+        ["Structural", "/structural"],
+        ["Skylights", "/skylights"],
       ],
     },
     {
       title: "Doors & Frames Division",
       items: [
-        ["Metal Door Frames", "mailto:enquiry@roofseal.com.my"],
-        ["Fire-Rated Door", "mailto:enquiry@roofseal.com.my"],
+        ["Metal Door Frames", "/metal-door-frames"],
+        ["Fire-Rated Door", "/fire-rated-door"],
       ],
     },
     {

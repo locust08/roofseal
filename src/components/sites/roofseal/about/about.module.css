@@ -472,6 +472,10 @@
   color: #fff;
   cursor: pointer;
 }
+.esgPanel:focus-visible {
+  outline: 3px solid #ee1d24;
+  outline-offset: 4px;
+}
 .esgPanel > img {
   position: absolute;
   inset: 0;
@@ -768,10 +772,13 @@
     margin-bottom: 35px;
   }
   .milestoneCards {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(3, minmax(260px, 85%));
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 12px;
   }
-  .milestoneCards article:not(:first-child) {
-    display: none;
+  .milestoneCards article {
+    scroll-snap-align: start;
   }
   .milestoneCards article > img {
     height: 250px;

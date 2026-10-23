@@ -174,6 +174,23 @@ a:focus-visible {
   max-width: none;
   transition: opacity 0.3s ease-out;
 }
+.diagonal-button__tip {
+  background: var(--red);
+  clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
+  transition: background 0.3s ease-out;
+}
+.diagonal-button__tip img {
+  visibility: hidden;
+}
+.diagonal-button:hover .diagonal-button__tip {
+  background: #000;
+}
+.diagonal-button.white .diagonal-button__tip {
+  background: #fff;
+}
+.diagonal-button.white:hover .diagonal-button__tip {
+  background: #000;
+}
 .diagonal-button__tip-hover {
   opacity: 0;
 }
@@ -199,6 +216,7 @@ a:focus-visible {
 }
 .quote-button {
   width: 205px;
+  position: relative;
 }
 .newsletter .diagonal-button {
   width: 165px;
@@ -295,6 +313,15 @@ a:focus-visible {
   border-radius: 20px;
   font-size: 12px;
   letter-spacing: 0;
+  position: absolute;
+  top: -7px;
+  right: -5px;
+  min-width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--red);
+  line-height: 1;
 }
 .mobile-toggle {
   display: none;
@@ -1171,5 +1198,69 @@ a:focus-visible {
   }
   .main-nav {
     gap: 12px;
+  }
+}
+.quote-page {
+  padding-block: 60px 90px;
+}
+.quote-page h1 {
+  margin-bottom: 40px;
+}
+.quote-page h2 {
+  margin-bottom: 20px;
+}
+.quote-table {
+  margin-bottom: 60px;
+}
+.quote-row {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  padding: 25px 0;
+  border-bottom: 1px solid #b7c3c0;
+}
+.quote-row > a {
+  flex: 1;
+  font-weight: 700;
+}
+.quote-row input {
+  width: 75px;
+  margin-left: 15px;
+  padding: 8px;
+  border: 1px solid #b7c3c0;
+}
+.quote-row button {
+  color: var(--red);
+}
+.inquiry-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+  margin-top: 30px;
+}
+.inquiry-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.inquiry-form input,
+.inquiry-form textarea {
+  padding: 14px;
+  border: 1px solid #b7c3c0;
+  border-radius: 0;
+  font: inherit;
+}
+.inquiry-message {
+  grid-column: 1/-1;
+}
+@media (max-width: 650px) {
+  .inquiry-form {
+    grid-template-columns: 1fr;
+  }
+  .quote-row {
+    flex-wrap: wrap;
+  }
+  .quote-page h1 {
+    font-size: 36px;
   }
 }

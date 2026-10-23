@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useQuote } from "../shared/site-shell";
 
 import Link from "next/link";
@@ -58,6 +58,7 @@ function RoundArrow() {
 }
 
 function Hero() {
+  const [doorsInFront, setDoorsInFront] = useState(false);
   return (
     <section className={s.hero}>
       <img
@@ -73,20 +74,41 @@ function Hero() {
           </h1>
         </div>
         <div className={s.heroCards}>
-          <Destination label="Doors & Frames Division" className={s.backCard}>
-            <img src={a("28585:5690", "imgSubtract")} alt="Doors and frames" />
-            <div>
-              Doors &amp; Frames Division
-              <RoundArrow />
-            </div>
-          </Destination>
-          <Link href={divisionHref} className={s.frontCard}>
-            <img src={a("28585:5690", "imgSubtract1")} alt="Metal roofing" />
-            <div>
-              Metal Roofing Division
-              <RoundArrow />
-            </div>
-          </Link>
+          {[
+            {
+              title: "Doors & Frames Division",
+              image: "imgSubtract",
+              href: "/doors-frames-division",
+              front: doorsInFront,
+            },
+            {
+              title: "Metal Roofing Division",
+              image: "imgSubtract1",
+              href: divisionHref,
+              front: !doorsInFront,
+            },
+          ].map((card) => (
+            <article
+              key={card.title}
+              className={card.front ? s.frontCard : s.backCard}
+            >
+              <button
+                type="button"
+                className={s.panelSwap}
+                aria-label={`Swap division panels: ${card.title}`}
+                aria-pressed={card.front}
+                onClick={() => setDoorsInFront((value) => !value)}
+              >
+                <img src={a("28585:5690", card.image)} alt={card.title} />
+              </button>
+              <div>
+                <span>{card.title}</span>
+                <Link href={card.href} aria-label={`Explore ${card.title}`}>
+                  <RoundArrow />
+                </Link>
+              </div>
+            </article>
+          ))}
         </div>
         <div className={s.credentials}>
           {[
@@ -122,11 +144,49 @@ function Hero() {
 }
 
 function Intro() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    const playSilently = () => {
+      video.defaultMuted = true;
+      video.muted = true;
+      if (document.visibilityState === "visible" && video.paused) {
+        void video.play().catch(() => {
+          // Retry when ready, visible, or after browser-required user activation.
+        });
+      }
+    };
+    video.addEventListener("canplay", playSilently);
+    document.addEventListener("visibilitychange", playSilently);
+    document.addEventListener("pointerdown", playSilently, { passive: true });
+    const observer = new IntersectionObserver((entries) => {
+      if (entries.some((entry) => entry.isIntersecting)) playSilently();
+    });
+    observer.observe(video);
+    playSilently();
+    return () => {
+      observer.disconnect();
+      video.removeEventListener("canplay", playSilently);
+      document.removeEventListener("visibilitychange", playSilently);
+      document.removeEventListener("pointerdown", playSilently);
+    };
+  }, []);
+
   return (
     <section className={`wide ${s.intro}`}>
-      <img
-        src={a("28318:3279", "imgSubtract")}
-        alt="Roofseal manufacturing facility"
+      <video
+        ref={videoRef}
+        className={s.manufacturingVideo}
+        src="/sites/roofseal/shared/manufacturing.mp4"
+        poster={a("28318:3279", "imgSubtract")}
+        aria-label="Roofseal manufacturing facility"
+        autoPlay
+        muted
+        playsInline
+        loop
+        preload="metadata"
       />
       <div>
         <h2>Best Metal Roofing, Doors &amp; Frames Manufacturer in Malaysia</h2>
@@ -160,21 +220,36 @@ function Intro() {
 }
 
 const points = [
-  [514, 94],
-  [620, 94],
-  [778, 134],
-  [966, 436],
-  [864, 436],
-  [554, 456],
-  [463, 264],
-  [386, 134],
-  [687, 163],
-  [726, 94],
-  [645, 317],
+  { x: 514, y: 94, name: "Glass Wool", href: "/glasswool" },
+  { x: 620, y: 94, name: "Aluminium Foil", href: "/aluminium-foil" },
+  {
+    x: 726,
+    y: 94,
+    name: "Wire Netting",
+    href: "/products/hexagonal-galvanised-wire-netting",
+  },
+  { x: 778, y: 134, name: "Batten", href: "/structural" },
+  { x: 864, y: 436, name: "C Section", href: "/structural" },
+  { x: 966, y: 436, name: "Shingles Roof", href: "/shingles-roof-system" },
+  { x: 687, y: 163, name: "Gutter", href: "/gutter-system" },
+  {
+    x: 645,
+    y: 317,
+    name: "Metal Door Frame",
+    href: "/products/sealframe-customisable-metal-door-frames",
+  },
+  { x: 554, y: 456, name: "Skylight Roofing Sheet", href: "/skylights" },
+  { x: 463, y: 264, name: "Metal Roofing", href: "/metal-roof-system" },
+  {
+    x: 386,
+    y: 134,
+    name: "Corrosion Resistant Roof Fasteners",
+    href: "/fasteners",
+  },
 ] as const;
 
 function Building() {
-  const [selected, setSelected] = useState<number | null>(10);
+  const [selected, setSelected] = useState<number | null>(null);
   return (
     <section className={s.building}>
       <img
@@ -202,30 +277,28 @@ function Building() {
             alt="Cutaway of a building showing Roofseal roofing and door systems"
           />
         </div>
-        {points.map(([x, y], i) => (
+        {points.map(({ x, y, name }, i) => (
           <button
             key={i}
             className={`${s.hotspot} ${selected === i ? s.selected : ""}`}
             style={{ left: `${(x / 1240) * 100}%`, top: `${(y / 800) * 100}%` }}
             onClick={() => setSelected(selected === i ? null : i)}
-            aria-label={
-              i === 10
-                ? "View Metal Door Frame"
-                : `Explore product marker ${i + 1}`
-            }
+            aria-label={`View ${name}`}
+            aria-expanded={selected === i}
+            aria-controls="homepage-product-popup"
           >
             <span />
-            {i === 10 && selected === 10 && (
-              <strong className={s.hotspotLabel}>Metal Door Frame</strong>
-            )}
           </button>
         ))}
         {selected !== null && (
-          <div className={s.productPopup}>
+          <div
+            className={s.productPopup}
+            id="homepage-product-popup"
+            role="region"
+            aria-label={points[selected].name}
+          >
             <div>
-              <strong>
-                {selected === 10 ? "Metal Door Frame" : "Product information"}
-              </strong>
+              <strong>{points[selected].name}</strong>
               <button
                 aria-label="Close product information"
                 onClick={() => setSelected(null)}
@@ -234,22 +307,10 @@ function Building() {
               </button>
             </div>
             <section>
-              {selected === 10 ? (
-                <>
-                  <img
-                    src={a("28318:3214", "imgRectangle329")}
-                    alt="Metal door frame"
-                  />
-                  <Destination label="Metal Door Frame" className={s.learn}>
-                    Learn More <Icon name="chevron-right" />
-                  </Destination>
-                </>
-              ) : (
-                <p role="status">
-                  Product details for this marker are not included in the
-                  supplied prototype.
-                </p>
-              )}
+              <div className={s.hotspotImagePlaceholder} aria-hidden="true" />
+              <Link href={points[selected].href} className={s.learn}>
+                Learn More <Icon name="chevron-right" />
+              </Link>
             </section>
           </div>
         )}
@@ -299,7 +360,7 @@ function Divisions() {
               href={
                 card.title === "Metal Roofing Division"
                   ? divisionHref
-                  : undefined
+                  : "/doors-frames-division"
               }
               label={card.title}
               key={card.title}

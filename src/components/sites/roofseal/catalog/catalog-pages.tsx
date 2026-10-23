@@ -77,8 +77,6 @@ export function CoveringContent() {
   );
 }
 function RoofingFaq() {
-  const missing =
-    "The prototype does not include the expanded content for this item. Contact Roofseal at enquiry@roofseal.com.my for more information.";
   return (
     <section className={styles.faq}>
       <img
@@ -101,11 +99,18 @@ function RoofingFaq() {
           </details>
           <details>
             <summary>Speed &amp; ease of roofing installation</summary>
-            <p>{missing}</p>
+            <p>
+              An accomplished contractor can install metal roofs quickly.
+              Because of the material�s light weight, you can save on
+              engineering and building the supporting structure.
+            </p>
           </details>
           <details>
             <summary>Minimal roof pitch</summary>
-            <p>{missing}</p>
+            <p>
+              Most metal roofing materials can be installed on gently pitched
+              roofs without presenting a leaking potential.
+            </p>
           </details>
         </div>
         <div>
@@ -114,11 +119,20 @@ function RoofingFaq() {
           </h3>
           <details>
             <summary>Value</summary>
-            <p>{missing}</p>
+            <p>
+              A properly installed asphalt shingles roof will provide your home
+              with a decent level of protection with an average lifespan of 12
+              to 17 years, all for a modest upfront cost. Warranties are
+              available.
+            </p>
           </details>
           <details>
             <summary>Variety of style</summary>
-            <p>{missing}</p>
+            <p>
+              Asphalt shingles are manufactured in many colors and patterns,
+              allowing you to create an attractive custom look that could
+              greatly enhance the appearance of your home.
+            </p>
           </details>
         </div>
       </div>

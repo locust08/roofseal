@@ -35,9 +35,9 @@ const environmental = [
   "Continuously improve manufacturing efficiency to minimise material wastage and environmental impact",
 ];
 export function AboutPage() {
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(true);
   const [offset, setOffset] = useState(0);
-  const [esg, setEsg] = useState(0);
+  const [esg, setEsg] = useState<number | null>(null);
   return (
     <main className={styles.about}>
       <Breadcrumbs items={[{ label: "About Us" }]} />
@@ -72,15 +72,41 @@ export function AboutPage() {
               of <strong>Malaysia’s leading metal roof suppliers</strong>.
             </p>
             {expanded && (
-              <p>
-                Roofseal operates through two core business divisions, the Metal
-                Roofing Division and the Doors &amp; Frames Division, providing
-                comprehensive building solutions across Malaysia.
-              </p>
+              <div id="about-full-content">
+                <p>
+                  Our completed projects span Malaysia�s private and government
+                  sectors. We supply roofing profiles, accessories, rainwater
+                  goods, insulation and structural products to create complete
+                  metal roofing systems.
+                </p>
+                <p>
+                  Our CNC-equipped metal door frame production lines manufacture
+                  customised profiles for different wall thicknesses and
+                  architectural requirements.
+                </p>
+                <p>
+                  In Malaysia�s tropical climate, roof and building insulation
+                  help maintain comfortable indoor temperatures. Our practical
+                  knowledge supports customised watertight roof finishes that
+                  preserve a building�s appearance.
+                </p>
+                <p>
+                  Experienced professionals support our manufacturing
+                  facilities, showroom and sales office, maintaining product
+                  quality and providing practical solutions for our clients. We
+                  continue to develop our roofing services for local and
+                  international markets.
+                </p>
+                <p>
+                  Contact Roofseal for metal roofing, metal door frames,
+                  waterproofing membranes and related building requirements.
+                </p>
+              </div>
             )}
             <button
               className={styles.readMore}
               aria-expanded={expanded}
+              aria-controls="about-full-content"
               onClick={() => setExpanded(!expanded)}
             >
               {expanded ? "Read Less" : "Read More"}{" "}
@@ -318,12 +344,27 @@ export function AboutPage() {
             Governance (ESG) principles.
           </p>
         </div>
-        <div className={`wide ${styles.esgPanels}`}>
+        <div
+          className={`wide ${styles.esgPanels}`}
+          onMouseLeave={() => setEsg(null)}
+          onBlur={(event) => {
+            if (!event.currentTarget.contains(event.relatedTarget))
+              setEsg(null);
+          }}
+          onKeyDown={(event) => {
+            if (event.key === "Escape") setEsg(null);
+          }}
+        >
           {["Environmental", "Social", "Governance"].map((title, i) => (
             <button
               key={title}
-              onClick={() => setEsg(i)}
-              onMouseEnter={() => setEsg(i)}
+              onClick={() => setEsg((active) => (active === i ? null : i))}
+              onFocus={(event) => {
+                if (event.currentTarget.matches(":focus-visible")) setEsg(i);
+              }}
+              onPointerEnter={(event) => {
+                if (event.pointerType === "mouse") setEsg(i);
+              }}
               className={`${styles.esgPanel} ${esg === i ? styles.esgActive : ""}`}
               aria-expanded={esg === i}
             >
