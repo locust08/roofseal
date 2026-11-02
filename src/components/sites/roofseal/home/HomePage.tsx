@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useState, useRef, type ReactNode } from "react";
 import { useQuote } from "../shared/site-shell";
 
 import Link from "next/link";
@@ -10,6 +10,10 @@ import { asset } from "../shared/assets";
 import { Cta, Icon, SectionTitle } from "../shared/ui";
 
 import s from "./home.module.css";
+import { CardSwap, type CardSwapHandle } from "./motion/CardSwap";
+import type { BuildingHotspot } from "./building-hotspots";
+import { CompanyIntroduction, CompanyDetails } from "../shared/company-copy";
+import { portfolioDivisions } from "../portfolio/projects";
 
 const a = (node: string, v: string) => asset(node, v);
 
@@ -58,6 +62,8 @@ function RoundArrow() {
 }
 
 function Hero() {
+  const [front, setFront] = useState(0);
+  const swap = useRef<CardSwapHandle>(null);
   return (
     <section className={s.hero}>
       <img
@@ -66,27 +72,34 @@ function Hero() {
         alt=""
       />
       <div className={`wide ${s.heroInner}`}>
-        <div className={s.heroCopy}>
+        <div className={s.heroCopy} data-fade>
           <p>Welcome to Roofseal</p>
           <h1>
             Building <span>Lasting Value</span>
           </h1>
         </div>
         <div className={s.heroCards}>
-          <Destination label="Doors & Frames Division" className={s.backCard}>
-            <img src={a("28585:5690", "imgSubtract")} alt="Doors and frames" />
-            <div>
-              Doors &amp; Frames Division
-              <RoundArrow />
-            </div>
-          </Destination>
-          <Link href={divisionHref} className={s.frontCard}>
-            <img src={a("28585:5690", "imgSubtract1")} alt="Metal roofing" />
-            <div>
-              Metal Roofing Division
-              <RoundArrow />
-            </div>
-          </Link>
+          <CardSwap ref={swap} width={810} height={600} cardDistance={105} verticalDistance={-150}
+            depth={100} skewAmount={0} visibleCards={2} autoplay={false} speed={0.65} bounce={0.25}
+            parallax={0} hoverSpread={0.08} dim={0.8} cardRadius={0} intro={false} onChange={setFront}>
+            {[
+              { label: "Metal Roofing Division", href: divisionHref, image: a("28585:5690", "imgSubtract1") },
+              { label: "Doors & Frames Division", href: "/doors-frames-division", image: "/sites/roofseal/home/hero-doors-frames.webp" },
+            ].map((card, index) => <Link
+              key={card.href}
+              href={card.href}
+              draggable={false}
+              className={`${s.heroDivisionCard} ${index === 0 ? s.metalHeroCard : ""} ${front === index ? s.frontCard : s.backCard}`}
+              role={front === index ? undefined : "button"}
+              aria-label={front === index ? card.label : `Show ${card.label} card`}
+              onKeyDown={(event) => {
+                if (front !== index && event.key === " ") { event.preventDefault(); swap.current?.next(); }
+              }}
+            >
+              <img src={card.image} alt="" draggable={false} />
+              <div>{card.label}<RoundArrow /></div>
+            </Link>)}
+          </CardSwap>
         </div>
         <div className={s.credentials}>
           {[
@@ -122,61 +135,44 @@ function Hero() {
 }
 
 function Intro() {
+  const [expanded, setExpanded] = useState(false);
   return (
     <section className={`wide ${s.intro}`}>
-      <img
-        src={a("28318:3279", "imgSubtract")}
-        alt="Roofseal manufacturing facility"
-      />
+      <video
+        className={s.manufacturingVideo}
+        controls muted playsInline preload="metadata"
+        poster={a("28318:3279", "imgSubtract")}
+        aria-label="Roofseal metal roofing manufacturing process"
+      >
+        <source src="/sites/roofseal/video/roofseal-manufacturing.mp4" type="video/mp4" />
+        Your browser does not support this video. <a href="/sites/roofseal/video/roofseal-manufacturing.mp4">Download the manufacturing video</a>.
+      </video>
       <div>
         <h2>Best Metal Roofing, Doors &amp; Frames Manufacturer in Malaysia</h2>
-        <p>
-          Since its establishment in 1990, Roofseal Malaysia has grown from a
-          metal roofing subcontractor into an established manufacturer and
-          supplier serving Malaysia’s construction industry. Today, our business
-          is built around two core divisions: the <b>Metal Roofing Division</b>{" "}
-          and the <b>Doors &amp; Frames Division</b>. We manufacture and supply{" "}
-          <b>sheet metal</b> roofing systems, roof insulation solutions, roof
-          components, structural products, metal door frames, and fire-rated
-          doors for residential, commercial, and industrial applications.
-        </p>
-        <p>
-          Backed by more than three decades of experience, quality coated steel
-          materials supplied by NS BlueScope Malaysia, and a skilled workforce,
-          Roofseal has built a strong reputation as one of{" "}
-          <b>Malaysia’s leading metal roof suppliers</b> while continuing to
-          expand its expertise in doors and frames. From complete{" "}
-          <b>roofing systems</b> to a dependable <b>home insulation solution</b>
-          , our focus is to deliver practical, durable, and reliable building
-          products that meet the needs of modern construction projects across
-          Malaysia.
-        </p>
-        <Link className={s.learn} href="/about">
-          Learn More <Icon name="chevron-down" />
-        </Link>
+        <CompanyIntroduction />
+        {expanded && <div id="home-company-details"><CompanyDetails home /></div>}
+        <button className={s.learn} aria-expanded={expanded} aria-controls="home-company-details" onClick={() => setExpanded(!expanded)}>
+          {expanded ? "Read Less" : "Read More"} <Icon name="chevron-down" />
+        </button>
+        {expanded && <Link className={s.aboutLink} href="/about">Learn About Us <Icon name="arrow-right" /></Link>}
       </div>
     </section>
   );
 }
 
-const points = [
-  [514, 94],
-  [620, 94],
-  [778, 134],
-  [966, 436],
-  [864, 436],
-  [554, 456],
-  [463, 264],
-  [386, 134],
-  [687, 163],
-  [726, 94],
-  [645, 317],
-] as const;
-
-function Building() {
-  const [selected, setSelected] = useState<number | null>(10);
+function Building({ hotspots }: { hotspots: BuildingHotspot[] }) {
+  const [selected, setSelected] = useState<number | null>(() => {
+    const index = hotspots.findIndex((point) => point.label === "Metal Door Frame");
+    return index < 0 ? null : index;
+  });
+  const triggers = useRef<(HTMLButtonElement | null)[]>([]);
+  const active = selected === null ? undefined : hotspots[selected];
+  function closePopup() {
+    setSelected(null);
+    if (selected !== null) triggers.current[selected]?.focus();
+  }
   return (
-    <section className={s.building}>
+    <section className={s.building} onKeyDown={(event) => { if (event.key === "Escape" && active) closePopup(); }}>
       <img
         className={s.topEdge}
         src={a("28318:3214", "imgSectionBackground")}
@@ -202,54 +198,28 @@ function Building() {
             alt="Cutaway of a building showing Roofseal roofing and door systems"
           />
         </div>
-        {points.map(([x, y], i) => (
+        {hotspots.map((point, i) => (
           <button
-            key={i}
+            key={point.label}
+            ref={(element) => { triggers.current[i] = element; }}
             className={`${s.hotspot} ${selected === i ? s.selected : ""}`}
-            style={{ left: `${(x / 1240) * 100}%`, top: `${(y / 800) * 100}%` }}
+            style={{ left: `${(point.x / 1240) * 100}%`, top: `${(point.y / 800) * 100}%` }}
             onClick={() => setSelected(selected === i ? null : i)}
-            aria-label={
-              i === 10
-                ? "View Metal Door Frame"
-                : `Explore product marker ${i + 1}`
-            }
-          >
-            <span />
-            {i === 10 && selected === 10 && (
-              <strong className={s.hotspotLabel}>Metal Door Frame</strong>
-            )}
-          </button>
+            aria-label={`View ${point.label}`}
+            title={point.label}
+            aria-expanded={selected === i}
+            aria-controls={selected === i ? "building-product-information" : undefined}
+          ><span /></button>
         ))}
-        {selected !== null && (
-          <div className={s.productPopup}>
-            <div>
-              <strong>
-                {selected === 10 ? "Metal Door Frame" : "Product information"}
-              </strong>
-              <button
-                aria-label="Close product information"
-                onClick={() => setSelected(null)}
-              >
-                <Icon name="close" />
-              </button>
-            </div>
+        {active && (
+          <div className={s.productPopup} id="building-product-information" role="region" aria-label={active.label}>
+            <div><strong>{active.label}</strong><button aria-label="Close product information" onClick={closePopup}><Icon name="close" /></button></div>
             <section>
-              {selected === 10 ? (
-                <>
-                  <img
-                    src={a("28318:3214", "imgRectangle329")}
-                    alt="Metal door frame"
-                  />
-                  <Destination label="Metal Door Frame" className={s.learn}>
-                    Learn More <Icon name="chevron-right" />
-                  </Destination>
-                </>
-              ) : (
-                <p role="status">
-                  Product details for this marker are not included in the
-                  supplied prototype.
-                </p>
-              )}
+              <div className={`${s.hotspotArtwork} ${active.brand === "sealframe" ? s.frameArtwork : ""}`}>
+                <img src={active.image} alt={active.label} />
+                {active.brand && <img className={s.hotspotBrand} src={`/sites/roofseal/hotspots/${active.brand}-logo.webp`} alt="" />}
+              </div>
+              <Link href={active.href} className={s.learn} aria-label={`Learn more about ${active.label}`}>Learn More <Icon name="chevron-right" /></Link>
             </section>
           </div>
         )}
@@ -299,7 +269,7 @@ function Divisions() {
               href={
                 card.title === "Metal Roofing Division"
                   ? divisionHref
-                  : undefined
+                  : "/doors-frames-division"
               }
               label={card.title}
               key={card.title}
@@ -387,27 +357,11 @@ function Brands() {
   );
 }
 
-const projects = [
-  {
-    image: "imgSubtract",
-    title: "Adelia 2 Apartment",
-    location: "Bangi Avenue, Kajang",
-  },
-  {
-    image: "imgSubtract2",
-    title: "Idaman Abadi Condominium",
-    location: "Tropicana Heights Kajang",
-  },
-  {
-    image: "imgSubtract3",
-    title: "Pavilion Damansara Heights",
-    location: "Damansara Heights, Kuala Lumpur",
-  },
-];
-
 function Projects() {
   const [tab, setTab] = useState(0);
   const [offset, setOffset] = useState(0);
+  const division = portfolioDivisions[tab];
+  const projects = division.projects;
   return (
     <section className={s.projects} id="projects">
       <SectionTitle description="With experience in commercial, residential, industrial, private, and government projects, Roofseal has supported a wide range of roofing, metal doors, frames, and building needs across Malaysia.">
@@ -429,26 +383,20 @@ function Projects() {
           </button>
         ))}
       </div>
-      {tab === 1 && (
-        <p className={s.projectNotice} role="status">
-          The supplied prototype does not include Metal Doors &amp; Frame
-          project content. Showing the available project references.
-        </p>
-      )}
       <div className={s.projectCarousel}>
         <button
           className={`${s.carouselArrow} ${s.previous}`}
           aria-label="Previous projects"
-          onClick={() => setOffset((offset + 2) % 3)}
+          onClick={() => setOffset((offset + projects.length - 1) % projects.length)}
         >
           <Icon name="chevron-left" />
         </button>
         <div className={s.projectGrid}>
-          {projects.map((_, i) => {
+          {projects.slice(0, 3).map((_, i) => {
             const p = projects[(i + offset) % projects.length];
             return (
               <article key={p.title}>
-                <img src={a("28318:3075", p.image)} alt={p.title} />
+                <img src={p.image} alt={p.title} />
                 <div
                   style={{
                     backgroundImage: `url(${a("28318:3075", "imgSubtract1")})`,
@@ -464,21 +412,22 @@ function Projects() {
         <button
           className={`${s.carouselArrow} ${s.next}`}
           aria-label="Next projects"
-          onClick={() => setOffset((offset + 1) % 3)}
+          onClick={() => setOffset((offset + 1) % projects.length)}
         >
           <Icon name="chevron-right" />
         </button>
       </div>
+      <Link className={s.viewProjects} href={`/portfolio/${division.slug}`}>View All {division.title} Projects <Icon name="arrow-right" /></Link>
     </section>
   );
 }
 
-export function HomePage() {
+export function HomePage({ hotspots }: { hotspots: BuildingHotspot[] }) {
   return (
     <main>
       <Hero />
       <Intro />
-      <Building />
+      <Building hotspots={hotspots} />
       <Divisions />
       <Brands />
       <Projects />

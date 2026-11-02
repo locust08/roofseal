@@ -2,9 +2,9 @@ import Link from "next/link";
 import { CategoryCard } from "../shared/ui";
 import type { CategoryView, ProductCardView } from "@/cms/view-models";
 import styles from "./catalog.module.css";
-export function CategoryGrid({ categories }: { categories: CategoryView[] }) {
+export function CategoryGrid({ categories, columns = 3 }: { categories: CategoryView[]; columns?: 3 | 4 }) {
   return (
-    <div className={styles.categories}>
+    <div className={`${styles.categories} ${columns === 4 ? styles.fourColumns : ""}`}>
       {categories.map((category) => (
           <CategoryCard
             key={category.id}

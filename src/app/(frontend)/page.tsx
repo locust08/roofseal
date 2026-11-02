@@ -1,4 +1,6 @@
 import { HomePage } from "@/components/sites/roofseal/home/HomePage";
-export default function Page() {
-  return <HomePage />;
+import { getHomeHotspots } from "@/lib/home-hotspots";
+export const dynamic = "force-dynamic";
+export default async function Page() {
+  return <HomePage hotspots={await getHomeHotspots()} />;
 }

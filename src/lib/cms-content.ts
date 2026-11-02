@@ -44,10 +44,14 @@ export async function getProduct(slug: string) {
   return { record, view: productView(record), related };
 }
 
-export async function getResources(type?: string) {
+export async function getResources(type?: string, postCategory?: "article" | "news" | "event") {
   const payload = await getCms();
-  const where: Where = { _status: { equals: "published" } };
-  if (type && ["catalogue", "material", "article", "gallery"].includes(type)) where.type = { equals: type };
+  const where: Where = { _status: { equals: "published" }, type: { not_equals: "gallery" } };
+  if (type && ["catalogue", "material", "article"].includes(type)) where.type = { equals: type };
+  if (type === "article" && postCategory) {
+    if (postCategory === "article") where.or = [{ postCategory: { equals: "article" } }, { postCategory: { exists: false } }];
+    else where.postCategory = { equals: postCategory };
+  }
   return (await payload.find({ collection: "resources", overrideAccess: false, where, limit: 100, sort: "title", depth: 1 })).docs;
 }
 
@@ -55,4 +59,12 @@ export async function getResource(slug: string) {
   const payload = await getCms();
   const user = await previewUser();
   return (await payload.find({ collection: "resources", overrideAccess: false, user, draft: !!user, where: { and: [{ slug: { equals: slug } }, ...(user ? [] : [{ _status: { equals: "published" } }])] }, limit: 1, depth: 1 })).docs[0] || null;
+}
+
+export async function getCareerPositions() {
+  return (await (await getCms()).find({
+    collection: "careers", overrideAccess: false,
+    where: { _status: { equals: "published" } },
+    sort: "displayOrder", limit: 100, depth: 0,
+  })).docs;
 }

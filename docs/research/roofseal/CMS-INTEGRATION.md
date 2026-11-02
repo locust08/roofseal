@@ -104,3 +104,15 @@ The dependency audit has no critical findings after updating Next.js. It still r
 SQLite is stored at `.data/roofseal.db`; uploads are under `.data/media`. Keep both on persistent storage. For a local backup, stop the app and copy `.data` and `.env.local` to a private backup location. Do not copy only an active SQLite database while its WAL is being written.
 
 This task does not provision hosting or deploy the app. A persistent Node server can run the current configuration with the imported database and media mounted. Ephemeral filesystem hosting needs a production database/storage adapter. Cloudflare deployment requires the Workers/OpenNext, D1 and R2 adapters/bindings, platform secrets and deployment validation. Configure the real public origin and an email adapter before issuing client accounts or relying on password-reset emails.
+
+## Careers — 30 October 2026
+
+`Content → Career positions` manages the dynamic `/career` listing. Editors can create, edit, draft and publish positions; administrators can also delete them. The frontend and anonymous API expose published records only; editorial notes are editor-only. Fields include title, slug, department, location, employment type, summary, description, job scope, requirements, display order and a visible placeholder flag (on by default). Scope and requirements accept one bullet per line.
+
+Three generated example roles are published in the local CMS for review: Sales Executive, Production Operator and Administrative Assistant. They are explicitly labelled as placeholders, not active vacancies. Employment type, salary and hiring terms are not invented. The careers page remains noindex and all application/resume controls remain disabled, independently of CMS publication state.
+
+Use `npm run cms:seed-careers` after applying migrations or initializing the development schema. This repeatable local-only import preserves existing editorial changes and does not republish records that an editor has drafted. It skips development schema pushing to avoid competing with the running Next server. Production migration `20261030_011934_careers` adds career/version tables and the lock-document relationship without changing catalogue records. Remote D1 migration/import/deployment remains pending the user's localhost review.
+
+### Client review notices removed
+
+The user subsequently instructed removing all careers placeholder/review notices because the client will be informed separately. Removed the banner, per-position warnings, dropdown suffixes, draft page title and review/confirmation wording from the three records. The CMS source keys, placeholder flags and private editorial notes remain for internal provenance. Applications and resume uploads remain disabled; public copy simply says applications are closed. The page remains noindex. This supersedes the visible-label behavior described above. Local only; no deployment or BugHerd status change.

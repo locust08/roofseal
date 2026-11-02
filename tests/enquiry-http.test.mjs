@@ -12,7 +12,7 @@ test('the registered enquiry endpoint saves a quote privately and retries withou
   assert.equal(login.status, 200);
   const auth = { Authorization: `JWT ${(await login.json()).token}`, 'Content-Type': 'application/json' };
   const product = (await (await fetch(`${base}/api/products?limit=1`)).json()).docs[0];
-  const data = { reference: randomUUID(), kind: 'quote', productIds: [product.id], name: 'HTTP enquiry verification', email: 'http-qa@example.test', phone: '0123456789', message: 'Local verification. Do not deliver.', consent: true };
+  const data = { reference: randomUUID(), kind: 'quote', productIds: [product.id], company: 'Local QA', state: 'Selangor', projectType: 'Residential', name: 'HTTP enquiry verification', email: 'http-qa@example.test', phone: '0123456789', message: 'Local verification. Do not deliver.', consent: true };
   let id;
   try {
     const post = () => fetch(`${base}/api/submit-enquiry`, { method: 'POST', headers: { Origin: origin, 'Content-Type': 'application/json' }, body: JSON.stringify(data) });

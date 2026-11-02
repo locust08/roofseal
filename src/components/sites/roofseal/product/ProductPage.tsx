@@ -6,6 +6,7 @@ import type { ProductView, ProductCardView } from "@/cms/view-models";
 import { asset } from "../shared/assets";
 import { Breadcrumbs, DiagonalButton, Icon } from "../shared/ui";
 import { useQuote } from "../shared/site-shell";
+import { ProductInformation } from "./ProductInformation";
 import styles from "./product.module.css";
 
 export function ProductPage({ product, related }: { product: ProductView; related: ProductCardView[] }) {
@@ -49,6 +50,7 @@ export function ProductPage({ product, related }: { product: ProductView; relate
           </div>
         </div>
       </section>
+      <ProductInformation slug={product.slug} application={product.applicationInformation} />
       {related.length > 0 && <section className={styles.recommendations}>
         <img className={styles.topCut} src={asset("28318:4405", "imgSectionBackground1")} alt="" />
         <div className="narrow">

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
+import { resourceHref } from "@/lib/resource-links";
 import { RichText } from "@payloadcms/richtext-lexical/react";
 import { getResource } from "@/lib/cms-content";
 import { mediaUrl } from "@/cms/view-models";
@@ -16,7 +17,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 export default async function ResourcePage({ params }: Props) {
   const resource = await getResource((await params).slug);
-  if (!resource) notFound();
+  if (!resource || resource.type === "gallery") notFound();
+  const canonical = resourceHref(resource);
+  if (canonical !== `/resources/${resource.slug}`) permanentRedirect(canonical);
   const files = [resource.file, ...(resource.attachments || [])].filter((m): m is Media => !!m && typeof m !== "number");
   const images = (resource.images || []).filter((m): m is Media => typeof m !== "number" && !!m.mimeType?.startsWith("image/"));
   return <main>

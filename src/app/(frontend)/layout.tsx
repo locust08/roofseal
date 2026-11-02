@@ -1,5 +1,6 @@
 import { draftMode } from "next/headers";
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import { SiteShell } from "@/components/sites/roofseal/shared/site-shell";
 import "../globals.css";
@@ -35,6 +36,12 @@ export default async function RootLayout({
         {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- A full navigation clears the cached layout after Draft Mode changes. */}
         {preview && <aside className="cms-preview">Draft preview — visible only to signed-in editors. <a href="/api/exit-preview">Exit preview</a></aside>}
         <SiteShell>{children}</SiteShell>
+        <Script
+          id="bugherd-sidebar"
+          src="https://www.bugherd.com/sidebarv2.js?apikey=5vkosux5eqxxs3z2ogxsjw"
+          strategy="afterInteractive"
+          async
+        />
       </body>
     </html>
   );

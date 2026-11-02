@@ -9,79 +9,49 @@ import {
   type ReactNode,
 } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { asset } from "./assets";
 import { categoryHref, parseQuoteItems, type QuoteItem } from "@/cms/view-models";
 import { DiagonalButton, Icon } from "./ui";
-import { EnquiryContext, useEnquiry } from "./enquiry-context";
-import { EnquiryForm, type EnquiryDraft } from "./EnquiryForm";
+import { EnquiryContext } from "./enquiry-context";
+import type { EnquiryDraft } from "./EnquiryForm";
+import { PageFades } from "./PageFades";
+import { resourceNavigation } from "@/lib/resource-links";
 
 type QuoteContextValue = {
   items: QuoteItem[];
   addQuote: (product: QuoteItem) => void;
   notify: (text: string) => void;
+  ready: boolean;
+  removeQuote: (id: number) => void;
+  clearQuote: () => void;
+  drafts: Record<"contact" | "quote", EnquiryDraft>;
+  setDraft: (kind: "contact" | "quote", draft: EnquiryDraft) => void;
 };
 const QuoteContext = createContext<QuoteContextValue>({
   items: [],
   addQuote: () => {},
   notify: () => {},
+  ready: false, removeQuote: () => {}, clearQuote: () => {},
+  drafts: { contact: {}, quote: {} }, setDraft: () => {},
 });
 export const useQuote = () => useContext(QuoteContext);
 
 export function SiteShell({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<QuoteItem[]>([]);
-  const [quoteOpen, setQuoteOpen] = useState(false);
-  const [contactOpen, setContactOpen] = useState(false);
-  const [submitted, setSubmitted] = useState("");
-  const [dialogPending, setDialogPending] = useState(false);
-  const pendingRef = useRef(false);
-  const [contactDraft, setContactDraft] = useState<EnquiryDraft>({});
-  const [quoteDraft, setQuoteDraft] = useState<EnquiryDraft>({});
-  const dialogOpen = quoteOpen || contactOpen;
+  const router = useRouter();
+  const [ready, setReady] = useState(false);
+  const [drafts, setDrafts] = useState<Record<"contact" | "quote", EnquiryDraft>>({ contact: {}, quote: {} });
   const [notice, setNotice] = useState("");
   const noticeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const panelRef = useRef<HTMLElement>(null);
-  const triggerRef = useRef<HTMLElement | null>(null);
-  useEffect(() => {
-    if (submitted) panelRef.current?.querySelector<HTMLButtonElement>("button")?.focus();
-  }, [submitted]);
-  useEffect(() => {
-    if (dialogPending) panelRef.current?.focus();
-  }, [dialogPending]);
   useEffect(() => {
     let saved: QuoteItem[] = [];
     try { saved = parseQuoteItems(localStorage.getItem("roofseal-quote")); } catch {}
-    const frame = requestAnimationFrame(() => setItems(saved));
+    const frame = requestAnimationFrame(() => { setItems(saved); setReady(true); });
     return () => cancelAnimationFrame(frame);
   }, []);
-  useEffect(() => {
-    if (!dialogOpen) return;
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    function keyboard(event: KeyboardEvent) {
-      if (event.key === "Escape" && !pendingRef.current) { setQuoteOpen(false); setContactOpen(false); }
-      if (event.key === "Tab") {
-        const controls = panelRef.current?.querySelectorAll<HTMLElement>('a[href], button:not(:disabled), input:not(:disabled):not([tabindex="-1"]), textarea:not(:disabled)');
-        if (!controls?.length) { event.preventDefault(); panelRef.current?.focus(); return; }
-        const first = controls[0], last = controls[controls.length - 1];
-        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
-        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
-      }
-    }
-    document.addEventListener("keydown", keyboard);
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      document.removeEventListener("keydown", keyboard);
-      triggerRef.current?.focus();
-    };
-  }, [dialogOpen]);
-  function openEnquiry() {
-    if (pendingRef.current) return;
-    triggerRef.current = document.activeElement as HTMLElement;
-    setSubmitted(""); setQuoteOpen(false); setContactOpen(true);
-  }
-  function closeDialog() { if (!pendingRef.current) { setQuoteOpen(false); setContactOpen(false); } }
-  function submissionPending(pending: boolean) { pendingRef.current = pending; setDialogPending(pending); }
+  useEffect(() => () => { if (noticeTimer.current) clearTimeout(noticeTimer.current); }, []);
+  function openEnquiry() { router.push("/contact-us"); }
   function persist(next: QuoteItem[]) {
     setItems(next);
     try { localStorage.setItem("roofseal-quote", JSON.stringify(next)); } catch {}
@@ -98,10 +68,10 @@ export function SiteShell({ children }: { children: ReactNode }) {
     notify(`${product.title} added to your quote list.`);
   }
   return (
-    <QuoteContext.Provider value={{ items, addQuote, notify }}>
+    <QuoteContext.Provider value={{ items, addQuote, notify, ready, removeQuote: (id) => persist(items.filter((item) => item.id !== id)), clearQuote: () => persist([]), drafts, setDraft: (kind, draft) => setDrafts((previous) => ({ ...previous, [kind]: draft })) }}>
       <EnquiryContext.Provider value={openEnquiry}>
-      <Header quoteCount={items.length} onQuote={() => { if (pendingRef.current) return; triggerRef.current = document.activeElement as HTMLElement; setSubmitted(""); setContactOpen(false); setQuoteOpen(true); }} />
-      {children}
+      <Header quoteCount={items.length} />
+      <PageFades>{children}</PageFades>
       <Footer />
       <a
         className="whatsapp-float"
@@ -123,50 +93,6 @@ export function SiteShell({ children }: { children: ReactNode }) {
           </button>
         </div>
       )}
-      {dialogOpen && (
-        <div className="modal-backdrop" onClick={closeDialog}>
-          <section
-            ref={panelRef}
-            role="dialog"
-            tabIndex={-1}
-            aria-modal="true"
-            aria-labelledby="quote-title"
-            className="quote-panel"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              className="modal-close"
-              disabled={dialogPending}
-              autoFocus
-              aria-label={contactOpen ? "Close enquiry" : "Close quote list"}
-              onClick={closeDialog}
-            >
-              <Icon name="close" />
-            </button>
-            <h2 id="quote-title">{contactOpen ? "Contact Us" : "Quote List"}</h2>
-            {submitted ? <div role="status" className="enquiry-success"><p>Thank you. Your {quoteOpen ? "quotation request" : "enquiry"} has been received.</p><p>Reference: <strong>{submitted}</strong></p></div> : contactOpen ? <EnquiryForm kind="contact" draft={contactDraft} onDraftChange={setContactDraft} onPendingChange={submissionPending} onSuccess={(reference) => { setContactDraft({}); setSubmitted(reference); }} /> : items.length > 0 ? (
-              <>
-                {items.map((item) => <div className="quote-item" key={item.id}>
-                  <img src={item.image} alt={item.title} />
-                  <Link href={`/products/${item.slug}`} onClick={(event) => { if (pendingRef.current) event.preventDefault(); else setQuoteOpen(false); }}>{item.title}</Link>
-                  <button disabled={dialogPending} onClick={() => persist(items.filter((other) => other.id !== item.id))}>Remove</button>
-                </div>)}
-                <EnquiryForm kind="quote" draft={quoteDraft} onDraftChange={setQuoteDraft} onPendingChange={submissionPending} productIds={items.map((item) => item.id)} onSuccess={(reference) => { setQuoteDraft({}); setSubmitted(reference); persist([]); }} />
-              </>
-            ) : (
-              <>
-                <p>Your quote list is empty.</p>
-                <DiagonalButton
-                  href="/metal-roof-system"
-                  onClick={() => setQuoteOpen(false)}
-                >
-                  Browse Products
-                </DiagonalButton>
-              </>
-            )}
-          </section>
-        </div>
-      )}
       </EnquiryContext.Provider>
     </QuoteContext.Provider>
   );
@@ -174,14 +100,13 @@ export function SiteShell({ children }: { children: ReactNode }) {
 
 function Header({
   quoteCount,
-  onQuote,
 }: {
   quoteCount: number;
-  onQuote: () => void;
 }) {
-  const openEnquiry = useEnquiry();
   const pathname = usePathname();
   const [menu, setMenu] = useState(false);
+  const [portfolioOpen, setPortfolioOpen] = useState(false);
+  const [resourcesOpen, setResourcesOpen] = useState(false);
   const [mobile, setMobile] = useState(false);
   const [division, setDivision] = useState<"metal" | "doors">("metal");
   const headerRef = useRef<HTMLElement>(null);
@@ -189,12 +114,20 @@ function Header({
     function close(e: KeyboardEvent) {
       if (e.key === "Escape") {
         setMenu(false);
+        setPortfolioOpen(false);
+        setResourcesOpen(false);
         setMobile(false);
+        if (window.matchMedia("(max-width: 1150px)").matches && headerRef.current?.contains(document.activeElement)) {
+          headerRef.current.querySelector<HTMLButtonElement>(".mobile-toggle")?.focus();
+        }
       }
     }
     function outside(e: MouseEvent) {
       if (!headerRef.current?.contains(e.target as Node)) {
         setMenu(false);
+        setPortfolioOpen(false);
+        setResourcesOpen(false);
+        setMobile(false);
       }
     }
     document.addEventListener("keydown", close);
@@ -205,6 +138,8 @@ function Header({
     };
   }, []);
   function close() {
+    setPortfolioOpen(false);
+    setResourcesOpen(false);
     setMenu(false);
     setMobile(false);
   }
@@ -239,21 +174,46 @@ function Header({
           <Link href="/about" onClick={close}>
             About Us
           </Link>
-          <button onClick={() => setMenu(!menu)} aria-expanded={menu}>
+          <button className="desktop-products-trigger" onClick={() => { setMenu(!menu); setPortfolioOpen(false); setResourcesOpen(false); }} aria-expanded={menu} aria-controls="desktop-product-menu">
             Our Products <Icon name="caret-down" />
           </button>
-          <Link href="/about#core-values" onClick={close}>
+          <div className="mobile-products-nav">
+            <button onClick={() => { setMenu(!menu); setPortfolioOpen(false); setResourcesOpen(false); }} aria-expanded={menu} aria-controls="mobile-product-menu">
+              Our Products <Icon name="caret-down" />
+            </button>
+            {menu && <nav id="mobile-product-menu" aria-label="Product divisions">
+              <div>
+                <Link className="mobile-division-link" href="/metal-roofing-division" onClick={close}>Metal Roofing Division</Link>
+                <ul>{metal.map((item) => <li key={item.href}><Link href={item.href} onClick={close}>{item.name}</Link></li>)}</ul>
+              </div>
+              <div>
+                <Link className="mobile-division-link" href="/doors-frames-division" onClick={close}>Doors &amp; Frames Division</Link>
+                <ul>
+                  <li><Link href={categoryHref("metal-door-frames")} onClick={close}>Metal Door Frames</Link></li>
+                  <li><Link href={categoryHref("fire-rated-doors-supplier-malaysia")} onClick={close}>Fire-Rated Door</Link></li>
+                </ul>
+              </div>
+            </nav>}
+          </div>
+          <Link href="/why-roofseal" onClick={close}>
             Why Roofseal
           </Link>
-          <Link href="/#projects" onClick={close}>
-            Portfolio <Icon name="caret-down" />
-          </Link>
-          <Link href="/resources" onClick={close}>Resources <Icon name="caret-down" /></Link>
-          <button onClick={() => { close(); openEnquiry(); }}>Contact Us</button>
+          <div className="portfolio-nav">
+            <button onClick={() => { setPortfolioOpen(!portfolioOpen); setMenu(false); setResourcesOpen(false); }} aria-expanded={portfolioOpen} aria-controls="portfolio-menu">Portfolio <Icon name="caret-down" /></button>
+            {portfolioOpen && <nav id="portfolio-menu" aria-label="Portfolio divisions">
+              <Link href="/portfolio/metal-roof" onClick={close}>Metal Roof</Link>
+              <Link href="/portfolio/metal-doors-frames" onClick={close}>Metal Doors &amp; Frame</Link>
+            </nav>}
+          </div>
+          <div className="portfolio-nav">
+            <button onClick={() => { setResourcesOpen(!resourcesOpen); setPortfolioOpen(false); setMenu(false); }} aria-expanded={resourcesOpen} aria-controls="resources-menu">Resources <Icon name="caret-down" /></button>
+            {resourcesOpen && <nav id="resources-menu" aria-label="Resources sections">{resourceNavigation.map((item) => <Link key={item.href} href={item.href} onClick={close}>{item.label}</Link>)}</nav>}
+          </div>
+          <Link href="/contact-us" onClick={close}>Contact Us</Link>
         </nav>
         <DiagonalButton
           icon="shopping-cart"
-          onClick={onQuote}
+          href="/quote-list"
           className="quote-button"
           ariaLabel="Quote List"
         >
@@ -276,7 +236,7 @@ function Header({
         </button>
       </div>
       {menu && (
-        <div className="mega-menu">
+        <div className="mega-menu" id="desktop-product-menu">
           <div className="mega-divisions">
             <Link
               className={division === "metal" ? "active" : ""}
@@ -290,16 +250,18 @@ function Header({
                 <Icon name="arrow-right" />
               </span>
             </Link>
-            <button
+            <Link
               className={division === "doors" ? "active" : ""}
-              onClick={() => setDivision("doors")}
+              href="/doors-frames-division"
+              onClick={close}
               onMouseEnter={() => setDivision("doors")}
+              onFocus={() => setDivision("doors")}
             >
               Doors &amp; Frames Division{" "}
               <span className="mega-arrow">
                 <Icon name="arrow-right" />
               </span>
-            </button>
+            </Link>
           </div>
           <div className="mega-categories">
             {division === "metal" ? (
@@ -325,6 +287,9 @@ function Header({
               </>
             ) : (
               <>
+                <Link href="/doors-frames-division" className="division-overview" onClick={close}>
+                  View Doors &amp; Frames Division <Icon name="arrow-right" />
+                </Link>
                 <Link href={categoryHref("metal-door-frames")} onClick={close}>Metal Door Frames</Link>
                 <Link href={categoryHref("fire-rated-doors-supplier-malaysia")} onClick={close}>Fire-Rated Door</Link>
               </>
@@ -337,17 +302,16 @@ function Header({
 }
 
 function Footer() {
-  const openEnquiry = useEnquiry();
   const { notify } = useQuote();
   const groups = [
     {
       title: "Quick Links",
       items: [
         ["About Us", "/about"],
-        ["Why Roofseal", "/about#core-values"],
+        ["Why Roofseal", "/why-roofseal"],
         ["Portfolio", "/#projects"],
-        ["Career", "mailto:enquiry@roofseal.com.my"],
-        ["Contact Us", "mailto:enquiry@roofseal.com.my"],
+        ["Career", "/career"],
+        ["Contact Us", "/contact-us"],
       ],
     },
     {
@@ -369,12 +333,7 @@ function Footer() {
     },
     {
       title: "Resources",
-      items: [
-        ["Catalogues", "/resources?type=catalogue"],
-        ["News & Events", "/resources?type=article"],
-        ["Materials", "/resources?type=material"],
-        ["Blogs", "/resources?type=article"],
-      ],
+      items: resourceNavigation.map((item) => [item.label, item.href]),
     },
   ];
   return (
@@ -386,26 +345,12 @@ function Footer() {
               <img src={asset("28318:4045", "imgMainLogo")} alt="Roofseal" />
             </Link>
             <div className="social-links">
-              <button
-                aria-label="Roofseal Facebook"
-                onClick={() =>
-                  notify(
-                    "The Facebook destination was not supplied with this prototype.",
-                  )
-                }
-              >
+              <a aria-label="Roofseal Facebook" href="https://www.facebook.com/roofsealmalaysia/" target="_blank" rel="noreferrer">
                 <Icon name="facebook" />
-              </button>
-              <button
-                aria-label="Roofseal LinkedIn"
-                onClick={() =>
-                  notify(
-                    "The LinkedIn destination was not supplied with this prototype.",
-                  )
-                }
-              >
+              </a>
+              <a aria-label="Roofseal LinkedIn" href="https://www.linkedin.com/company/roofseal-resources-m-sdn-bhd/home/" target="_blank" rel="noreferrer">
                 <Icon name="linkedin" />
-              </button>
+              </a>
             </div>
           </div>
           <div className="newsletter">
@@ -445,7 +390,7 @@ function Footer() {
               <ul>
                 {group.items.map(([name, href]) => (
                   <li key={name}>
-                    {name === "Contact Us" ? <button className="footer-link" onClick={openEnquiry}>{name}</button> : href ? (
+                    {href ? (
                       <Link href={href}>{name}</Link>
                     ) : (
                       <button
@@ -509,25 +454,13 @@ function Footer() {
         </div>
         <div className="footer-credits">
           <div className="legal-links">
-            <button
-              onClick={() =>
-                notify(
-                  "Terms & Conditions were not supplied with this prototype.",
-                )
-              }
-            >
+            <Link href="/terms-and-conditions">
               Terms &amp; Conditions
-            </button>
+            </Link>
             <span />
-            <button
-              onClick={() =>
-                notify(
-                  "Privacy Policy content was not supplied with this prototype.",
-                )
-              }
-            >
+            <Link href="/privacy-policy">
               Privacy Policy
-            </button>
+            </Link>
           </div>
           <div>
             <p>

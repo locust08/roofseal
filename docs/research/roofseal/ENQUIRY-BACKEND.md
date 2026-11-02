@@ -31,8 +31,8 @@ Uses Google's official authentication library with a [service account](https://d
 
 1. Enable Google Sheets API and provision a dedicated service account.
 2. Have the client select/create the destination spreadsheet and share it with the service account as Editor. No domain-wide delegation is needed.
-3. Create an `Enquiries` tab with A1:K1 headers in this order: **Reference, Received at (UTC), Type, Name, Email, Phone, Company, Message, Products, Consent at (UTC), Consent text**.
-4. Set `ENQUIRY_SHEETS_ENABLED=true`, `GOOGLE_SHEETS_ID` (ID, not URL), `GOOGLE_SHEETS_RANGE=Enquiries!A:K`, `GOOGLE_SERVICE_ACCOUNT_EMAIL` and `GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY`. Literal `\n` sequences in the server-only PEM secret are supported.
+3. Create an `Enquiries` tab with A1:P1 headers in this order: **Reference, Received at (UTC), Type, Name, Email, Phone, Company, Message, Products, Consent at (UTC), Consent text, Enquiry type, State / Location, Project type, Project location, Estimated quantity / requirements**.
+4. Set `ENQUIRY_SHEETS_ENABLED=true`, `GOOGLE_SHEETS_ID` (ID, not URL), `GOOGLE_SHEETS_RANGE=Enquiries!A:P`, `GOOGLE_SERVICE_ACCOUNT_EMAIL` and `GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY`. Literal `\n` sequences in the server-only PEM secret are supported.
 5. Keep the tab as a continuous table. The [append API](https://developers.google.com/workspace/sheets/api/reference/rest/v4/spreadsheets.values/append) uses `RAW`, preserving phone numbers and preventing text beginning `=` from executing as a formula.
 
 Both integrations default to disabled. Actual Sheet, recipient inbox, credentials and verified sender must be supplied for deployment. No live Sheet or email was created/sent by local verification. Never put integration secrets in `NEXT_PUBLIC_*` variables or commit them.
@@ -93,3 +93,6 @@ Type generation is explicit (`npm run cms:types`) after collection changes. Back
 Current dependency audit: 14 high, 7 moderate, zero critical, across existing Payload/Sass/build-tool chains. Google authentication is not listed as vulnerable. Review supported upstream fixes before public deployment.
 
 Final local verification on 21 October 2026: all 33 tests passed, lint/typecheck/production build passed (63 existing image warnings), and database integrity/foreign-key checks passed. Desktop/mobile forms, error retention, pending keyboard focus and a saved-but-lost response retry were verified in the browser. The latter returned 201 then 200 for one UUID. QA records were privately backed up then removed, leaving no dummy enquiries for future delivery.
+
+
+29 October local changes (#1/#2): `/contact-us` and `/quote-list` replace the drawers. Contact submissions now require Company Name and Enquiry Type; quotes require Company Name, State / Location and Project Type, with optional Project Location and Estimated Quantity / Requirements. Migration `20261029_100000_enquiry_details` adds nullable columns so historical submissions remain readable. Apply it to any deployment database before deploying these page changes. New Sheets columns L–P append Enquiry Type, State / Location, Project Type, Project Location, Estimated Quantity / Requirements; existing A–K retain their meaning. No remote migration or deployment was performed for these changes.

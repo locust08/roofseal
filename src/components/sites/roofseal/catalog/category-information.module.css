@@ -1,0 +1,17 @@
+.information { padding-block: 70px; background: #f8fcfd url('/sites/roofseal/shared/insulation-background.jpg') center/cover no-repeat; }
+.columns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 50px; }
+.columns > div + div { border-left: 1px solid #b7c3c0; padding-left: 30px; }
+.columns h2 { font-size: 22px; line-height: 1.4; margin: 0 0 16px; }
+.columns h2 span, .columns a { color: var(--red); }
+.columns a { text-decoration: underline; text-underline-offset: 3px; }
+.columns p, .columns li { font-size: 16px; line-height: 1.9; }
+.columns p { margin: 0 0 16px; }
+.columns ul { list-style: disc; padding-left: 20px; margin: 0 0 20px; }
+.columns li { padding-left: 2px; margin-bottom: 12px; }
+.columns p:last-child, .columns li:last-child, .columns ul:last-child { margin-bottom: 0; }
+@media (max-width: 700px) {
+  .information { padding-block: 45px; }
+  .columns { grid-template-columns: 1fr; gap: 30px; }
+  .columns > div + div { border-left: 0; padding: 30px 0 0; border-top: 1px solid #b7c3c0; }
+  .columns h2 { font-size: 20px; }
+}

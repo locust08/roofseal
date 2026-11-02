@@ -1,3 +1,4 @@
+import { executeSql } from "./sql";
 import type { Payload } from "payload";
 import type { Enquiry } from "../payload-types";
 import { GoogleAuth } from "google-auth-library";
@@ -39,7 +40,10 @@ export function createDeliveryAdapters(env: Record<string, string | undefined>, 
         subject: `Roofseal ${doc.kind === "quote" ? "quotation request" : "enquiry"} — ${doc.reference}`,
         text: [
           `Reference: ${doc.reference}`, `Received: ${doc.createdAt}`, `Name: ${doc.name}`, `Email: ${doc.email}`,
-          `Phone: ${doc.phone}`, `Company: ${doc.company || "—"}`, "", "Products:",
+          `Phone: ${doc.phone}`, `Company: ${doc.company || "—"}`,
+          `Enquiry type: ${doc.enquiryType || "—"}`, `State / Location: ${doc.state || "—"}`,
+          `Project type: ${doc.projectType || "—"}`, `Project location: ${doc.projectLocation || "—"}`,
+          `Estimated quantity / requirements: ${doc.estimatedRequirements || "—"}`, "", "Products:",
           ...(doc.products?.map((p) => `${p.title} (ID ${p.productId}; /products/${p.slug})`) || []), "", doc.message,
         ].join("\n"),
       }) });
@@ -63,7 +67,7 @@ export function createDeliveryAdapters(env: Record<string, string | undefined>, 
       const data = await post(url, { method: "POST", headers: { Authorization: `Bearer ${accessToken}`, "Content-Type": "application/json" }, body: JSON.stringify({
         majorDimension: "ROWS",
         values: [[doc.reference, doc.createdAt, doc.kind, doc.name, doc.email, doc.phone, doc.company || "", doc.message,
-          doc.products?.map((p) => `${p.title} [${p.productId}]`).join("; ") || "", doc.consentAt, doc.consentText]],
+          doc.products?.map((p) => `${p.title} [${p.productId}]`).join("; ") || "", doc.consentAt, doc.consentText, doc.enquiryType || "", doc.state || "", doc.projectType || "", doc.projectLocation || "", doc.estimatedRequirements || ""]],
       }) });
       if (typeof data.updates?.updatedRange !== "string") throw new DeliveryError("provider_confirmation_missing", true);
       return data.updates.updatedRange;
@@ -79,7 +83,7 @@ export async function processDeliveries(payload: Payload, adapters: Adapters) {
     const column = `${channel}_delivery`;
     const group = `${channel}Delivery` as const;
     const now = new Date().toISOString();
-    const stale = await payload.db.drizzle.$client.execute({ sql: `UPDATE enquiries SET ${column}_status = 'review', ${column}_last_error = 'worker_interrupted_check_provider' WHERE ${column}_status = 'sending' AND (${column}_last_attempt_at < ? OR ${column}_last_attempt_at IS NULL)`, args: [new Date(Date.now() - 900000).toISOString()] });
+    const stale = await executeSql(payload.db.drizzle.$client, { sql: `UPDATE enquiries SET ${column}_status = 'review', ${column}_last_error = 'worker_interrupted_check_provider' WHERE ${column}_status = 'sending' AND (${column}_last_attempt_at < ? OR ${column}_last_attempt_at IS NULL)`, args: [new Date(Date.now() - 900000).toISOString()] });
     result.review += stale.rowsAffected;
     const adapter = adapters[channel];
     if (!adapter) continue;
@@ -89,7 +93,7 @@ export async function processDeliveries(payload: Payload, adapters: Adapters) {
       { or: [{ [`${group}.nextAttemptAt`]: { exists: false } }, { [`${group}.nextAttemptAt`]: { less_than_equal: now } }] },
     ] } });
     for (const candidate of candidates.docs) {
-      const claimed = await payload.db.drizzle.$client.execute({ sql: `UPDATE enquiries SET ${column}_status = 'sending', ${column}_attempts = ${column}_attempts + 1, ${column}_last_attempt_at = ?, updated_at = ? WHERE id = ? AND ${column}_status IN ('pending', 'failed') AND ${column}_attempts < 5 AND (${column}_next_attempt_at IS NULL OR ${column}_next_attempt_at <= ?) RETURNING id`, args: [now, now, candidate.id, now] });
+      const claimed = await executeSql(payload.db.drizzle.$client, { sql: `UPDATE enquiries SET ${column}_status = 'sending', ${column}_attempts = ${column}_attempts + 1, ${column}_last_attempt_at = ?, updated_at = ? WHERE id = ? AND ${column}_status IN ('pending', 'failed') AND ${column}_attempts < 5 AND (${column}_next_attempt_at IS NULL OR ${column}_next_attempt_at <= ?) RETURNING id`, args: [now, now, candidate.id, now] });
       if (!claimed.rows.length) continue;
       const doc = await payload.findByID({ collection: "enquiries", id: candidate.id, depth: 0, overrideAccess: true });
       let status: "sent" | "failed" | "review" = "sent", error: string | null = null, providerId: string | null = null, nextAttempt: string | null = null;
@@ -102,7 +106,7 @@ export async function processDeliveries(payload: Payload, adapters: Adapters) {
       }
       // A failure to persist confirmation deliberately leaves 'sending'; recovery
       // requires checking the provider rather than risking a second delivery.
-      await payload.db.drizzle.$client.execute({ sql: `UPDATE enquiries SET ${column}_status = ?, ${column}_last_error = ?, ${column}_provider_id = ?, ${column}_next_attempt_at = ?, updated_at = ? WHERE id = ? AND ${column}_status = 'sending'`, args: [status, error, providerId, nextAttempt, new Date().toISOString(), doc.id] });
+      await executeSql(payload.db.drizzle.$client, { sql: `UPDATE enquiries SET ${column}_status = ?, ${column}_last_error = ?, ${column}_provider_id = ?, ${column}_next_attempt_at = ?, updated_at = ? WHERE id = ? AND ${column}_status = 'sending'`, args: [status, error, providerId, nextAttempt, new Date().toISOString(), doc.id] });
       result[status]++;
     }
   }

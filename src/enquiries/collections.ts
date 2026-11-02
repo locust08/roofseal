@@ -19,6 +19,7 @@ export const Enquiries: CollectionConfig = {
     { name: "requestHash", type: "text", required: true, admin: { hidden: true }, access: { update: () => false } },
     { name: "kind", type: "select", required: true, options: ["contact", "quote"], admin: { readOnly: true }, access: { update: () => false } },
     ...["name", "email", "phone", "company"].map((name): Field => ({ name, type: "text", required: name !== "company", admin: { readOnly: true }, access: { update: () => false } })),
+    ...["enquiryType", "state", "projectType", "projectLocation", "estimatedRequirements"].map((name): Field => ({ name, type: "text", admin: { readOnly: true }, access: { update: () => false } })),
     { name: "message", type: "textarea", required: true, admin: { readOnly: true }, access: { update: () => false } },
     { name: "consentAt", type: "date", required: true, admin: { readOnly: true }, access: { update: () => false } },
     { name: "consentText", type: "text", required: true, admin: { readOnly: true }, access: { update: () => false } },

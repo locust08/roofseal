@@ -1,5 +1,6 @@
 import path from "node:path";
 import type { Access, CollectionConfig, Field, PayloadRequest } from "payload";
+import { parseProductApplication } from "./product-application";
 
 const administrator = ({ req }: { req: PayloadRequest }): boolean => req.user?.role === "admin";
 const editor = ({ req }: { req: PayloadRequest }): boolean => ["admin", "editor"].includes(req.user?.role || "");
@@ -100,6 +101,10 @@ export const Products: CollectionConfig = {
       { name: "label", type: "text", required: true },
       { name: "value", type: "text", required: true },
     ] },
+    { name: "applicationInformation", label: "Application table and illustration", type: "json",
+      admin: { description: "Verified application content: sourceUrl, local image and alt/dimensions, columns, and rows. Each row must have one cell per column." },
+      validate: (value: unknown) => value == null || !!parseProductApplication(value) || "Provide a valid application table with matching columns and a local fastener illustration.",
+    },
     { name: "relatedProducts", type: "relationship", relationTo: "products", hasMany: true },
     { name: "importRelationshipsComplete", type: "checkbox", defaultValue: false, admin: { hidden: true }, access: { update: () => false } },
     ...provenance,
@@ -116,8 +121,12 @@ export const Resources: CollectionConfig = {
     { name: "title", type: "text", required: true }, slug,
     { name: "type", type: "select", required: true, options: [
       { label: "Catalogue", value: "catalogue" }, { label: "Materials", value: "material" },
-      { label: "Blog / News", value: "article" }, { label: "Image Gallery", value: "gallery" },
+      { label: "Blog post", value: "article" }, { label: "Image Gallery", value: "gallery" },
     ] },
+    { name: "postCategory", label: "Blog category", type: "select", defaultValue: "article",
+      options: [{ label: "Articles", value: "article" }, { label: "News", value: "news" }, { label: "Events", value: "event" }],
+      admin: { condition: (_data, siblingData) => siblingData.type === "article" },
+    },
     { name: "excerpt", type: "textarea" },
     { name: "content", type: "richText" },
     { name: "file", type: "upload", relationTo: "media" },
@@ -131,5 +140,37 @@ export const Resources: CollectionConfig = {
       { name: "warranty", type: "text" },
     ] },
     ...provenance,
+  ],
+};
+
+export const Careers: CollectionConfig = {
+  slug: "careers",
+  labels: { singular: "Career position", plural: "Career positions" },
+  admin: {
+    useAsTitle: "title", group: "Content",
+    defaultColumns: ["title", "department", "isPlaceholder", "_status"],
+    description: "Positions shown on the careers page. Applications remain disabled. Mark example roles as placeholders; publish only approved vacancies when hiring is confirmed.",
+  },
+  access: contentAccess,
+  versions: { drafts: true, maxPerDoc: 20 },
+  fields: [
+    { name: "title", type: "text", required: true }, slug,
+    { name: "isPlaceholder", label: "Placeholder position", type: "checkbox", defaultValue: true,
+      admin: { position: "sidebar", description: "Internal editorial flag for sample positions. It is not displayed on the careers page." } },
+    { name: "department", type: "text" },
+    { name: "location", type: "text" },
+    { name: "employmentType", type: "select", options: [
+      { label: "Full-time", value: "full-time" }, { label: "Part-time", value: "part-time" },
+      { label: "Contract", value: "contract" }, { label: "Internship", value: "internship" },
+    ] },
+    { name: "summary", type: "textarea", required: true },
+    { name: "description", label: "Job description", type: "textarea", required: true },
+    { name: "responsibilities", label: "Job scope", type: "textarea", required: true,
+      admin: { description: "One responsibility per line; displayed as bullet points." } },
+    { name: "requirements", type: "textarea", required: true,
+      admin: { description: "One requirement per line; displayed as bullet points." } },
+    { name: "displayOrder", type: "number", defaultValue: 100 },
+    { name: "sourceKey", type: "text", unique: true, admin: { readOnly: true, position: "sidebar" }, access: { update: () => false } },
+    { name: "editorialNotes", type: "textarea", access: { read: editor }, admin: { position: "sidebar" } },
   ],
 };

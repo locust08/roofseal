@@ -1,0 +1,8 @@
+.categories { display: flex; flex-wrap: wrap; justify-content: center; gap: 40px; max-width: 1820px; width: calc(100% - 100px); margin: auto; }
+.categories > a { width: min(580px, calc((100% - 40px) / 2)); }
+.categories h3 { font-size: 30px; line-height: 36px; letter-spacing: -.9px; }
+@media (max-width: 650px) {
+  .categories { width: calc(100% - 40px); gap: 24px; }
+  .categories > a { width: 100%; }
+  .categories h3 { font-size: 24px; line-height: 30px; }
+}

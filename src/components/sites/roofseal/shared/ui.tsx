@@ -172,10 +172,14 @@ export function Banner({
   title,
   node,
   imageVariable = "imgSectionBackground",
+  imageSrc,
+  preShaded = false,
 }: {
   title: string;
-  node: string;
+  node?: string;
   imageVariable?: string;
+  imageSrc?: string;
+  preShaded?: boolean;
 }) {
   const covering = node === "28352:2029",
     system = node === "28383:5381";
@@ -184,16 +188,16 @@ export function Banner({
       className={`page-banner ${covering ? "covering-banner" : ""} ${system ? "system-banner" : ""}`}
     >
       <div className="banner-source">
-        <img className="banner-photo" src={asset(node, imageVariable)} alt="" />
+        <img className="banner-photo" src={imageSrc || (node ? asset(node, imageVariable) : undefined)} alt="" />
         {covering && (
           <img
             className="banner-overlay"
-            src={asset(node, "imgSectionBackground1")}
+            src={asset(node!, "imgSectionBackground1")}
             alt=""
           />
         )}
       </div>
-      <div className="banner-shade" />
+      {!preShaded && <div className="banner-shade" />}
       {(covering || system) && (
         <Link
           className="banner-back wide"

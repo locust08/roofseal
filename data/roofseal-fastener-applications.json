@@ -1,0 +1,158 @@
+[
+  {
+    "slug": "clip-fixing-ds-525-ph",
+    "illustrationSha256": "b818d35c238255a425d5b16c3ec0965481964eadbb42ab260d57ecb7a39c2d31",
+    "applicationInformation": {
+      "sourceUrl": "https://www.roofseal.com.my/product/clip-fixing-ds-525-ph/",
+      "image": "/sites/roofseal/fasteners/Fastener-Clip-Fixing.jpg",
+      "imageAlt": "Clip fixing application to roof profiles",
+      "imageWidth": 240,
+      "imageHeight": 180,
+      "columns": [
+        "M.S Purlin 1-6mm",
+        "Light Gauge 0.4-2mm"
+      ],
+      "rows": [
+        [
+          "DS 525 PH",
+          "DS 525 SS PH"
+        ],
+        [
+          "DS 525 PHR",
+          "DS 525 SS PHR"
+        ]
+      ]
+    }
+  },
+  {
+    "slug": "crest-fixing-light-gauge-ds-650-ss-hwr",
+    "illustrationSha256": "717eedda162d50c2a613b2d4db47d7ae98655dbd75582f6f9ca0acb000efbd06",
+    "applicationInformation": {
+      "sourceUrl": "https://www.roofseal.com.my/product/crest-fixing-light-gauge-ds-650-ss-hwr/",
+      "image": "/sites/roofseal/fasteners/TD650.jpg",
+      "imageAlt": "Light gauge crest fixing application and insulation placement",
+      "imageWidth": 920,
+      "imageHeight": 565,
+      "columns": [
+        "Application",
+        "M.S Purlin 1-6 mm",
+        "Light Gauge below 1 mm"
+      ],
+      "rows": [
+        [
+          "Without Insulation:",
+          "DX 650 HM CR",
+          "TD 650 HM CR"
+        ],
+        [
+          "Without Insulation:",
+          "DX 650 HM C3",
+          "TD 650 HM C3"
+        ],
+        [
+          "With Insulation:",
+          "DX 665 HM CR",
+          "TD 665 HM CR"
+        ],
+        [
+          "With Insulation:",
+          "DX 665 HM C3",
+          "TD 665 HM C3"
+        ]
+      ]
+    }
+  },
+  {
+    "slug": "metal-cladding-light-gauge-connection-fixing-ds-516-ho",
+    "illustrationSha256": "987e7c52a5362eb11f270d71446bc5f40491d609345f1bd4bffb4efa1d0a7712",
+    "applicationInformation": {
+      "sourceUrl": "https://www.roofseal.com.my/product/metal-cladding-light-gauge-connection-fixing-ds-516-ho/",
+      "image": "/sites/roofseal/fasteners/Fastener-Cladding-Valley-Fixing.jpg",
+      "imageAlt": "Metal cladding valley fixing application",
+      "imageWidth": 240,
+      "imageHeight": 180,
+      "columns": [
+        "Application",
+        "Drilling Capacity 1 – 6mm"
+      ],
+      "rows": [
+        [
+          "Without Insulation:",
+          "DX 516 HO CR"
+        ],
+        [
+          "Without Insulation:",
+          "DX 516 HO C3"
+        ],
+        [
+          "With Insulation:",
+          "DX 520 HO CR"
+        ],
+        [
+          "With Insulation:",
+          "DX 520 HO C3"
+        ]
+      ]
+    }
+  },
+  {
+    "slug": "crest-fixing-purlins-ds-650-hwr",
+    "illustrationSha256": "c610120b62f98d109d05d1a223784058522f49dd1959c13b81a48a7fd51041e5",
+    "applicationInformation": {
+      "sourceUrl": "https://www.roofseal.com.my/product/crest-fixing-purlins-ds-650-hwr/",
+      "image": "/sites/roofseal/fasteners/DX650.jpg",
+      "imageAlt": "Purlin crest fixing application and insulation placement",
+      "imageWidth": 833,
+      "imageHeight": 573,
+      "columns": [
+        "Application",
+        "M.S Purlin 1-6 mm",
+        "Light Gauge below 1 mm"
+      ],
+      "rows": [
+        [
+          "Without Insulation:",
+          "DX 650 HM CR",
+          "TD 650 HM CR"
+        ],
+        [
+          "Without Insulation:",
+          "DX 650 HM C3",
+          "TD 650 HM C3"
+        ],
+        [
+          "With Insulation:",
+          "DX 665 HM CR",
+          "TD 665 HM CR"
+        ],
+        [
+          "With Insulation:",
+          "DX 665 HM C3",
+          "TD 665 HM C3"
+        ]
+      ]
+    }
+  },
+  {
+    "slug": "side-lap-fixing-stitching-516-16t-bk-hwr",
+    "illustrationSha256": "a70fd26e11be310a3ef5a67b5b7109578bf3c505b88586ef8021a0a2907ee2b2",
+    "applicationInformation": {
+      "sourceUrl": "https://www.roofseal.com.my/product/side-lap-fixing-stitching-516-16t-bk-hwr/",
+      "image": "/sites/roofseal/fasteners/Fastener-Side-Lap-Fixing-Stitching.jpg",
+      "imageAlt": "Side lap stitching application between metal sheets",
+      "imageWidth": 240,
+      "imageHeight": 180,
+      "columns": [
+        "Drilling Capacity < 1 mm"
+      ],
+      "rows": [
+        [
+          "TD 520 HM CR"
+        ],
+        [
+          "TD 520 HM C3"
+        ]
+      ]
+    }
+  }
+]

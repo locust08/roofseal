@@ -5,7 +5,8 @@ import { createHash } from 'node:crypto';
 import { parse } from 'dotenv';
 
 const base = process.env.CMS_TEST_BASE || 'http://127.0.0.1:3000';
-const retired = ['strip-ceiling', 'solid-polycarbonate-sheet-colour-selection', 'multiwall-profiled-polycarbonate-sheet-colour-selection'];
+const retired = ['strip-ceiling'];
+const restored = ['solid-polycarbonate-sheet-colour-selection', 'multiwall-profiled-polycarbonate-sheet-colour-selection'];
 const draftSlugs = [...Array.from({ length: 10 }, (_, i) => `sealframe-sf${i + 1}`), 'sealframe-kd-frame', 'sealdor-steel-door-dl', 'sealdor-steel-door-sl', 'fascia-board', 'lightweight-steel-batten', 'dek-pro-740-hi-rib', 'ct-protek', 'sealpro-ii-dry-fix'];
 async function auth() {
   const env = parse(await readFile('.env.local'));
@@ -15,7 +16,7 @@ async function auth() {
 }
 test('removed products are unpublished and absent from public routes and navigation', async () => {
   const products = await (await fetch(`${base}/api/products?limit=100`)).json();
-  assert.equal(products.docs.filter(p => !p.slug.startsWith('cms-verification-')).length, 36);
+  assert.equal(products.docs.filter(p => !p.slug.startsWith('cms-verification-')).length, 38);
   for (const slug of retired) {
     assert.ok(!products.docs.some(p => p.slug === slug));
     assert.equal((await fetch(`${base}/products/${slug}`)).status, 404);
@@ -63,4 +64,10 @@ test('an authenticated draft preview handles pending imagery without a broken im
   const html = await page.text();
   assert.ok(html.includes('Product image awaiting approval'));
   assert.ok(!html.includes('src=""'));
+});
+
+// The 29 October explicit #18 approval supersedes the earlier Drive removal.
+test('only the two reapproved skylights are restored with their provenance retained',async()=>{
+ const all=(await (await fetch(`${base}/api/products?limit=100`,{headers:await auth()})).json()).docs;
+ for(const slug of restored){const p=all.find(p=>p.slug===slug);assert.equal(p?._status,'published');assert.match(p.editorialNotes,/BugHerd #18 approval 2026-10-29/);assert.match(p.editorialNotes,/Drive update/);}
 });

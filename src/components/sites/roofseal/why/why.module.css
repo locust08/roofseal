@@ -1,0 +1,17 @@
+.body { padding: 80px 24px 60px; background: white; color: #303030; }
+.intro { max-width: 1030px; margin: 0 auto 50px; text-align: center; }
+.intro h2 { margin: 0 0 30px; font-size: 40px; line-height: 1.2; font-weight: 800; letter-spacing: -1.2px; color: #1f1f1f; }
+.intro em { font-style: normal; color: #ee1d24; }
+.intro p, .card p { margin: 0; font-size: 16px; line-height: 24px; }
+.grid { max-width: 1240px; margin: auto; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.card { border: 1px solid #b7c3c099; padding: 20px; }
+.icon { width: 80px; height: 80px; display: grid; place-items: center; border-radius: 50%; background: #f5f5f5; margin-bottom: 20px; }
+.icon img { width: 50px; height: 50px; object-fit: contain; }
+.card h3 { margin: 0 0 10px; font-size: 18px; font-weight: 700; line-height: 25.2px; color: #1f1f1f; letter-spacing: 0; }
+@media (max-width: 1000px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 650px) {
+  .body { padding: 50px 20px; }
+  .intro { margin-bottom: 32px; }
+  .intro h2 { font-size: 30px; letter-spacing: -.9px; }
+  .grid { grid-template-columns: 1fr; }
+}

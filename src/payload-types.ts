@@ -72,6 +72,7 @@ export interface Config {
     categories: Category;
     products: Product;
     resources: Resource;
+    careers: Career;
     enquiries: Enquiry;
     'enquiry-limits': EnquiryLimit;
     'payload-kv': PayloadKv;
@@ -86,6 +87,7 @@ export interface Config {
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     products: ProductsSelect<false> | ProductsSelect<true>;
     resources: ResourcesSelect<false> | ResourcesSelect<true>;
+    careers: CareersSelect<false> | CareersSelect<true>;
     enquiries: EnquiriesSelect<false> | EnquiriesSelect<true>;
     'enquiry-limits': EnquiryLimitsSelect<false> | EnquiryLimitsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -262,6 +264,18 @@ export interface Product {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Verified application content: sourceUrl, local image and alt/dimensions, columns, and rows. Each row must have one cell per column.
+   */
+  applicationInformation?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   relatedProducts?: (number | Product)[] | null;
   importRelationshipsComplete?: boolean | null;
   /**
@@ -286,6 +300,7 @@ export interface Resource {
   title: string;
   slug: string;
   type: 'catalogue' | 'material' | 'article' | 'gallery';
+  postCategory?: ('article' | 'news' | 'event') | null;
   excerpt?: string | null;
   content?: {
     root: {
@@ -329,6 +344,40 @@ export interface Resource {
   _status?: ('draft' | 'published') | null;
 }
 /**
+ * Positions shown on the careers page. Applications remain disabled. Mark example roles as placeholders; publish only approved vacancies when hiring is confirmed.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "careers".
+ */
+export interface Career {
+  id: number;
+  title: string;
+  slug: string;
+  /**
+   * Internal editorial flag for sample positions. It is not displayed on the careers page.
+   */
+  isPlaceholder?: boolean | null;
+  department?: string | null;
+  location?: string | null;
+  employmentType?: ('full-time' | 'part-time' | 'contract' | 'internship') | null;
+  summary: string;
+  description: string;
+  /**
+   * One responsibility per line; displayed as bullet points.
+   */
+  responsibilities: string;
+  /**
+   * One requirement per line; displayed as bullet points.
+   */
+  requirements: string;
+  displayOrder?: number | null;
+  sourceKey?: string | null;
+  editorialNotes?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
  * Private contact and quotation submissions. Delivery is processed separately by the enquiry worker.
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -343,6 +392,11 @@ export interface Enquiry {
   email: string;
   phone: string;
   company?: string | null;
+  enquiryType?: string | null;
+  state?: string | null;
+  projectType?: string | null;
+  projectLocation?: string | null;
+  estimatedRequirements?: string | null;
   message: string;
   consentAt: string;
   consentText: string;
@@ -432,6 +486,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'resources';
         value: number | Resource;
+      } | null)
+    | ({
+        relationTo: 'careers';
+        value: number | Career;
       } | null)
     | ({
         relationTo: 'enquiries';
@@ -614,6 +672,7 @@ export interface ProductsSelect<T extends boolean = true> {
         value?: T;
         id?: T;
       };
+  applicationInformation?: T;
   relatedProducts?: T;
   importRelationshipsComplete?: T;
   sourceUrl?: T;
@@ -636,6 +695,7 @@ export interface ResourcesSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
   type?: T;
+  postCategory?: T;
   excerpt?: T;
   content?: T;
   file?: T;
@@ -665,6 +725,28 @@ export interface ResourcesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "careers_select".
+ */
+export interface CareersSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  isPlaceholder?: T;
+  department?: T;
+  location?: T;
+  employmentType?: T;
+  summary?: T;
+  description?: T;
+  responsibilities?: T;
+  requirements?: T;
+  displayOrder?: T;
+  sourceKey?: T;
+  editorialNotes?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "enquiries_select".
  */
 export interface EnquiriesSelect<T extends boolean = true> {
@@ -675,6 +757,11 @@ export interface EnquiriesSelect<T extends boolean = true> {
   email?: T;
   phone?: T;
   company?: T;
+  enquiryType?: T;
+  state?: T;
+  projectType?: T;
+  projectLocation?: T;
+  estimatedRequirements?: T;
   message?: T;
   consentAt?: T;
   consentText?: T;

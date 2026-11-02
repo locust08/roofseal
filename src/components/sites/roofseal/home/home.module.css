@@ -49,27 +49,10 @@
   width: 49.45%;
   height: 700px;
 }
-.heroCards > :is(a, button) {
-  position: absolute;
-  width: 88.9%;
-  height: 600px;
-  transition: transform 0.1s ease-out;
-}
-.heroCards > :is(a, button):hover {
-  transform: translateY(-5px);
-}
 .heroCards img {
   width: 100%;
   height: 100%;
   object-fit: fill;
-}
-.frontCard {
-  left: 0;
-  top: 0;
-}
-.backCard {
-  left: 11.1%;
-  top: 100px;
 }
 .heroCards :is(a, button) > div {
   position: absolute;
@@ -86,7 +69,7 @@
   gap: 20px;
 }
 .backCard > div {
-  opacity: 0.65;
+  opacity: 1;
 }
 .round {
   height: 60px;
@@ -105,7 +88,7 @@
   left: -50px;
   top: 732px;
   display: flex;
-  width: 800px;
+  width: min(800px, 48%);
   gap: 25px;
 }
 .credentials > div {
@@ -311,13 +294,18 @@
   background: white;
   padding: 20px;
 }
-.productPopup section > img {
+.hotspotArtwork {
+  position: relative;
+  overflow: hidden;
   width: 100%;
   height: 200px;
-  object-fit: contain;
   background: #f5f5f5;
   margin-bottom: 20px;
 }
+.hotspotArtwork > img:first-child { width: 100%; height: 100%; min-width: 0; min-height: 0; object-fit: cover; }
+.hotspotArtwork > .hotspotBrand { position: absolute; top: 8px; right: 8px; width: 42%; height: auto; }
+.frameArtwork { display: grid; grid-template-columns: 1.5fr 1fr; grid-template-rows: minmax(0, 1fr); align-items: start; background: white; }
+.frameArtwork > .hotspotBrand { position: static; width: 100%; max-height: calc(100% - 16px); object-fit: contain; margin-top: 8px; }
 .divisions {
   height: 1000px;
   position: relative;
@@ -357,7 +345,7 @@
   position: relative;
   display: block;
   aspect-ratio: 885/634;
-  transition: transform 0.1s ease-out;
+  transition: transform 1.2s cubic-bezier(.22,.61,.36,1), filter 1.2s ease, z-index 0s .6s;
 }
 .divisionCard:hover {
   transform: translateY(-5px);
@@ -494,10 +482,6 @@
   right: -28px;
 }
 @media (max-width: 1500px) {
-  .heroCards > :is(a, button) {
-    height: auto;
-    aspect-ratio: 4/3;
-  }
   .heroCards :is(a, button) > div {
     font-size: 24px;
   }
@@ -594,7 +578,7 @@
   .productPopup {
     width: 240px;
   }
-  .productPopup section > img {
+  .hotspotArtwork {
     height: 120px;
   }
   .buildingImage {
@@ -684,9 +668,6 @@
     right: 15px;
     bottom: 20px;
   }
-  .backCard {
-    top: 70px;
-  }
   .heroCards .round {
     width: 35px;
     height: 35px;
@@ -745,7 +726,7 @@
   .productPopup > section {
     padding: 10px;
   }
-  .productPopup section > img {
+  .hotspotArtwork {
     height: 70px;
     margin-bottom: 10px;
   }
@@ -814,7 +795,6 @@
 }
 
 /* Exact Figma variants replace the default artwork and expose authored copy. */
-.heroCards > :is(a, button):hover,
 .divisionCard:hover,
 .brands :is(a, button):hover {
   transform: none;
@@ -1030,4 +1010,110 @@
   font-size: 16px;
   font-weight: 700;
   text-transform: uppercase;
+}
+
+/* BugHerd #3: every brand description stays inside its card at every width. */
+.brandHover > section {
+  top: 8%;
+  bottom: 8%;
+  transform: none;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  padding-right: 4px;
+  display: flex;
+  flex-direction: column;
+  justify-content: safe center;
+}
+.aboutLink {
+  display: inline-flex;
+  gap: 15px;
+  align-items: center;
+  margin-top: 24px;
+  padding: 15px 25px;
+  background: #ee1d24;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.intro strong { color: #ee1d24; }
+@media (max-width: 600px) {
+  .brandHover > section {
+    top: auto;
+    bottom: auto;
+    max-height: 100%;
+  }
+}
+.viewProjects { display: flex; justify-content: center; align-items: center; gap: 15px; margin: 30px auto; color: #ee1d24; font-weight: 700; text-transform: uppercase; }
+.projects { height: auto; padding-bottom: 50px; }
+.projectGrid article > img { object-fit: cover; }
+.projectGrid article > div { height: auto; min-height: 135px; }
+
+/* Full React Bits 3D engine owns slot transforms; preserve the original artwork. */
+.heroCards { isolation: isolate; }
+.heroCards > :global(.roofseal-card-swap) { position: absolute; inset: 0; }
+.heroCards .heroDivisionCard { position: relative; display: block; width: 100%; height: 100%; }
+.frontCard > div { opacity: 1; }
+.heroCards :is(a,button) > div { transition: opacity 1.2s ease; }
+.heroCards a:focus-visible { outline: 3px solid var(--red); outline-offset: 5px; }
+.manufacturingVideo { width: 100%; height: 620px; object-fit: cover; background: #181818; align-self: start; }
+
+@media (max-width: 1500px) { .manufacturingVideo { height: auto; aspect-ratio: 910/620; } }
+@media (max-width: 1100px) {
+  .hero { height: auto; min-height: 0; padding: 130px 0 65px; }
+  .heroInner { height: auto; display: flex; flex-direction: column; gap: 48px; padding-top: 0; }
+  .heroCopy { position: relative; top: auto; left: auto; width: 100%; }
+  .heroCopy h1 { font-size: clamp(58px,8.5vw,90px); max-width: 850px; }
+  .heroCards { position: relative; top: auto; left: auto; width: min(650px,100%); height: auto; aspect-ratio: 650/550; }
+  .credentials { position: relative; top: auto; left: auto; width: 100%; gap: 0; }
+  .credentials > div { min-width: 0; padding: 0 18px; }
+  .intro { grid-template-columns: 1fr; gap: 35px; padding-top: 60px; padding-bottom: 60px; }
+  .intro > div { padding-right: 0; }
+  .manufacturingVideo { max-height: 600px; object-fit: contain; }
+}
+@media (max-width: 600px) {
+  .hero { padding: 110px 0 50px; }
+  .heroInner { gap: 35px; }
+  .heroCards { aspect-ratio: 350/310; }
+  .credentials > div { padding: 0 8px; }
+  .productPopup { position: relative; top: auto; left: auto; width: calc(100% - 40px); margin: 20px auto 0; }
+  .buildingImage:has(.productPopup) { margin-bottom: 245px; }
+  .productPopup { transform: translateY(calc(100vw * 800 / 1240)); }
+  .hotspotArtwork { height: 110px; }
+  .productPopup > div { font-size: 15px; }
+  .hotspot { width: 24px; height: 24px; transform: translate(-12%, -12%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .heroCards :is(a,button) > div { transition: none; }
+}
+
+/* Compensate stage scaling so labels and links retain their existing readable sizes. */
+.heroCards { --hero-label-size: 30px; --hero-arrow-size: 60px; --hero-card-padding: 30px; }
+.heroCards .heroDivisionCard > div {
+  font-size: calc(var(--hero-label-size) / var(--swap-scale, 1));
+  left: calc(var(--hero-card-padding) / var(--swap-scale, 1));
+  right: calc(var(--hero-card-padding) / var(--swap-scale, 1));
+  bottom: calc(var(--hero-card-padding) / var(--swap-scale, 1));
+  gap: calc(20px / var(--swap-scale, 1));
+}
+.heroCards .heroDivisionCard .round {
+  width: calc(var(--hero-arrow-size) / var(--swap-scale, 1));
+  height: calc(var(--hero-arrow-size) / var(--swap-scale, 1));
+  font-size: calc(24px / var(--swap-scale, 1));
+}
+@media(max-width:1500px) { .heroCards { --hero-label-size: 24px; } }
+@media(max-width:1100px) { .heroCards { --hero-arrow-size: 45px; } }
+@media(max-width:600px) { .heroCards { --hero-label-size: 17px; --hero-arrow-size: 35px; --hero-card-padding: 15px; } }
+
+/* The stack shade dims photography only; keep card labels and arrows readable. */
+.heroCards .heroDivisionCard > div { z-index: 4; }
+
+/* Match the supplied straight card artwork, including its cut lower corner. */
+.heroCards :global(.roofseal-card-swap-slot) {
+  clip-path: polygon(0 0, 100% 0, 100% 86%, 89.6% 100%, 0 100%);
+}
+.heroCards :global(.roofseal-card-swap-slot):has(.metalHeroCard) {
+  mask-image: url('/sites/roofseal/shared/ebd2ecd63c09808f-a64e9.png');
+  mask-size: 100% 100%;
+  mask-repeat: no-repeat;
 }

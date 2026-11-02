@@ -1,8 +1,9 @@
 import type { Category, Media, Product } from "../payload-types";
+import { parseProductApplication, type ProductApplication } from "./product-application";
 
 export type CategoryView = { id: number; name: string; slug: string; href: string; image: string; parentId?: number; division: "metal" | "doors"; heading: string; description: string };
 export type ProductCardView = { id: number; title: string; slug: string; href: string; image: string; category: string };
-export type ProductView = ProductCardView & { description: string; features: string[]; sku?: string; gallery: { url: string; alt: string }[]; catalogue?: string; categories: { label: string; href: string }[]; specifications: { label: string; value: string }[] };
+export type ProductView = ProductCardView & { description: string; features: string[]; sku?: string; gallery: { url: string; alt: string }[]; catalogue?: string; categories: { label: string; href: string }[]; specifications: { label: string; value: string }[]; applicationInformation: ProductApplication | null };
 export type QuoteItem = Pick<ProductCardView, "id" | "title" | "slug" | "image">;
 
 export function categoryHref(slug: string): string {
@@ -37,7 +38,7 @@ export function productView(product: Product): ProductView {
   return { ...productCard(product), description: product.description || "", features: product.features?.map((f) => f.text) || [], sku: product.sku || undefined,
     gallery: (product.gallery || []).filter((m): m is Media => typeof m !== "number").map((m) => ({ url: mediaUrl(m), alt: m.alt })),
     catalogue: mediaUrl(product.catalogue) || undefined, categories: breadcrumbs.map((c) => ({ label: c.name, href: categoryHref(c.slug) })),
-    specifications: product.specifications?.map(({ label, value }) => ({ label, value })) || [] };
+    specifications: product.specifications?.map(({ label, value }) => ({ label, value })) || [], applicationInformation: parseProductApplication(product.applicationInformation) };
 }
 
 export function parseQuoteItems(value: string | null): QuoteItem[] {

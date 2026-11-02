@@ -1,0 +1,17 @@
+.information { margin-bottom: 70px; border: 3px solid var(--red); background: var(--red); }
+.label { width: fit-content; padding: 12px 24px; background: #e1e1e1; color: #303030; font-size: 14px; }
+.body { padding: 30px; background: white; }
+.body h2 { font-size: 28px; line-height: 1.25; margin-bottom: 20px; }
+.body p { font-size: 16px; line-height: 1.9; margin-bottom: 18px; }
+.body p:last-child { margin-bottom: 0; }
+.body a { color: var(--red); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+.applicationImage { display: block; max-width: 100%; height: auto; margin: 0 auto 30px; object-fit: contain; }
+.tableScroll { max-width: 100%; overflow-x: auto; }
+.tableScroll:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; }
+.applicationTable { width: 100%; border-collapse: collapse; color: #303030; font-size: 16px; line-height: 1.5; }
+.applicationTable th, .applicationTable td { border: 1px solid #b7c3c0; padding: 14px 18px; text-align: center; vertical-align: middle; }
+.applicationTable thead th { background: #f5f5f5; color: #1f1f1f; font-weight: 700; }
+.applicationTable tbody th { background: #fafafa; font-weight: 600; }
+.tableCaption { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+@media (max-width: 650px) { .applicationTable { font-size: 14px; } .applicationTable th, .applicationTable td { padding: 10px; } }
+@media (max-width: 650px) { .information { margin-bottom: 45px; } .body { padding: 22px; } .body h2 { font-size: 24px; } }

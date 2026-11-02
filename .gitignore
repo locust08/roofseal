@@ -50,3 +50,8 @@ temp/
 
 # Persistent local CMS database, uploads, import downloads and private access details
 .data/
+
+# Cloudflare build output and private local bindings
+.open-next/
+.wrangler/
+.dev.vars*

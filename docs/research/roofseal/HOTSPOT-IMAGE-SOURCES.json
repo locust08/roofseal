@@ -1,0 +1,100 @@
+{
+  "source": "https://drive.google.com/file/d/1Os4oodeyTQ6OiDzjxS6A_cTm2mSIewJi/view",
+  "reference": "https://www.bugherd.com/projects/548179/tasks/46",
+  "images": {
+    "glasswool": {
+      "figmaImageHash": "11f3e67f88394458b1215e0b28898a6423ffff73",
+      "originalWidth": 475,
+      "originalHeight": 240,
+      "output": "/sites/roofseal/hotspots/glasswool.webp"
+    },
+    "aluminium-foil": {
+      "figmaImageHash": "0b87e920d8a3364cf8d64d9cfbdeb350cd9f437e",
+      "originalWidth": 419,
+      "originalHeight": 235,
+      "output": "/sites/roofseal/hotspots/aluminium-foil.webp"
+    },
+    "trusses-system": {
+      "figmaImageHash": "0acdeb850cb4abe416215213790e3090b0320b5e",
+      "originalWidth": 600,
+      "originalHeight": 460,
+      "output": "/sites/roofseal/hotspots/trusses-system.webp"
+    },
+    "shingles-roof": {
+      "figmaImageHash": "5a952b272d37a81f53ce85feef822f3e8b8dad99",
+      "originalWidth": 2162,
+      "originalHeight": 3264,
+      "output": "/sites/roofseal/hotspots/shingles-roof.webp"
+    },
+    "gutter-system": {
+      "figmaImageHash": "63e62ed31a45757b12047d183e064bb11fddcbb6",
+      "originalWidth": 512,
+      "originalHeight": 342,
+      "output": "/sites/roofseal/hotspots/gutter-system.webp"
+    },
+    "skylight-roofing-sheet": {
+      "figmaImageHash": "ad74addcb86daabfec68a0a68da722ae79d1a9ff",
+      "originalWidth": 400,
+      "originalHeight": 300,
+      "output": "/sites/roofseal/hotspots/skylight-roofing-sheet.webp"
+    },
+    "metal-roof-system": {
+      "figmaImageHash": "0ff443b5be7f91251458218d274bb2b1863ae5b3",
+      "originalWidth": 3800,
+      "originalHeight": 2534,
+      "output": "/sites/roofseal/hotspots/metal-roof-system.webp"
+    },
+    "fasteners": {
+      "figmaImageHash": "6da8a4d6b38412d0ee1425176abaa52512358e11",
+      "originalWidth": 300,
+      "originalHeight": 300,
+      "output": "/sites/roofseal/hotspots/fasteners.webp"
+    },
+    "c-purlins": {
+      "figmaImageHash": "0130637434057cd375c854733676a152f8fbf046",
+      "originalWidth": 600,
+      "originalHeight": 371,
+      "output": "/sites/roofseal/hotspots/c-purlins.webp"
+    },
+    "roofing-mesh": {
+      "figmaImageHash": "248b2a66ae1eaf6bd2038ba924e5fd5f8bbb751e",
+      "originalWidth": 312,
+      "originalHeight": 208,
+      "output": "/sites/roofseal/hotspots/roofing-mesh.webp"
+    },
+    "metal-door-frame": {
+      "figmaImageHash": "44adc2d4f26e73a9bad8c58f7b4bb9caf5a9649f",
+      "originalWidth": 2048,
+      "originalHeight": 2048,
+      "output": "/sites/roofseal/hotspots/metal-door-frame.webp"
+    },
+    "roofseal-logo": {
+      "figmaImageHash": "1f816312b7773254a825e6fad715fc8f4fd3c447",
+      "originalWidth": 1992,
+      "originalHeight": 432,
+      "output": "/sites/roofseal/hotspots/roofseal-logo.webp"
+    },
+    "fixfas-logo": {
+      "figmaImageHash": "e38777d0c056a5868c46846534dca6584f029c2d",
+      "originalWidth": 944,
+      "originalHeight": 512,
+      "output": "/sites/roofseal/hotspots/fixfas-logo.webp"
+    },
+    "sealframe-logo": {
+      "figmaImageHash": "65b1c75c835a205b15eba5a3154da448b53f7bbc",
+      "originalWidth": 328,
+      "originalHeight": 256,
+      "output": "/sites/roofseal/hotspots/sealframe-logo.webp"
+    }
+  },
+  "heroImages": {
+    "metal": {
+      "source": "existing approved Figma export; preserved",
+      "output": "/sites/roofseal/shared/ebd2ecd63c09808f-a64e9.png"
+    },
+    "doors": {
+      "figmaImageHash": "48d0d0aeb36c007a25f1719f611418281b3c2d01",
+      "output": "/sites/roofseal/home/hero-doors-frames.webp"
+    }
+  }
+}

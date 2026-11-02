@@ -14,9 +14,10 @@ test("production migrations initialize a fresh database and rerun without deleti
   await writeFile(script, `import assert from 'node:assert/strict'; import { getPayload } from 'payload'; import config from '../payload.config';
 const p=await getPayload({config});
 const docs=await p.find({collection:'enquiries',where:{reference:{equals:'migration-fixture'}}});
-if (!docs.totalDocs) await p.create({collection:'enquiries',data:{reference:'migration-fixture',requestHash:'test',kind:'contact',name:'Fixture',email:'test@example.test',phone:'0123456789',message:'Test persistence',consentAt:new Date().toISOString(),consentText:'Test',status:'new',emailDelivery:{status:'pending',attempts:0},sheetDelivery:{status:'pending',attempts:0}}});
+if (!docs.totalDocs) await p.create({collection:'enquiries',data:{reference:'migration-fixture',requestHash:'test',kind:'contact',name:'Fixture',email:'test@example.test',phone:'0123456789',projectLocation:'Migration fixture location',message:'Test persistence',consentAt:new Date().toISOString(),consentText:'Test',status:'new',emailDelivery:{status:'pending',attempts:0},sheetDelivery:{status:'pending',attempts:0}}});
+assert.equal((await p.find({collection:'enquiries'})).docs[0].projectLocation,'Migration fixture location');
 assert.equal((await p.count({collection:'enquiries'})).totalDocs,1);
-assert.equal((await p.find({collection:'payload-migrations'})).totalDocs,2);
+assert.equal((await p.find({collection:'payload-migrations'})).totalDocs,6);
 await p.destroy(); process.exit(0);`);
   run(["--import", "tsx", script]);
   run(["node_modules/payload/bin.js", "migrate"]);

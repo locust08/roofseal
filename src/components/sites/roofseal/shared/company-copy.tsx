@@ -1,0 +1,18 @@
+/** Full company copy supplied in BugHerd #5 and #7. */
+export function CompanyIntroduction() {
+  return <>
+    <p>Since its establishment in 1990, Roofseal Malaysia has grown from a metal roofing subcontractor into an established manufacturer and supplier serving Malaysia’s construction industry. Today, Roofseal operates through two core business divisions, the Metal Roofing Division and the Doors &amp; Frames Division, providing comprehensive building solutions for commercial, residential, industrial, private, and government projects across Malaysia.</p>
+    <p>Our Metal Roofing Division specialises in sheet metal roofing systems, including metal deck roof and zinc roof solutions manufactured using quality coated steel with Australian technology supplied by <strong>NS BlueScope Malaysia</strong>. Backed by more than three decades of industry experience, quality materials, and a skilled workforce, Roofseal has built a strong reputation as one of <strong>Malaysia’s leading metal roof suppliers</strong>.</p>
+  </>;
+}
+
+export function CompanyDetails({ home = false }: { home?: boolean }) {
+  return <>
+    <p>We provide a comprehensive range of metal roofing profiles, roofing accessories, rainwater channelling products, roof insulation, building insulation, skylights, gutters, structural products, and other components that form a complete metal roofing system. Our practical knowledge in metal roof covering also enables us to support clients and consultants with customised, watertight roofing solutions that meet functional requirements without compromising the architectural appearance of the building.</p>
+    <p>In Malaysia’s tropical climate, an effective insulated metal roofing system is important in reducing heat transfer and maintaining a comfortable indoor environment. Roofseal provides dependable roof insulation and building insulation solutions for residential, commercial, and industrial applications. Whether you require a complete roofing system or a reliable home insulation solution, our team can recommend practical options based on your project requirements.</p>
+    <p>Alongside our roofing expertise, Roofseal’s Doors &amp; Frames Division specialises in metal door frames and fire-rated doors. Our metal door frame production lines are equipped with advanced CNC machinery, allowing us to manufacture highly customisable metal frames in various profiles and dimensions to accommodate different wall thicknesses and architectural requirements. This capability strengthens Roofseal’s position as both a roofing solutions provider and an experienced metal door frame supplier in Malaysia.</p>
+    <p>Over the years, Roofseal has completed numerous projects across the commercial, residential, and industrial sectors for both private and government clients. Our manufacturing facilities, showroom, and sales operations are supported by experienced and qualified professionals who work to maintain consistent product quality and deliver practical, value-added solutions.{home && " From metal deck roof and zinc roofing to insulation, roof components, metal door frames, fire-rated doors, and waterproofing membrane, Roofseal provides an extensive range of solutions under one trusted name."}</p>
+    {!home && <p>From metal deck roof and zinc roofing to insulation, roof components, metal door frames, fire-rated doors, and waterproofing membrane, Roofseal provides an extensive range of solutions under one trusted name.</p>}
+    <p>As we continue to grow, Roofseal remains committed to strengthening both our Metal Roofing and Doors &amp; Frames capabilities while delivering reliable products, manufacturing expertise, and practical building solutions for projects throughout Malaysia and beyond.</p>
+  </>;
+}

@@ -20,7 +20,7 @@ export async function DivisionContent() {
       />
       <Banner title="Metal Roofing Division" node="28352:1837" />
       <section className={styles.body}>
-        <div className={styles.intro}>
+        <div className={styles.intro} data-fade>
           <h2>
             <em>Complete Metal Roofing Systems</em> Built for Malaysia
           </h2>
@@ -61,7 +61,7 @@ export async function CoveringContent() {
       />
       <Banner title="Roof Covering" node="28352:2029" />
       <section className={`${styles.body} ${styles.covering}`}>
-        <div className={styles.intro}>
+        <div className={styles.intro} data-fade>
           <h2>
             Forms Of <em>Roof Covering</em> &amp; <em>Roof Systems</em>
           </h2>
@@ -104,7 +104,7 @@ export async function SystemContent() {
       />
       <Banner title="Metal Roof System" node="28383:5381" />
       <section className={`${styles.body} ${styles.system}`}>
-        <div className={styles.intro}>
+        <div className={styles.intro} data-fade>
           <h2>
             Best <em>Zinc Roofing</em> &amp; <em>Metal Roofing Sheets</em>
             <br />

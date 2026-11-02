@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
-import { ENQUIRY_CONSENT } from "@/enquiries/shared";
+import { ENQUIRY_CONSENT, ENQUIRY_TYPES, PROJECT_TYPES } from "@/enquiries/shared";
 import { DiagonalButton } from "./ui";
 
-export type EnquiryDraft = { fields?: { name: string; email: string; phone: string; company: string; message: string; consent: boolean }; attempt?: { fingerprint: string; reference: string } };
+const textFields = ["name", "email", "phone", "company", "message", "enquiryType", "state", "projectType", "projectLocation", "estimatedRequirements"] as const;
+type FormFields = Record<(typeof textFields)[number], string> & { consent: boolean };
+export type EnquiryDraft = { fields?: FormFields; attempt?: { fingerprint: string; reference: string } };
 
 export function EnquiryForm({ kind, productIds = [], onSuccess, onPendingChange, draft, onDraftChange }: { kind: "contact" | "quote"; productIds?: number[]; onSuccess: (reference: string) => void; onPendingChange: (pending: boolean) => void; draft: EnquiryDraft; onDraftChange: (draft: EnquiryDraft) => void }) {
   const [pending, setPending] = useState(false);
@@ -17,13 +19,14 @@ export function EnquiryForm({ kind, productIds = [], onSuccess, onPendingChange,
   useEffect(() => { mounted.current = true; return () => { mounted.current = false; }; }, []);
   function remember(form: HTMLFormElement) {
     const values = new FormData(form);
-    onDraftChange({ ...draft, fields: { name: String(values.get("name") || ""), email: String(values.get("email") || ""), phone: String(values.get("phone") || ""), company: String(values.get("company") || ""), message: String(values.get("message") || ""), consent: values.get("consent") === "on" } });
+    const fields = Object.fromEntries(textFields.map((key) => [key, String(values.get(key) || "")])) as Record<(typeof textFields)[number], string>;
+    onDraftChange({ ...draft, fields: { ...fields, consent: values.get("consent") === "on" } });
   }
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (pending) return;
     const data = new FormData(event.currentTarget);
-    const fields = { kind, productIds, name: data.get("name"), email: data.get("email"), phone: data.get("phone"), company: data.get("company"), message: data.get("message"), consent: data.get("consent") === "on", website: data.get("website") };
+    const fields = { kind, productIds, ...Object.fromEntries(textFields.map((key) => [key, data.get(key) || ""])), consent: data.get("consent") === "on", website: data.get("website") };
     const fingerprint = JSON.stringify(fields);
     const attempt = draft.attempt?.fingerprint === fingerprint ? draft.attempt : { fingerprint, reference: crypto.randomUUID() };
     onDraftChange({ ...draft, attempt });
@@ -44,11 +47,19 @@ export function EnquiryForm({ kind, productIds = [], onSuccess, onPendingChange,
   return <form className="enquiry-form" onSubmit={submit} onChange={(event) => remember(event.currentTarget)} aria-busy={pending}>
     <fieldset disabled={pending}>
       <legend className="sr-only">Your contact details</legend>
-      <label>Name<input name="name" defaultValue={draft.fields?.name} autoComplete="name" required minLength={2} maxLength={100} /></label>
-      <label>Email<input name="email" defaultValue={draft.fields?.email} type="email" autoComplete="email" required maxLength={254} /></label>
-      <label>Phone<input name="phone" defaultValue={draft.fields?.phone} type="tel" autoComplete="tel" required minLength={5} maxLength={40} /></label>
-      <label>Company <span>(optional)</span><input name="company" defaultValue={draft.fields?.company} autoComplete="organization" maxLength={160} /></label>
-      <label>Message<textarea name="message" defaultValue={draft.fields?.message} required minLength={5} maxLength={5000} rows={4} /></label>
+      <div className="enquiry-fields">
+        <label>Full Name *<input name="name" defaultValue={draft.fields?.name} autoComplete="name" required minLength={2} maxLength={100} /></label>
+        <label>Company Name *<input name="company" defaultValue={draft.fields?.company} autoComplete="organization" required maxLength={160} /></label>
+        <label>Email Address *<input name="email" defaultValue={draft.fields?.email} type="email" autoComplete="email" required maxLength={254} /></label>
+        <label>Contact Number *<input name="phone" defaultValue={draft.fields?.phone} type="tel" autoComplete="tel" required minLength={5} maxLength={40} /></label>
+        {kind === "contact" ? <label className="enquiry-full">Enquiry Type *<select name="enquiryType" defaultValue={draft.fields?.enquiryType || ""} required><option value="" disabled>Select enquiry type</option>{ENQUIRY_TYPES.map((type) => <option key={type}>{type}</option>)}</select></label> : <>
+          <label>State / Location *<input name="state" autoComplete="address-level1" defaultValue={draft.fields?.state} required maxLength={160} /></label>
+          <label>Project Type *<select name="projectType" defaultValue={draft.fields?.projectType || ""} required><option value="" disabled>Select project type</option>{PROJECT_TYPES.map((type) => <option key={type}>{type}</option>)}</select></label>
+          <label>Project Location <span>(optional)</span><input name="projectLocation" defaultValue={draft.fields?.projectLocation} maxLength={300} /></label>
+          <label>Estimated Quantity / Requirements <span>(optional)</span><input name="estimatedRequirements" defaultValue={draft.fields?.estimatedRequirements} maxLength={1000} /></label>
+        </>}
+        <label className="enquiry-full">Message / Enquiry Details *<textarea name="message" defaultValue={draft.fields?.message} placeholder="Tell us about your project or product requirements" required minLength={5} maxLength={5000} rows={5} /></label>
+      </div>
       <label className="enquiry-honeypot" aria-hidden="true">Website<input name="website" tabIndex={-1} autoComplete="off" /></label>
       <label className="enquiry-consent"><input name="consent" type="checkbox" defaultChecked={draft.fields?.consent} required /><span>{ENQUIRY_CONSENT}</span></label>
       {error && <p role="alert" className="enquiry-error" tabIndex={-1} ref={errorRef}>{error}</p>}

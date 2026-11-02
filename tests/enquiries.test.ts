@@ -12,7 +12,7 @@ let productId: number;
 let draftId: number;
 const origin = "https://roofseal.test";
 const env = { NODE_ENV: "test", NEXT_PUBLIC_SERVER_URL: origin, ENQUIRY_IP_HEADER: "x-real-ip", PAYLOAD_SECRET: "test-only-secret" };
-const body = (extra = {}) => ({ reference: randomUUID(), kind: "contact", name: "Test Customer", email: "customer@example.test", phone: "+60123456789", company: "Test company", message: "Please contact me about roofing.", consent: true, productIds: [], website: "", ...extra });
+const body = (extra = {}) => ({ reference: randomUUID(), kind: "contact", name: "Test Customer", email: "customer@example.test", phone: "+60123456789", company: "Test company", enquiryType: "General Enquiry", state: "Selangor", projectType: "Residential", message: "Please contact me about roofing.", consent: true, productIds: [], website: "", ...extra });
 const request = (data: unknown, ip: string = randomUUID(), requestOrigin = origin) => new Request(`${origin}/api/submit-enquiry`, { method: "POST", headers: { "Content-Type": "application/json", Origin: requestOrigin, "x-real-ip": ip }, body: JSON.stringify(data) });
 
 before(async () => {
@@ -95,4 +95,22 @@ test("durable rate limits cap concurrent submissions and ignore untrusted forwar
   const shared = await Promise.all(Array.from({ length: 6 }, () => submit(request(body()), payload, sharedEnv)));
   assert.equal(shared.filter((r) => r.status === 201).length, 5);
   assert.equal(shared.filter((r) => r.status === 429).length, 1);
+});
+
+
+test("contact and quote pages require their approved fields and preserve project details", async () => {
+  for (const fields of [{ company: " " }, { enquiryType: "" }, { enquiryType: "Unknown" }, { kind: "quote", productIds: [productId], state: "" }, { kind: "quote", productIds: [productId], projectType: "Unknown" }]) {
+    assert.equal((await submit(request(body(fields)), payload, env)).status, 400);
+  }
+  const data = body({ kind: "quote", productIds: [productId], state: "Selangor", projectType: "Commercial", projectLocation: "Kajang", estimatedRequirements: "200 square metres" });
+  assert.equal((await submit(request(data), payload, env)).status, 201);
+  const record = (await payload.find({ collection: "enquiries", where: { reference: { equals: data.reference } } })).docs[0];
+  assert.equal(record.state, "Selangor");
+  assert.equal(record.projectType, "Commercial");
+  assert.equal(record.projectLocation, "Kajang");
+  assert.equal(record.estimatedRequirements, "200 square metres");
+  assert.equal((await submit(request({ ...data, projectLocation: "Bangi" }), payload, env)).status, 409);
+  const contact = body({ enquiryType: "Partnership / Business Enquiry" });
+  assert.equal((await submit(request(contact), payload, env)).status, 201);
+  assert.equal((await payload.find({ collection: "enquiries", where: { reference: { equals: contact.reference } } })).docs[0].enquiryType, contact.enquiryType);
 });

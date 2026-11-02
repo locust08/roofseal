@@ -20,7 +20,7 @@ before(async () => {
 });
 after(async () => { if (payload) { payload.db.drizzle.$client.close(); await payload.destroy(); } });
 async function fixture() {
-  return payload.create({ collection: "enquiries", data: { reference: randomUUID(), requestHash: "fixture", status: "new", kind: "quote", name: "=Customer", email: "customer@example.test", phone: "+60123456789", message: "Please quote <script>alert(1)</script>", consentAt: new Date().toISOString(), consentText: "Respond to enquiry", products: [{ productId: 7, title: "Deck 762", slug: "deck-762" }], emailDelivery: { status: "pending", attempts: 0 }, sheetDelivery: { status: "pending", attempts: 0 } } });
+  return payload.create({ collection: "enquiries", data: { reference: randomUUID(), requestHash: "fixture", status: "new", kind: "quote", state: "Selangor", projectType: "Commercial", projectLocation: "Kajang", estimatedRequirements: "200 sqm", name: "=Customer", email: "customer@example.test", phone: "+60123456789", message: "Please quote <script>alert(1)</script>", consentAt: new Date().toISOString(), consentText: "Respond to enquiry", products: [{ productId: 7, title: "Deck 762", slug: "deck-762" }], emailDelivery: { status: "pending", attempts: 0 }, sheetDelivery: { status: "pending", attempts: 0 } } });
 }
 
 test("disabled providers leave a saved enquiry pending without outbound calls", async () => {
@@ -112,10 +112,13 @@ test("adapters use fixed recipients, stable idempotency, RAW sheet values and sa
   assert.equal(email.headers.get("Idempotency-Key"), `roofseal-enquiry/${doc.reference}`);
   assert.equal(email.body.html, undefined);
   assert.match(String(email.body.text), /Deck 762/);
+  assert.match(String(email.body.text), /Project location: Kajang/);
+  assert.match(String(email.body.text), /Estimated quantity \/ requirements: 200 sqm/);
   assert.ok(requests[1].url.includes("valueInputOption=RAW"));
   const values = requests[1].body.values as string[][];
   assert.equal(values[0][0], doc.reference);
   assert.equal(values[0][3], "=Customer", "RAW preserves text without executing formulas");
+  assert.deepEqual(values[0].slice(11), ["", "Selangor", "Commercial", "Kajang", "200 sqm"]);
   const broken = createDeliveryAdapters(env, { googleAccessToken: async () => "token", fetch: async () => new Response("sensitive provider details", { status: 503 }) });
   await assert.rejects(broken.sheet!(doc), (error: unknown) => error instanceof DeliveryError && error.uncertain && !error.message.includes("sensitive"));
 });

@@ -1,8 +1,9 @@
+import { executeSql } from "./sql";
 import { createHash, createHmac } from "node:crypto";
 import type { Payload } from "payload";
-import { ENQUIRY_CONSENT } from "./shared";
+import { ENQUIRY_CONSENT, ENQUIRY_TYPES, PROJECT_TYPES } from "./shared";
 
-type Input = { reference: string; kind: "contact" | "quote"; name: string; email: string; phone: string; company: string; message: string; productIds: number[] };
+type Input = { reference: string; kind: "contact" | "quote"; name: string; email: string; phone: string; company: string; message: string; productIds: number[]; enquiryType: string; state: string; projectType: string; projectLocation: string; estimatedRequirements: string };
 class InvalidInput extends Error {}
 const reply = (status: number, body: object, headers = {}) => Response.json(body, { status, headers: { "Cache-Control": "no-store", ...headers } });
 
@@ -25,7 +26,14 @@ function validate(data: unknown): Input {
   if (!Array.isArray(ids) || ids.length > 25 || ids.some((id) => !Number.isSafeInteger(id) || id <= 0)) throw new InvalidInput();
   const productIds = [...new Set<number>(ids)].sort((a, b) => a - b);
   if ((value.kind === "quote" && !productIds.length) || (value.kind === "contact" && productIds.length)) throw new InvalidInput();
-  return { reference, kind: value.kind as Input["kind"], name: text("name", 100, 2), email, phone, company: text("company", 160), message: text("message", 5000, 5), productIds };
+  const enquiryType = value.kind === "contact" ? text("enquiryType", 80, 1) : "";
+  const projectType = value.kind === "quote" ? text("projectType", 40, 1) : "";
+  if (enquiryType && !ENQUIRY_TYPES.some((type) => type === enquiryType)) throw new InvalidInput();
+  if (projectType && !PROJECT_TYPES.some((type) => type === projectType)) throw new InvalidInput();
+  const state = value.kind === "quote" ? text("state", 160, 1) : "";
+  const projectLocation = value.kind === "quote" ? text("projectLocation", 300) : "";
+  const estimatedRequirements = value.kind === "quote" ? text("estimatedRequirements", 1000) : "";
+  return { enquiryType, state, projectType, projectLocation, estimatedRequirements, reference, kind: value.kind as Input["kind"], name: text("name", 100, 2), email, phone, company: text("company", 160, 1), message: text("message", 5000, 5), productIds };
 }
 
 async function readBody(request: Request): Promise<unknown> {
@@ -52,7 +60,7 @@ async function reserveRateSlot(request: Request, payload: Payload, env: Record<s
   const window = Math.floor(Date.now() / 900000);
   const key = createHmac("sha256", env.PAYLOAD_SECRET || payload.config.secret).update(`${address}:${window}`).digest("hex");
   const now = new Date().toISOString();
-  const result = await payload.db.drizzle.$client.execute({
+  const result = await executeSql(payload.db.drizzle.$client, {
     sql: "INSERT INTO enquiry_limits (key, count, created_at, updated_at) VALUES (?, 1, ?, ?) ON CONFLICT(key) DO UPDATE SET count = count + 1, updated_at = excluded.updated_at WHERE count < 5 RETURNING id",
     args: [key, now, now],
   });
@@ -85,6 +93,8 @@ export async function submitEnquiry(request: Request, payload: Payload, env: Rec
       await payload.create({ collection: "enquiries", overrideAccess: true, data: {
         reference: input.reference, requestHash, kind: input.kind, name: input.name, email: input.email,
         phone: input.phone, company: input.company, message: input.message,
+        enquiryType: input.enquiryType, state: input.state, projectType: input.projectType,
+        projectLocation: input.projectLocation, estimatedRequirements: input.estimatedRequirements,
         consentAt: new Date().toISOString(), consentText: ENQUIRY_CONSENT, status: "new",
         products: products.map((p) => ({ productId: p.id, title: p.title, slug: p.slug })),
         emailDelivery: { status: "pending", attempts: 0 }, sheetDelivery: { status: "pending", attempts: 0 },
@@ -98,7 +108,7 @@ export async function submitEnquiry(request: Request, payload: Payload, env: Rec
     return reply(201, { reference: input.reference });
   } catch (error) {
     if (error instanceof RangeError) return reply(413, { error: "The enquiry is too large." });
-    if (error instanceof InvalidInput) return reply(400, { error: "Please check your name, email, phone, message and consent." });
+    if (error instanceof InvalidInput) return reply(400, { error: "Please complete all required fields and check your contact details and consent." });
     // Do not log request bodies, provider responses or personal information.
     return reply(503, { error: "Your enquiry could not be saved. Please retry with the same form." });
   }

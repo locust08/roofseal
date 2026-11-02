@@ -1,0 +1,35 @@
+[
+  {
+    "title": "Sales Executive",
+    "slug": "placeholder-sales-executive",
+    "department": "Sales",
+    "location": null,
+    "summary": "Support enquiries and quotations for metal roofing, doors and frames.",
+    "description": "Support customers with product enquiries and coordinate quotations with the relevant teams.",
+    "responsibilities": "Respond to product enquiries and coordinate follow-up.\nHelp prepare quotations with the relevant team.\nMaintain accurate customer and enquiry information.",
+    "requirements": "Clear communication and organisational skills.\nWillingness to learn about building products.",
+    "displayOrder": 10
+  },
+  {
+    "title": "Production Operator",
+    "slug": "placeholder-production-operator",
+    "department": "Manufacturing",
+    "location": null,
+    "summary": "Support the production of metal roofing, doors and frames.",
+    "description": "Support production activities while following safety and quality procedures.",
+    "responsibilities": "Assist with assigned production activities under supervision.\nFollow approved safety and quality procedures.\nKeep the assigned work area organised.",
+    "requirements": "Attention to detail and willingness to follow safety instructions.\nAbility to work cooperatively with a production team.",
+    "displayOrder": 20
+  },
+  {
+    "title": "Administrative Assistant",
+    "slug": "placeholder-administrative-assistant",
+    "department": "Administration",
+    "location": null,
+    "summary": "Support office coordination, documentation and administrative follow-up.",
+    "description": "Support day-to-day office coordination, records and correspondence.",
+    "responsibilities": "Help organise office documents and records.\nSupport routine internal coordination.\nAssist with correspondence and administrative follow-up.",
+    "requirements": "Organisational skills and attention to detail.\nClear written and verbal communication.",
+    "displayOrder": 30
+  }
+]

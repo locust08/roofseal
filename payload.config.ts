@@ -6,7 +6,7 @@ import { sqliteAdapter } from "@payloadcms/db-sqlite";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import { buildConfig } from "payload";
 import sharp from "sharp";
-import { Categories, Media, Products, Resources, Users } from "./src/cms/collections";
+import { Careers, Categories, Media, Products, Resources, Users } from "./src/cms/collections";
 import { Enquiries, EnquiryLimits } from "./src/enquiries/collections";
 
 loadEnv({ path: [".env.local", ".env"], quiet: true });
@@ -25,7 +25,7 @@ export default buildConfig({
     meta: { titleSuffix: " | Roofseal CMS" },
     importMap: { baseDir: root, importMapFile: path.resolve(root, "src/app/(payload)/admin/importMap.ts") },
   },
-  collections: [Users, Media, Categories, Products, Resources, Enquiries, EnquiryLimits],
+  collections: [Users, Media, Categories, Products, Resources, Careers, Enquiries, EnquiryLimits],
   editor: lexicalEditor(),
   sharp,
   db: sqliteAdapter({

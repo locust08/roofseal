@@ -211,13 +211,7 @@
   position: relative;
   overflow: hidden;
 }
-.teamBase {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-position: bottom;
-}
+
 .teamLayer {
   position: absolute;
   height: 162.57%;
@@ -818,4 +812,51 @@
   .panelBottom {
     height: 25px;
   }
+}
+
+/* BugHerd #6: use a proportional image crop instead of stretching the photo. */
+@media (max-width: 1200px) {
+  .collageRight img {
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 55% center;
+  }
+}
+/* BugHerd #8: white values block above the image-backed statements. */
+@media (max-width: 1000px) {
+  .values { padding: 0 0 60px; }
+  .valuesBackground { width: 100%; object-position: center bottom; }
+  .valuesGrid { width: 100%; gap: 0; }
+  .core { position: relative; padding: 50px 30px 0; background: #fff; }
+  .core::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: #ee1d24;
+    clip-path: polygon(0 82%, 100% 20%, 100% 27%, 0 89%);
+  }
+  .core h2, .valueGrid { position: relative; }
+  .valueGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .statements { padding: 35px 30px 0; }
+  .statements header { flex-direction: row; align-items: center; }
+  .statements h2 { font-size: 26px; }
+  .statements .valueIcon { width: 60px; height: 60px; }
+  .statements .valueIcon span { width: 36px; height: 36px; mask-size: 36px 36px; }
+  .teamPhoto { inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center bottom; }
+  .teamCopy { left: 50%; right: auto; transform: translateX(-50%); }
+}
+@media (max-width: 600px) {
+  .core { padding: 35px 20px 0; }
+  .valueGrid article { padding: 15px 6px; min-height: 140px; gap: 12px; }
+  .valueGrid h3 { font-size: 12px; }
+  .valueGrid .valueIcon { width: 55px; height: 55px; }
+  .valueGrid .valueIcon span { width: 35px; height: 35px; mask-size: 35px 35px; }
+  .statements { grid-template-columns: 1fr 1fr; padding: 30px 20px 0; gap: 12px; }
+  .statements article { padding: 18px 12px; }
+  .statements header { gap: 8px; flex-wrap: wrap; }
+  .statements h2 { font-size: 21px; letter-spacing: -0.6px; }
+  .statements p { font-size: 15px; line-height: 1.5; }
+  .teamCopy { left: auto; transform: none; }
 }

@@ -1,0 +1,38 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "roofseal",
+  "account_id": "e7c515dde995479daacd82ad79dfc3e8",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-10-23",
+  "compatibility_flags": [
+    "nodejs_compat",
+    "global_fetch_strictly_public"
+  ],
+  "workers_dev": true,
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "d1_databases": [
+    {
+      "binding": "D1",
+      "database_name": "roofseal-preview-cms",
+      "database_id": "41c9f80b-f6b0-49c3-a0d4-92f20ea8ef4c"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "R2",
+      "bucket_name": "roofseal-preview-media"
+    }
+  ],
+  "vars": {
+    "NEXT_PUBLIC_SERVER_URL": "https://roofseal.easondev.workers.dev",
+    "ENQUIRY_IP_HEADER": "CF-Connecting-IP",
+    "ENQUIRY_EMAIL_ENABLED": "false",
+    "ENQUIRY_SHEETS_ENABLED": "false"
+  },
+  "observability": {
+    "enabled": true
+  }
+}

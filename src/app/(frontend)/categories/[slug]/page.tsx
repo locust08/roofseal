@@ -4,6 +4,8 @@ import { categoryView } from "@/cms/view-models";
 import { getCategories, getCategory, getProductCards } from "@/lib/cms-content";
 import { Breadcrumbs, Banner, Cta } from "@/components/sites/roofseal/shared/ui";
 import { CategoryGrid, ProductGrid } from "@/components/sites/roofseal/catalog/catalog-grids";
+import { InsulationInformation } from "@/components/sites/roofseal/catalog/InsulationInformation";
+import { CategoryInformation } from "@/components/sites/roofseal/catalog/CategoryInformation";
 import styles from "@/components/sites/roofseal/catalog/catalog.module.css";
 
 export const dynamic = "force-dynamic";
@@ -23,9 +25,11 @@ export default async function CategoryPage({ params }: Props) {
     <section className={styles.body}>
       <div className={styles.intro}><h2>{category.view.heading}</h2><p>{category.view.description}</p></div>
       <hr className={styles.divider} />
-      {children.length > 0 && <CategoryGrid categories={children} />}
-      {products.length > 0 && <ProductGrid products={products} />}
+      {children.length > 0 && <CategoryGrid categories={children} columns={category.view.slug === "insulation" || category.view.slug === "gutter-roof-component" ? 4 : 3} />}
+      {category.view.slug !== "insulation" && products.length > 0 && <ProductGrid products={products} />}
     </section>
+    {category.view.slug === "insulation" && <InsulationInformation />}
+    <CategoryInformation slug={category.view.slug} />
     <Cta />
   </main>;
 }

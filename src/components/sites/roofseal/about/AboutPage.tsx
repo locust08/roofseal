@@ -3,6 +3,7 @@ import { useState } from "react";
 import { asset } from "../shared/assets";
 import { Breadcrumbs, Icon } from "../shared/ui";
 import styles from "./about.module.css";
+import { CompanyIntroduction, CompanyDetails } from "../shared/company-copy";
 const a = (node: string, name: string) => asset(`28318:${node}`, name);
 const values = [
   ["Quality & Reliability", "imgColor4"],
@@ -34,6 +35,21 @@ const environmental = [
   "Encourage the use of durable and recyclable metal roofing materials for long-term sustainability",
   "Continuously improve manufacturing efficiency to minimise material wastage and environmental impact",
 ];
+const esgCommitments = [
+  { title: "Environmental", bullets: environmental },
+  { title: "Social", bullets: [
+    "Safe and healthy working environment",
+    "Long-term relationships with clients, suppliers and business partners",
+    "Workforce development",
+    "Training and skills improvement",
+  ] },
+  { title: "Governance", bullets: [
+    "Ethical business practices",
+    "Transparency and accountability",
+    "Compliance with industry standards, safety regulations and quality requirements",
+    "Continuous improvement and operational excellence",
+  ] },
+];
 export function AboutPage() {
   const [expanded, setExpanded] = useState(false);
   const [offset, setOffset] = useState(0);
@@ -53,34 +69,12 @@ export function AboutPage() {
               A <em>Trusted Manufacturer of Metal Roofing</em>,
               <em> Doors &amp; Frames</em> In Malaysia
             </h1>
-            <p>
-              Since its establishment in 1990, Roofseal Malaysia has grown from
-              a metal roofing subcontractor into an established manufacturer and
-              supplier serving Malaysia’s construction industry. Today, Roofseal
-              operates through two core business divisions, the Metal Roofing
-              Division and the Doors &amp; Frames Division, providing
-              comprehensive building solutions for commercial, residential,
-              industrial, private, and government projects across Malaysia.
-            </p>
-            <p>
-              Our Metal Roofing Division specialises in sheet metal roofing
-              systems, including metal deck roof and zinc roof solutions
-              manufactured using quality coated steel with Australian technology
-              supplied by <strong>NS BlueScope Malaysia</strong>. Backed by more
-              than three decades of industry experience, quality materials, and
-              a skilled workforce, Roofseal has built a strong reputation as one
-              of <strong>Malaysia’s leading metal roof suppliers</strong>.
-            </p>
-            {expanded && (
-              <p>
-                Roofseal operates through two core business divisions, the Metal
-                Roofing Division and the Doors &amp; Frames Division, providing
-                comprehensive building solutions across Malaysia.
-              </p>
-            )}
+            <CompanyIntroduction />
+            {expanded && <div id="about-company-details"><CompanyDetails /></div>}
             <button
               className={styles.readMore}
               aria-expanded={expanded}
+              aria-controls="about-company-details"
               onClick={() => setExpanded(!expanded)}
             >
               {expanded ? "Read Less" : "Read More"}{" "}
@@ -119,7 +113,7 @@ export function AboutPage() {
           </div>
         </div>
       </section>
-      <section className={styles.values}>
+      <section className={styles.values} id="core-values">
         <img
           className={styles.valuesBackground}
           src={a("3878", "imgSectionBackground")}
@@ -173,11 +167,6 @@ export function AboutPage() {
         </div>
       </section>
       <section className={styles.team}>
-        <img
-          className={styles.teamBase}
-          src={a("3787", "imgSectionBackground")}
-          alt=""
-        />
         <img
           className={styles.teamLayer}
           src={a("3787", "imgSectionBackground1")}
@@ -319,7 +308,7 @@ export function AboutPage() {
           </p>
         </div>
         <div className={`wide ${styles.esgPanels}`}>
-          {["Environmental", "Social", "Governance"].map((title, i) => (
+          {esgCommitments.map(({ title, bullets }, i) => (
             <button
               key={title}
               onClick={() => setEsg(i)}
@@ -331,13 +320,11 @@ export function AboutPage() {
               <span className={styles.esgShade} />
               <span className={styles.esgCopy}>
                 <h3>{title}</h3>
-                {i === 0 && (
-                  <ul>
-                    {environmental.map((copy) => (
-                      <li key={copy}>{copy}</li>
-                    ))}
-                  </ul>
-                )}
+                <ul>
+                  {bullets.map((copy) => (
+                    <li key={copy}>{copy}</li>
+                  ))}
+                </ul>
               </span>
             </button>
           ))}

@@ -312,3 +312,17 @@
     height: 1143px;
   }
 }
+
+/* BugHerd #15/#16: limit the four-column variant to requested parent pages. */
+@media (min-width: 1201px) {
+  .categories.fourColumns > * { width: calc((100% - 120px) / 4); }
+  .categories.fourColumns :global(h3) { font-size: clamp(20px, 1.8vw, 32px); }
+}
+.fourColumns > a::after {
+  content: "";
+  position: absolute;
+  inset: 45% 0 0;
+  background: linear-gradient(transparent, rgba(0, 0, 0, .75));
+  pointer-events: none;
+}
+.fourColumns :global(h3), .fourColumns :global(.arrow-circle) { z-index: 1; }
