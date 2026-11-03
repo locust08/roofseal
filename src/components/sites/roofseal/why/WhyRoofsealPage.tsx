@@ -16,7 +16,7 @@ const benefits = [
 export function WhyRoofsealPage() {
   return <main>
     <Breadcrumbs items={[{ label: "Why Roofseal" }]} />
-    <Banner title="Why Roofseal" imageSrc="/sites/roofseal/why/why-roofseal-banner.jpg" preShaded />
+    <Banner title="Why Roofseal" imageSrc="/sites/roofseal/banners/dekstop-banner-why-roofseal.webp" preShaded />
     <section className={styles.body}>
       <div className={styles.intro} data-fade>
         <h2>Built on <em>Experience</em>. Driven by <em>Manufacturing</em></h2>

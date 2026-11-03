@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { useEnquiry } from "./enquiry-context";
 import Link from "next/link";
 import { asset } from "./assets";
+import { bannerImages } from "@/lib/site-imagery";
 
 export function Icon({
   name,
@@ -175,22 +176,26 @@ export function Banner({
   imageVariable = "imgSectionBackground",
   imageSrc,
   preShaded = false,
+  headingLevel = "h1",
 }: {
   title: string;
   node?: string;
   imageVariable?: string;
   imageSrc?: string;
   preShaded?: boolean;
+  headingLevel?: "h1" | "h2";
 }) {
+  const suppliedImage = imageSrc || bannerImages[title];
+  const suppliedExport = !!bannerImages[title] && (!imageSrc || imageSrc === bannerImages[title]);
   const covering = node === "28352:2029",
     system = node === "28383:5381";
   return (
     <section
-      className={`page-banner ${covering ? "covering-banner" : ""} ${system ? "system-banner" : ""}`}
+      className={`page-banner ${covering ? "covering-banner" : ""} ${system ? "system-banner" : ""} ${suppliedImage ? "supplied-banner" : ""}`}
     >
       <div className="banner-source">
-        <img className="banner-photo" src={imageSrc || (node ? asset(node, imageVariable) : undefined)} alt="" />
-        {covering && (
+        <img className="banner-photo" src={suppliedImage || (node ? asset(node, imageVariable) : undefined)} alt="" />
+        {covering && !suppliedImage && (
           <img
             className="banner-overlay"
             src={asset(node!, "imgSectionBackground1")}
@@ -198,7 +203,7 @@ export function Banner({
           />
         )}
       </div>
-      {!preShaded && <div className="banner-shade" />}
+      {!preShaded && !suppliedExport && <div className="banner-shade" />}
       {(covering || system) && (
         <Link
           className="banner-back wide"
@@ -207,7 +212,7 @@ export function Banner({
           <Icon name="chevron-left" /> Back
         </Link>
       )}
-      <h1 className="wide">{title}</h1>
+      {headingLevel === "h1" ? <h1 className="wide">{title}</h1> : <h2 className="wide">{title}</h2>}
       <div className="banner-cut" />
     </section>
   );

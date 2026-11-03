@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useQuote } from "../shared/site-shell";
 import { EnquiryForm } from "../shared/EnquiryForm";
-import { Breadcrumbs, DiagonalButton, Icon } from "../shared/ui";
+import { Banner, Breadcrumbs, DiagonalButton, Icon } from "../shared/ui";
 import styles from "./enquiry.module.css";
 
 function ContactDetails() {
@@ -28,9 +28,10 @@ export function EnquiryPage({ kind }: { kind: "contact" | "quote" }) {
   const title = isQuote ? "Quote List" : "Contact Us";
   return <main>
     <Breadcrumbs items={[{ label: title }]} />
+    {!isQuote && <Banner title="Contact Us" />}
     <section className={`${styles.intro} wide`}>
       <p className={styles.eyebrow}>{isQuote ? "Your project. Our expertise." : "Get in touch"}</p>
-      <h1>{isQuote ? "Let’s Build Your Next Project." : "Talk to Our Team."}</h1>
+      {isQuote ? <h1>Let’s Build Your Next Project.</h1> : <h2>Talk to Our Team.</h2>}
       <p>{isQuote ? "Review your selected products and share your project requirements with our team." : "Speak to Roofseal about your roofing, insulation, doors and frames requirements."}</p>
     </section>
     <section className={`${styles.layout} wide`} aria-label={title}>

@@ -7,7 +7,7 @@ test('resource hubs and separate blog categories expose working sidebar filters'
     const html = await page(path); assert.ok(html.includes('<h1'), path);
     if (!['/catalogues', '/materials'].includes(path)) {
       assert.ok(html.includes('aria-label="Blog categories"'), path);
-      for (const href of ['/articles', '/news', '/events']) assert.ok(html.includes('href="' + href + '"'), path);
+      for (const href of ['/blogs/articles', '/blogs/news', '/blogs/events']) assert.ok(html.includes('href="' + href + '"'), path);
     }
   }
 });

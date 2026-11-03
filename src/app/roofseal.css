@@ -430,7 +430,7 @@ a:focus-visible {
 .banner-back .icon-solid {
   color: var(--red);
 }
-.page-banner h1 {
+.page-banner :is(h1,h2) {
   position: absolute;
   bottom: 70px;
   left: 0;
@@ -913,7 +913,7 @@ a:focus-visible {
   .page-banner {
     height: 400px;
   }
-  .page-banner h1 {
+  .page-banner :is(h1,h2) {
     font-size: 48px;
   }
   .cta-copy h2 {
@@ -995,7 +995,7 @@ a:focus-visible {
   .page-banner {
     height: 280px;
   }
-  .page-banner h1 {
+  .page-banner :is(h1,h2) {
     font-size: 36px;
     bottom: 50px;
   }
@@ -1255,3 +1255,7 @@ a:focus-visible {
 
 /* BugHerd #55–56: dropdown labels match the uppercase main navigation. */
 #portfolio-menu a, #resources-menu a { text-transform: uppercase; }
+
+/* Supplied Drive banners are complete, pre-shaded exports. */
+.supplied-banner .banner-source { transform: none; }
+.supplied-banner .banner-photo { inset: 0; height: 100%; width: 100%; object-fit: cover; }

@@ -1,9 +1,9 @@
 import type { Resource } from "@/payload-types";
 
 export const blogCategories = [
-  { value: "article", label: "Articles", href: "/articles" },
-  { value: "news", label: "News", href: "/news" },
-  { value: "event", label: "Events", href: "/events" },
+  { value: "article", label: "Articles", href: "/blogs/articles" },
+  { value: "news", label: "News", href: "/blogs/news" },
+  { value: "event", label: "Events", href: "/blogs/events" },
 ] as const;
 export type BlogCategory = typeof blogCategories[number]["value"];
 export const resourceNavigation = [

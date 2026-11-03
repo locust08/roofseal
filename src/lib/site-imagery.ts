@@ -1,0 +1,36 @@
+// Approved Drive exports. Unmapped pages retain their existing artwork.
+const banner = (name: string) => `/sites/roofseal/banners/${name}.webp`;
+export const bannerImages: Record<string, string> = {
+  "Roof Covering": banner("dekstop-banner-roof-covering"),
+  "Insulation": banner("dekstop-banner-insulation"),
+  "Gutter & Roof Component": banner("dekstop-banner-gutter-roof-component"),
+  "Structural": banner("dekstop-banner-structural"),
+  "Skylights": banner("dekstop-banner-skylight"),
+  "Catalogues": banner("dekstop-banner-catalogue"),
+  "Materials": banner("dekstop-banner-materials"),
+  "BlueScope Materials": banner("dekstop-banner-materials"),
+  "Blogs": banner("dekstop-banner-blogs-articles-news-events"),
+  "Articles": banner("dekstop-banner-blogs-articles-news-events"),
+  "News": banner("dekstop-banner-blogs-articles-news-events"),
+  "Events": banner("dekstop-banner-blogs-articles-news-events"),
+  "Why Roofseal": banner("dekstop-banner-why-roofseal"),
+  "Contact Us": banner("dekstop-banner-contact-us"),
+  "Glasswool": banner("subcategory-banner-insulation"),
+  "Rockwool": banner("subcategory-banner-rockwool"),
+  "Radiant Barrier / Aluminium Foil": banner("subcategory-banner-radiant-barrier-aluminium-foil"),
+  "Roofing Mesh": banner("subcategory-banner-roofing-mesh"),
+  "Gutter System": banner("subcategory-banner-gutter-system"),
+  "Flashing and Capping System": banner("subcategory-banner-flashing-and-capping-system"),
+  "Waterproofing": banner("subcategory-banner-waterproofing"),
+  "Fasteners": banner("subcategory-banner-fasteners"),
+};
+export const categoryImages: Record<string, string> = Object.fromEntries([
+  ["glass-wool-insulation-supplier-malaysia", "glasswool"],
+  ["rockwool-insulation-supplier-malaysia", "rockwool"],
+  ["aluminium-foil-insulation-malaysia", "radiant-barrier-aluminium-foil"],
+  ["roofing-mesh", "roofing-mesh"],
+  ["rain-gutter-systems-malaysia", "gutter-system"],
+  ["capping-flashing", "flashing-and-capping-system"],
+  ["waterproofing", "waterproofing"],
+  ["fasteners", "fasteners"],
+].map(([slug,name]) => [slug, `/sites/roofseal/category-images/${name}.webp`]));
