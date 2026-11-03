@@ -860,3 +860,24 @@
   .statements p { font-size: 15px; line-height: 1.5; }
   .teamCopy { left: auto; transform: none; }
 }
+
+/* BugHerd #51–52: supplied responsive background and two milestone cards. */
+.responsiveValuesBackground { display: none; }
+@media (max-width: 1000px) {
+  .valuesBackground { display: none; }
+  .responsiveValuesBackground { display: block; position: absolute; inset: 0; overflow: hidden; container-type: size; }
+  .responsiveValuesBackground img { position: absolute; left: 50%; top: 50%; width: 100cqh; height: 100cqw; max-width: none; object-fit: cover; transform: translate(-50%, -50%) rotate(90deg); }
+  .milestoneCards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .milestoneCards article:nth-child(-n+2) { display: flex; }
+  .milestoneCards article:nth-child(n+3) { display: none; }
+}
+@media (max-width: 600px) {
+  .milestoneCards article:nth-child(-n+2) { display: flex; }
+  .milestoneCards article:nth-child(n+3) { display: none; }
+  .milestoneCards article > img { height: 160px; }
+  .milestoneCards article > p { padding: 15px 10px; font-size: 13px; line-height: 1.5; }
+}
+@media (min-width: 1001px) and (max-width: 1100px) {
+  .milestoneCards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .milestoneCards article:nth-child(n+3) { display: none; }
+}

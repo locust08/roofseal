@@ -78,7 +78,7 @@ export function AboutPage() {
               onClick={() => setExpanded(!expanded)}
             >
               {expanded ? "Read Less" : "Read More"}{" "}
-              <Icon name="chevron-down" />
+              <Icon name={expanded ? "arrow-up" : "chevron-down"} />
             </button>
           </div>
           <div className={styles.collage}>
@@ -114,6 +114,9 @@ export function AboutPage() {
         </div>
       </section>
       <section className={styles.values} id="core-values">
+        <div className={styles.responsiveValuesBackground} aria-hidden="true">
+          <img src="/sites/roofseal/about/core-values-responsive.webp" alt="" />
+        </div>
         <img
           className={styles.valuesBackground}
           src={a("3878", "imgSectionBackground")}

@@ -13,6 +13,7 @@ export function Icon({
 }) {
   const icons: Record<string, string> = {
     "arrow-right": "\uf061",
+    "arrow-up": "\uf062",
     "arrow-left": "\uf060",
     "chevron-down": "\uf078",
     "chevron-left": "\uf053",

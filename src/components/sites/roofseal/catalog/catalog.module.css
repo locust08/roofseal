@@ -326,3 +326,14 @@
   pointer-events: none;
 }
 .fourColumns :global(h3), .fourColumns :global(.arrow-circle) { z-index: 1; }
+
+/* BugHerd #57: supplied photographic cards, retaining four desktop columns. */
+.insulationCards :global(.category-card) { isolation: isolate; }
+.insulationCards :global(.category-card > img), .insulationCards :global(.category-card)::after { clip-path: polygon(0 0,100% 0,100% 84.4%,82.8% 100%,0 100%); }
+.insulationCards :global(.category-card)::after { content: ""; position: absolute; inset: 0; background: linear-gradient(transparent 40%,rgba(0,0,0,.75)); z-index: 0; pointer-events: none; }
+.insulationCards :global(.category-card h3), .insulationCards :global(.category-card .arrow-circle) { z-index: 1; }
+.insulationCards :global(.category-card h3) { left: 20px; right: 65px; bottom: 25px; font-size: 22px; }
+.insulationCards :global(.category-card .arrow-circle) { right: 14px; bottom: 14px; width: 44px; height: 44px; }
+@media(max-width:600px) {
+ .insulationCards :global(.category-card h3) { font-size: 20px; }
+}

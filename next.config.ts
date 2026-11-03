@@ -5,6 +5,9 @@ import { withPayload } from "@payloadcms/next/withPayload";
 const cloudflare = process.env.CLOUDFLARE_DEPLOY === "true";
 const nextConfig: NextConfig = {
   output: "standalone",
+  async redirects() {
+    return ["/materials", "/bluescope-materials"].map(source => ({ source, destination: "/materials-from-bluescope-malaysia", permanent: true }));
+  },
   devIndicators: false,
   typescript: { tsconfigPath: cloudflare ? "tsconfig.cloudflare.json" : "tsconfig.json" },
   serverExternalPackages: ["jose", "pg-cloudflare"],

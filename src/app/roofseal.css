@@ -1252,3 +1252,6 @@ a:focus-visible {
   .main-nav.mobile-open > .portfolio-nav > button > .icon-solid,
   .mobile-products-nav > button > .icon-solid { width: 16px; text-align: center; flex: none; }
 }
+
+/* BugHerd #55–56: dropdown labels match the uppercase main navigation. */
+#portfolio-menu a, #resources-menu a { text-transform: uppercase; }

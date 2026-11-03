@@ -152,7 +152,7 @@ function Intro() {
         <CompanyIntroduction />
         {expanded && <div id="home-company-details"><CompanyDetails home /></div>}
         <button className={s.learn} aria-expanded={expanded} aria-controls="home-company-details" onClick={() => setExpanded(!expanded)}>
-          {expanded ? "Read Less" : "Read More"} <Icon name="chevron-down" />
+          {expanded ? "Read Less" : "Read More"} <Icon name={expanded ? "arrow-up" : "chevron-down"} />
         </button>
         {expanded && <Link className={s.aboutLink} href="/about">Learn About Us <Icon name="arrow-right" /></Link>}
       </div>

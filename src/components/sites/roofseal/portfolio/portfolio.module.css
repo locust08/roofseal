@@ -5,10 +5,10 @@
 .filters a { padding: 15px 25px; background: #d2d2d2; font-weight: 700; }
 .filters a[aria-current="page"] { background: #ee1d24; color: #fff; }
 .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 35px 25px; }
-.grid article { background: #181818; color: #fff; }
-.grid img { display: block; width: 100%; aspect-ratio: 4/3; object-fit: cover; }
-.grid article > div { padding: 25px; }
-.grid h3 { color: #fff; font-size: 22px; line-height: 1.35; margin: 0; }
-.grid article p { color: #ee1d24; margin: 12px 0 0; }
+.grid article { color: #fff; }
+.grid img { display: block; width: 100%; aspect-ratio: 400/365; object-fit: cover; }
+.grid article > div { min-height: 140px; padding: 25px 50px 25px 25px; background: #181818; clip-path: polygon(0 0,100% 0,100% calc(100% - 40px),calc(100% - 40px) 100%,0 100%); }
+.grid h3 { color: #fff; font-size: 20px; line-height: 1.5; margin: 0; }
+.grid article p { color: #ee1d24; margin: 10px 0 0; font-size: 18px; font-weight: 700; }
 @media (max-width: 1000px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } .portfolio { padding-block: 45px; } .filters { gap: 10px; } .filters a { padding: 12px 15px; } }
