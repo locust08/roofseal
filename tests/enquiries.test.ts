@@ -114,3 +114,14 @@ test("contact and quote pages require their approved fields and preserve project
   assert.equal((await submit(request(contact), payload, env)).status, 201);
   assert.equal((await payload.find({ collection: "enquiries", where: { reference: { equals: contact.reference } } })).docs[0].enquiryType, contact.enquiryType);
 });
+
+test("the configured custom domain can submit while unrelated and forged-host origins are rejected", async () => {
+  const customOrigin = "https://roofseal.sites.locus-t.com";
+  const deployedEnv = { ...env, NODE_ENV: "production", ENQUIRY_ALLOWED_ORIGINS: customOrigin };
+  assert.equal((await submit(request(body(), randomUUID(), customOrigin), payload, deployedEnv)).status, 201);
+  assert.equal((await submit(request(body(), randomUUID(), origin), payload, deployedEnv)).status, 201);
+  assert.equal((await submit(request(body(), randomUUID(), "https://evil.test"), payload, deployedEnv)).status, 403);
+  const forged = request(body(), randomUUID(), "https://evil.test");
+  forged.headers.set("x-forwarded-host", "evil.test");
+  assert.equal((await submit(forged, payload, deployedEnv)).status, 403);
+});

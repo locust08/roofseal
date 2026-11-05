@@ -45,8 +45,10 @@
 .heroCards {
   position: absolute;
   top: 170px;
-  left: 50.55%;
-  width: 49.45%;
+  /* Prototype canvas: deck starts at x=970 and spans 900px at 1920px.
+     Use the viewport width so the scrollbar does not shift its anchors. */
+  left: calc(50.520833333vw - 50px);
+  width: min(46.875vw, 900px);
   height: 700px;
 }
 .heroCards img {
@@ -1087,32 +1089,49 @@
   .heroCards :is(a,button) > div { transition: none; }
 }
 
-/* Compensate stage scaling so labels and links retain their existing readable sizes. */
-.heroCards { --hero-label-size: 30px; --hero-arrow-size: 60px; --hero-card-padding: 30px; }
+/* Keep labels readable; desktop arrows scale with the prototype artwork. */
+.heroCards { --hero-label-size: 30px; --hero-arrow-size: 60px; }
+.heroCards .heroDivisionCard {
+  --hero-arrow-render-size: var(--hero-arrow-size);
+  --hero-arrow-icon-size: 24px;
+}
 .heroCards .heroDivisionCard > div {
   font-size: calc(var(--hero-label-size) / var(--swap-scale, 1));
-  left: calc(var(--hero-card-padding) / var(--swap-scale, 1));
-  right: calc(var(--hero-card-padding) / var(--swap-scale, 1));
-  bottom: calc(var(--hero-card-padding) / var(--swap-scale, 1));
+  /* Prototype: the 60px arrow is centred 60px from the right/bottom
+     of the 800x600 artwork; keep that anchor as the 3D deck scales. */
+  left: 3.75%;
+  right: calc(7.5% - var(--hero-arrow-render-size) / 2);
+  bottom: 10%;
+  transform: translateY(50%);
   gap: calc(20px / var(--swap-scale, 1));
 }
 .heroCards .heroDivisionCard .round {
-  width: calc(var(--hero-arrow-size) / var(--swap-scale, 1));
-  height: calc(var(--hero-arrow-size) / var(--swap-scale, 1));
-  font-size: calc(24px / var(--swap-scale, 1));
+  width: var(--hero-arrow-render-size);
+  height: var(--hero-arrow-render-size);
+  font-size: var(--hero-arrow-icon-size);
 }
 @media(max-width:1500px) { .heroCards { --hero-label-size: 24px; } }
-@media(max-width:1100px) { .heroCards { --hero-arrow-size: 45px; } }
-@media(max-width:600px) { .heroCards { --hero-label-size: 17px; --hero-arrow-size: 35px; --hero-card-padding: 15px; } }
+@media(max-width:1100px) {
+  .heroCards { --hero-arrow-size: 45px; }
+  .heroCards .heroDivisionCard {
+    --hero-arrow-render-size: calc(var(--hero-arrow-size) / var(--swap-scale, 1));
+    --hero-arrow-icon-size: calc(24px / var(--swap-scale, 1));
+  }
+}
+@media(max-width:600px) { .heroCards { --hero-label-size: 17px; --hero-arrow-size: 35px; } }
 
 /* The stack shade dims photography only; keep card labels and arrows readable. */
 .heroCards .heroDivisionCard > div { z-index: 4; }
 
-/* Match the supplied straight card artwork, including its cut lower corner. */
+/* Keep the Figma caption anchor relative to the artwork as the deck scales.
+   Cut the photograph and its depth shade, leaving the arrow above the notch. */
 .heroCards :global(.roofseal-card-swap-slot) {
-  clip-path: polygon(0 0, 100% 0, 100% 86%, 89.6% 100%, 0 100%);
+  overflow: visible;
 }
-.heroCards :global(.roofseal-card-swap-slot):has(.metalHeroCard) {
+.heroCards .heroDivisionCard > img,
+.heroCards :global(.roofseal-card-swap-shade) {
+  /* Both prototype cards have this identical alpha outline. The replacement
+     Doors photograph must inherit it too, so its arrow meets the same notch. */
   mask-image: url('/sites/roofseal/shared/ebd2ecd63c09808f-a64e9.png');
   mask-size: 100% 100%;
   mask-repeat: no-repeat;

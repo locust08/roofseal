@@ -1,4 +1,5 @@
 import { executeSql } from "./sql";
+import { enquiryClientAddress } from "./client-address";
 import { createHash, createHmac } from "node:crypto";
 import type { Payload } from "payload";
 import { ENQUIRY_CONSENT, ENQUIRY_TYPES, PROJECT_TYPES } from "./shared";
@@ -53,10 +54,7 @@ async function readBody(request: Request): Promise<unknown> {
 }
 
 async function reserveRateSlot(request: Request, payload: Payload, env: Record<string, string | undefined>) {
-  const trusted = env.ENQUIRY_IP_HEADER;
-  // Never trust client-controlled X-Forwarded-For by default. The deployment proxy
-  // must strip/overwrite the configured single-address header.
-  const address = (trusted ? request.headers.get(trusted)?.slice(0, 200) : null) || "shared";
+  const address = enquiryClientAddress(request, env);
   const window = Math.floor(Date.now() / 900000);
   const key = createHmac("sha256", env.PAYLOAD_SECRET || payload.config.secret).update(`${address}:${window}`).digest("hex");
   const now = new Date().toISOString();
@@ -73,7 +71,8 @@ export async function submitEnquiry(request: Request, payload: Payload, env: Rec
   catch { return reply(503, { error: "Enquiries are temporarily unavailable. Please try again later." }); }
   const origin = request.headers.get("origin");
   const localOrigin = env.NODE_ENV !== "production" ? new URL(request.url).origin : allowedOrigin;
-  if (!origin || (origin !== allowedOrigin && origin !== localOrigin)) return reply(403, { error: "Please submit from the Roofseal website." });
+  const additionalOrigins = (env.ENQUIRY_ALLOWED_ORIGINS || "").split(",").map(value => value.trim()).filter(Boolean);
+  if (!origin || (origin !== allowedOrigin && origin !== localOrigin && !additionalOrigins.includes(origin))) return reply(403, { error: "Please submit from the Roofseal website." });
   if (request.headers.get("content-type")?.split(";")[0].trim() !== "application/json") return reply(415, { error: "Expected a JSON submission." });
   try {
     const raw = await readBody(request);

@@ -43,7 +43,7 @@
     "enquiries:deliver": "tsx scripts/cms/deliver-enquiries.ts",
     "enquiries:recover": "tsx scripts/cms/recover-enquiry.ts",
     "cms:migrate": "payload migrate",
-    "cf:build": "CLOUDFLARE_DEPLOY=true NEXT_PUBLIC_SERVER_URL=https://roofseal.easondev.workers.dev opennextjs-cloudflare build && node scripts/cloudflare/sanitize-build.mjs",
+    "cf:build": "CLOUDFLARE_DEPLOY=true NEXT_PUBLIC_SERVER_URL=https://roofseal.sites.locus-t.com opennextjs-cloudflare build && node scripts/cloudflare/sanitize-build.mjs",
     "cf:deploy": "node scripts/cloudflare/sanitize-build.mjs && opennextjs-cloudflare deploy",
     "cf:preview": "opennextjs-cloudflare preview",
     "cms:seed-careers": "NODE_ENV=production node --import tsx scripts/cms/seed-career-placeholders.ts"

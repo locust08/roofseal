@@ -16,6 +16,7 @@ import {
   type ReactNode
 } from 'react';
 import './CardSwap.css';
+import { stackBounds, projectCardPose, type Bounds } from './card-swap-geometry';
 
 // Adapted from React Bits CardSwap (David Haz, 2026).
 // https://github.com/DavidHDev/react-bits/tree/main/src/ts-default/Components/CardSwap
@@ -41,6 +42,8 @@ export interface CardSwapProps {
   width?: number;
   height?: number;
   cardDistance?: number;
+  padding?: number;
+  preserveCardSize?: boolean;
   verticalDistance?: number;
   depth?: number;
   skewAmount?: number;
@@ -71,24 +74,6 @@ type Axis = 'x' | 'y' | 'z' | 'r' | 'p';
 type Vec = { x: number; y: number };
 type Pose = Record<Axis, number>;
 
-interface Bounds {
-  width: number;
-  height: number;
-  originX: number;
-  originY: number;
-}
-
-interface BoundsInput {
-  width: number;
-  height: number;
-  cardDistance: number;
-  verticalDistance: number;
-  depth: number;
-  skewAmount: number;
-  visible: number;
-  hoverSpread: number;
-}
-
 interface Settings {
   width: number;
   height: number;
@@ -107,6 +92,7 @@ interface Settings {
   hoverSpread: number;
   dim: number;
   bounds: Bounds;
+  preserveCardSize: boolean;
   onCardClick?: (index: number) => void;
   onChange?: (index: number) => void;
 }
@@ -197,51 +183,12 @@ const THEMES: Record<'dark' | 'light', Record<string, string>> = {
 };
 
 const DEFAULT_ITEMS: CardSwapItem[] = [];
-const PERSPECTIVE = 900;
 const TAU = Math.PI * 2;
 const STEP = 1 / 240;
-const PAD = 32;
 const AXES: Axis[] = ['x', 'y', 'z', 'r', 'p'];
 const DOWN: Vec = { x: 0, y: 1 };
 
 const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
-
-const stackBounds = ({
-  width,
-  height,
-  cardDistance,
-  verticalDistance,
-  depth,
-  skewAmount,
-  visible,
-  hoverSpread
-}: BoundsInput): Bounds => {
-  const slope = Math.tan((skewAmount * Math.PI) / 180);
-  const spread = 1 + Math.max(0, hoverSpread);
-  let minX = Infinity;
-  let maxX = -Infinity;
-  let minY = Infinity;
-  let maxY = -Infinity;
-  for (let i = 0; i < visible; i++) {
-    const scale = PERSPECTIVE / (PERSPECTIVE + i * depth);
-    for (const u of [-width / 2, width / 2]) {
-      for (const v of [-height / 2, height / 2]) {
-        const x = (i * cardDistance * spread + u) * scale;
-        const y = (-i * verticalDistance * spread + v + u * slope) * scale;
-        minX = Math.min(minX, x);
-        maxX = Math.max(maxX, x);
-        minY = Math.min(minY, y);
-        maxY = Math.max(maxY, y);
-      }
-    }
-  }
-  return {
-    width: Math.ceil(maxX - minX + PAD * 2),
-    height: Math.ceil(maxY - minY + PAD * 2),
-    originX: PAD - minX,
-    originY: PAD - minY
-  };
-};
 
 export const Card = forwardRef<HTMLDivElement, CardProps>(({ customClass, className, children, ...rest }, ref) => (
   <div ref={ref} {...rest} className={['roofseal-card-swap-card', customClass, className].filter(Boolean).join(' ')}>
@@ -276,6 +223,8 @@ export const CardSwap = forwardRef<CardSwapHandle, CardSwapProps>(
       width = 460,
       height = 340,
       cardDistance = 60,
+      padding = 32,
+      preserveCardSize = false,
       verticalDistance = 70,
       depth = 90,
       skewAmount = 6,
@@ -328,9 +277,11 @@ export const CardSwap = forwardRef<CardSwapHandle, CardSwapProps>(
           depth: Math.max(0, depth),
           skewAmount,
           visible,
-          hoverSpread
+          hoverSpread,
+          padding: Math.max(0, padding),
+          preserveCardSize
         }),
-      [cardWidth, cardHeight, cardDistance, verticalDistance, depth, skewAmount, visible, hoverSpread]
+      [cardWidth, cardHeight, cardDistance, verticalDistance, depth, skewAmount, visible, hoverSpread, padding, preserveCardSize]
     );
 
     useIsomorphicLayoutEffect(() => {
@@ -352,6 +303,7 @@ export const CardSwap = forwardRef<CardSwapHandle, CardSwapProps>(
         hoverSpread: Math.max(0, hoverSpread),
         dim: clamp(dim, 0, 1),
         bounds,
+        preserveCardSize,
         onCardClick,
         onChange
       };
@@ -454,7 +406,8 @@ export const CardSwap = forwardRef<CardSwapHandle, CardSwapProps>(
       const write = (card: DeckCard, s: Settings) => {
         const { el, shade } = card;
         if (!el) return;
-        el.style.transform = `translate3d(${card.x.toFixed(2)}px, ${card.y.toFixed(2)}px, ${card.z.toFixed(2)}px) rotate(${card.r.toFixed(3)}deg) skewY(${s.skew}deg)`;
+        const projection = projectCardPose(card, s.preserveCardSize);
+        el.style.transform = `translate3d(${projection.x.toFixed(4)}px, ${projection.y.toFixed(4)}px, ${card.z.toFixed(4)}px) rotate(${card.r.toFixed(3)}deg) skewY(${s.skew}deg) scale(${projection.scale.toFixed(6)})`;
         el.style.zIndex = String(layerOf(card));
         const fade = clamp(s.visible - card.p, 0, 1);
         el.style.opacity = fade < 1 ? fade.toFixed(3) : '';

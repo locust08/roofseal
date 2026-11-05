@@ -10,7 +10,7 @@ const server = await readFile(path.join(root, 'server-functions/default/handler.
 if (!server.includes('Password hashing failed')) {
   throw new Error('Payload auth compatibility layer was not bundled. Refusing publication.');
 }
-const publicEnv = { NEXT_PUBLIC_SERVER_URL: 'https://roofseal.easondev.workers.dev' };
+const publicEnv = { NEXT_PUBLIC_SERVER_URL: 'https://roofseal.sites.locus-t.com' };
 await writeFile(path.join(root, 'cloudflare/next-env.mjs'),
   `export const production = ${JSON.stringify(publicEnv)};\nexport const development = ${JSON.stringify(publicEnv)};\nexport const test = {};\n`);
 const local = await readFile('.env.local', 'utf8').then(parse).catch(() => ({}));

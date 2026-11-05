@@ -20,7 +20,8 @@ if (!secret) throw new Error("PAYLOAD_SECRET must be configured as a Worker secr
 export default buildConfig({
   telemetry: false,
   secret,
-  serverURL: "https://roofseal.easondev.workers.dev",
+  serverURL: "https://roofseal.sites.locus-t.com",
+  csrf: ["https://roofseal.sites.locus-t.com", "https://roofseal.easondev.workers.dev", "https://roofseal.locust-crm08.chatgpt.site"],
   logger: { options: { level: "info" }, destination: { write: (message: string) => console.log(message.trim()) } },
   admin: {
     user: "users",

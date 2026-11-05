@@ -156,7 +156,7 @@
   pointer-events: none;
 }
 
-/* Preserve Roofseal artwork and contain outgoing cards inside the hero deck. */
-.roofseal-card-swap { overflow: clip; }
+/* Dragged and outgoing cards can pass the deck boundary inside the hero. */
+.roofseal-card-swap { overflow: visible; }
 .roofseal-card-swap-slot { box-shadow: none; }
 .roofseal-card-swap-slot:first-child { z-index: 12; }

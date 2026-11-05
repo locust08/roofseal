@@ -27,10 +27,11 @@
     }
   ],
   "vars": {
-    "NEXT_PUBLIC_SERVER_URL": "https://roofseal.easondev.workers.dev",
+    "NEXT_PUBLIC_SERVER_URL": "https://roofseal.sites.locus-t.com",
     "ENQUIRY_IP_HEADER": "CF-Connecting-IP",
     "ENQUIRY_EMAIL_ENABLED": "false",
-    "ENQUIRY_SHEETS_ENABLED": "false"
+    "ENQUIRY_SHEETS_ENABLED": "false",
+    "ENQUIRY_ALLOWED_ORIGINS": "https://roofseal.easondev.workers.dev,https://roofseal.locust-crm08.chatgpt.site"
   },
   "observability": {
     "enabled": true

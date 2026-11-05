@@ -79,9 +79,9 @@ function Hero() {
           </h1>
         </div>
         <div className={s.heroCards}>
-          <CardSwap ref={swap} width={810} height={600} cardDistance={105} verticalDistance={-150}
+          <CardSwap ref={swap} width={800} height={600} cardDistance={100} verticalDistance={-100} padding={0} preserveCardSize
             depth={100} skewAmount={0} visibleCards={2} autoplay={false} speed={0.65} bounce={0.25}
-            parallax={0} hoverSpread={0.08} dim={0.8} cardRadius={0} intro={false} onChange={setFront}>
+            parallax={0} hoverSpread={0} dim={0.8} cardRadius={0} intro={false} onChange={setFront}>
             {[
               { label: "Metal Roofing Division", href: divisionHref, image: a("28585:5690", "imgSubtract1") },
               { label: "Doors & Frames Division", href: "/doors-frames-division", image: "/sites/roofseal/home/hero-doors-frames.webp" },
