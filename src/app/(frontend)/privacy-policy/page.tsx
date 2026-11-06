@@ -3,7 +3,7 @@ import { LegalPage } from "@/components/sites/roofseal/legal/LegalPage";
 
 export const metadata: Metadata = {
   title: "Privacy Policy — Draft for Client Review",
-  description: "Draft Roofseal website privacy policy in English and Bahasa Malaysia for client review.",
+  description: "Draft Roofseal website privacy policy in English for client review.",
   robots: { index: false, follow: false },
 };
 

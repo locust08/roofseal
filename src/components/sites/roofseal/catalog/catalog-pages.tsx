@@ -1,3 +1,4 @@
+import { BlurHeading } from "@/components/sites/roofseal/shared/BlurHeading";
 import { notFound } from "next/navigation";
 import { getCategories, getCategory, getProductCards } from "@/lib/cms-content";
 import { categoryView } from "@/cms/view-models";
@@ -21,9 +22,9 @@ export async function DivisionContent() {
       <Banner title="Metal Roofing Division" node="28352:1837" />
       <section className={styles.body}>
         <div className={styles.intro} data-fade>
-          <h2>
+          <BlurHeading>
             <em>Complete Metal Roofing Systems</em> Built for Malaysia
-          </h2>
+          </BlurHeading>
           <p>
             With more than three decades of industry experience, Roofseal
             manufactures and supplies a comprehensive range of sheet metal
@@ -62,9 +63,9 @@ export async function CoveringContent() {
       <Banner title="Roof Covering" node="28352:2029" />
       <section className={`${styles.body} ${styles.covering}`}>
         <div className={styles.intro} data-fade>
-          <h2>
+          <BlurHeading>
             Forms Of <em>Roof Covering</em> &amp; <em>Roof Systems</em>
-          </h2>
+          </BlurHeading>
           <p>{category.view.description}</p>
         </div>
         <hr className={styles.divider} />
@@ -105,11 +106,11 @@ export async function SystemContent() {
       <Banner title="Metal Roof System" node="28383:5381" />
       <section className={`${styles.body} ${styles.system}`}>
         <div className={styles.intro} data-fade>
-          <h2>
+          <BlurHeading>
             Best <em>Zinc Roofing</em> &amp; <em>Metal Roofing Sheets</em>
             <br />
             Supplier in Malaysia
-          </h2>
+          </BlurHeading>
           <p>{category.view.description}</p>
         </div>
         <hr className={styles.divider} />

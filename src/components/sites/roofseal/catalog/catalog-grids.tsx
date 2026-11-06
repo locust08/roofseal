@@ -21,7 +21,7 @@ export function ProductGrid({ products }: { products: ProductCardView[] }) {
   return (
     <div className={styles.products}>
       {products.map((product) => (
-        <Link className={styles.product} key={product.id} href={product.href}>
+        <Link data-fade className={styles.product} key={product.id} href={product.href}>
             <img src={product.image} alt={product.title} />
             <div className={styles.productCopy}>
               <span>{product.category}</span>

@@ -38,7 +38,7 @@
   font-weight: 800;
   margin: 0;
 }
-.heroCopy h1 span {
+.heroCopy h1 span:not([data-blur-word]) {
   color: #ee1d24;
   display: block;
 }
@@ -86,6 +86,7 @@
   flex-shrink: 0;
 }
 .credentials {
+  --fade-distance: 56px;
   position: absolute;
   left: -50px;
   top: 732px;
@@ -407,7 +408,7 @@
   max-width: 1030px;
   margin: auto;
 }
-.projects h2 > span {
+.projects h2 > span:not([data-blur-word]) {
   color: #ee1d24;
 }
 .tabs {
@@ -1136,3 +1137,13 @@
   mask-size: 100% 100%;
   mask-repeat: no-repeat;
 }
+
+/* #88: match both diagonal corners in the supplied video reference. */
+.manufacturingVideo {
+  --video-corner: clamp(22px, 3.2vw, 50px);
+  clip-path: polygon(var(--video-corner) 0, 100% 0, 100% calc(100% - var(--video-corner)), calc(100% - var(--video-corner)) 100%, 0 100%, 0 var(--video-corner));
+}
+@media (prefers-reduced-motion: no-preference) {
+  .productPopup { animation: hotspot-entry 850ms cubic-bezier(.22,.61,.36,1) both; }
+}
+@keyframes hotspot-entry { from { opacity: 0; translate: 0 14px; } to { opacity: 1; translate: 0 0; } }

@@ -1,3 +1,4 @@
+import { BlurHeading } from "@/components/sites/roofseal/shared/BlurHeading";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import drafts from "../../../../../data/roofseal-blog-drafts.json";
@@ -12,6 +13,6 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
   const content = drafts.find((post) => post.slug === slug);
   if (!content) notFound();
   return <BlogArticle title={content.title} excerpt={content.excerpt} category={content.category as BlogCategory} cover={content.coverImage} draft>
-    {content.sections.map((section) => <section key={section.heading}><h2>{section.heading}</h2>{section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</section>)}
+    {content.sections.map((section) => <section key={section.heading}><BlurHeading>{section.heading}</BlurHeading>{section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</section>)}
   </BlogArticle>;
 }

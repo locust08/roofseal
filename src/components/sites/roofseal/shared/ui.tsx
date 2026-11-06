@@ -1,4 +1,5 @@
 "use client";
+import { BlurHeading } from "@/components/sites/roofseal/shared/BlurHeading";
 import type { ReactNode } from "react";
 import { useEnquiry } from "./enquiry-context";
 import Link from "next/link";
@@ -140,7 +141,7 @@ export function SectionTitle({
 }) {
   return (
     <div className={`section-title ${className}`}>
-      <h2>{children}</h2>
+      <BlurHeading>{children}</BlurHeading>
       {description && <div className="description">{description}</div>}
     </div>
   );
@@ -212,7 +213,7 @@ export function Banner({
           <Icon name="chevron-left" /> Back
         </Link>
       )}
-      {headingLevel === "h1" ? <h1 className="wide">{title}</h1> : <h2 className="wide">{title}</h2>}
+      {headingLevel === "h1" ? <BlurHeading as="h1" className="wide">{title}</BlurHeading> : <BlurHeading className="wide">{title}</BlurHeading>}
       <div className="banner-cut" />
     </section>
   );
@@ -227,10 +228,10 @@ export function Cta() {
       <img className="cta-top" src={a("imgSectionBackground1")} alt="" />
       <img className="cta-bottom" src={a("imgSectionBackground2")} alt="" />
       <div className="cta-copy">
-        <h2>
+        <BlurHeading>
           Need Quality Metal Roofing &amp; Door Frame Products for Your
           Projects?
-        </h2>
+        </BlurHeading>
         <p>
           Roofseal manufactures and supplies a wide range of metal roofing
           systems, insulation products, metal door frames, and fire-rated doors

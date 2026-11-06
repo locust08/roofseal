@@ -15,12 +15,10 @@
 
 .notice strong { color: #1f1f1f; }
 .notice p { margin: 8px 0 0; }
-.languages { display: flex; flex-wrap: wrap; gap: 12px 28px; margin: 28px 0 40px; }
 .body a { color: #bd131a; text-decoration: underline; text-underline-offset: 4px; }
 .body a:hover { color: #1f1f1f; }
 .body a:focus-visible { outline: 2px solid #bd131a; outline-offset: 5px; }
-.language { scroll-margin-top: 150px; }
-.language + .language { margin-top: 52px; padding-top: 44px; border-top: 1px solid #b7c3c0; }
+.language { scroll-margin-top: 150px; margin-top: 36px; }
 .language h2 { margin: 0 0 20px; color: #1f1f1f; font-size: 30px; font-weight: 800; line-height: 1.2; letter-spacing: -0.6px; }
 .intro { margin: 0 0 32px; }
 .section { margin-top: 28px; }

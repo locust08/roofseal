@@ -1,3 +1,4 @@
+import { BlurHeading } from "@/components/sites/roofseal/shared/BlurHeading";
 import { Banner, Breadcrumbs, Cta } from "../shared/ui";
 import styles from "./why.module.css";
 
@@ -19,7 +20,7 @@ export function WhyRoofsealPage() {
     <Banner title="Why Roofseal" imageSrc="/sites/roofseal/banners/dekstop-banner-why-roofseal.webp" preShaded />
     <section className={styles.body}>
       <div className={styles.intro} data-fade>
-        <h2>Built on <em>Experience</em>. Driven by <em>Manufacturing</em></h2>
+        <BlurHeading>Built on <em>Experience</em>. Driven by <em>Manufacturing</em></BlurHeading>
         <p>Since 1990, Roofseal Malaysia has grown from a metal roofing subcontractor into an established manufacturer and supplier of metal roofing, insulation, metal door frames, and fire-rated doors. With more than three decades of industry experience, we combine manufacturing expertise, quality materials, practical product knowledge, and a skilled workforce to serve the evolving needs of Malaysia’s construction industry.</p>
       </div>
       <div className={styles.grid}>

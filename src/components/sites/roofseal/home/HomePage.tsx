@@ -1,5 +1,6 @@
 "use client";
 
+import { BlurHeading } from "@/components/sites/roofseal/shared/BlurHeading";
 import { useState, useRef, type ReactNode } from "react";
 import { useQuote } from "../shared/site-shell";
 
@@ -74,9 +75,9 @@ function Hero() {
       <div className={`wide ${s.heroInner}`}>
         <div className={s.heroCopy} data-fade>
           <p>Welcome to Roofseal</p>
-          <h1>
+          <BlurHeading as="h1">
             Building <span>Lasting Value</span>
-          </h1>
+          </BlurHeading>
         </div>
         <div className={s.heroCards}>
           <CardSwap ref={swap} width={800} height={600} cardDistance={100} verticalDistance={-100} padding={0} preserveCardSize
@@ -121,7 +122,7 @@ function Hero() {
             ],
             ["imgColor2", <>Excellent Manufacturing Practice</>],
           ].map(([image, label], i) => (
-            <div key={i}>
+            <div data-fade data-fade-sequence={i} key={i}>
               <span className={s.credentialIcon}>
                 <img src={a("28585:5690", String(image))} alt="" />
               </span>
@@ -148,7 +149,7 @@ function Intro() {
         Your browser does not support this video. <a href="/sites/roofseal/video/roofseal-manufacturing.mp4">Download the manufacturing video</a>.
       </video>
       <div>
-        <h2>Best Metal Roofing, Doors &amp; Frames Manufacturer in Malaysia</h2>
+        <BlurHeading>Best Metal Roofing, Doors &amp; Frames Manufacturer in Malaysia</BlurHeading>
         <CompanyIntroduction />
         {expanded && <div id="home-company-details"><CompanyDetails home /></div>}
         <button className={s.learn} aria-expanded={expanded} aria-controls="home-company-details" onClick={() => setExpanded(!expanded)}>
@@ -212,7 +213,7 @@ function Building({ hotspots }: { hotspots: BuildingHotspot[] }) {
           ><span /></button>
         ))}
         {active && (
-          <div className={s.productPopup} id="building-product-information" role="region" aria-label={active.label}>
+          <div key={active.label} className={s.productPopup} id="building-product-information" role="region" aria-label={active.label}>
             <div><strong>{active.label}</strong><button aria-label="Close product information" onClick={closePopup}><Icon name="close" /></button></div>
             <section>
               <div className={`${s.hotspotArtwork} ${active.brand === "sealframe" ? s.frameArtwork : ""}`}>
@@ -283,7 +284,7 @@ function Divisions() {
               />
               <div>
                 <section>
-                  <h2>{card.title}</h2>
+                  <BlurHeading>{card.title}</BlurHeading>
                   <p>{card.description}</p>
                 </section>
                 <RoundArrow />
@@ -335,7 +336,7 @@ const brands = [
 function Brands() {
   return (
     <section className={`wide ${s.brands}`}>
-      <h2>Our Brands</h2>
+      <BlurHeading>Our Brands</BlurHeading>
       <div>
         {brands.map((card) => (
           <Destination key={card.name} label={card.name}>
@@ -395,7 +396,7 @@ function Projects() {
           {projects.slice(0, 3).map((_, i) => {
             const p = projects[(i + offset) % projects.length];
             return (
-              <article key={p.title}>
+              <article data-fade key={p.title}>
                 <img src={p.image} alt={p.title} />
                 <div
                   style={{

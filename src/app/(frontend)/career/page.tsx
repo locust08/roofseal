@@ -1,3 +1,4 @@
+import { BlurHeading } from "@/components/sites/roofseal/shared/BlurHeading";
 import type { Metadata } from "next";
 import { Banner, Breadcrumbs, Cta, DiagonalButton } from "@/components/sites/roofseal/shared/ui";
 import styles from "@/components/sites/roofseal/career/career.module.css";
@@ -14,21 +15,21 @@ export default async function CareerPage() {
     <Banner title="Careers at Roofseal" node="28352:1837" />
     <div className={`wide ${styles.body}`}>
       <section className={styles.intro}>
-        <h2>Build Your Future with Roofseal</h2>
+        <BlurHeading>Build Your Future with Roofseal</BlurHeading>
         <p>Roofseal manufactures and supplies metal roofing, doors and frames for residential, commercial and industrial projects across Malaysia. Explore the people and skills behind our building solutions.</p>
       </section>
       <section className={styles.section} aria-labelledby="career-culture">
-        <h2 id="career-culture">Working with Roofseal</h2>
+        <BlurHeading id="career-culture">Working with Roofseal</BlurHeading>
         <p>Our people commitments include a safe workplace, workforce development and ethical business practices.</p>
         <div className={styles.benefits}>
-          <article><span>01</span><h3>Safety at Work</h3><p>A commitment to a safe and healthy working environment.</p></article>
-          <article><span>02</span><h3>Learning &amp; Development</h3><p>A focus on training, skills improvement and workforce development.</p></article>
-          <article><span>03</span><h3>Responsible Business</h3><p>Ethical practices, accountability and continuous improvement.</p></article>
+          <article data-fade><span>01</span><h3>Safety at Work</h3><p>A commitment to a safe and healthy working environment.</p></article>
+          <article data-fade><span>02</span><h3>Learning &amp; Development</h3><p>A focus on training, skills improvement and workforce development.</p></article>
+          <article data-fade><span>03</span><h3>Responsible Business</h3><p>Ethical practices, accountability and continuous improvement.</p></article>
         </div>
       </section>
       <section className={styles.section} aria-labelledby="career-openings">
-        <h2 id="career-openings">Available Positions</h2>
-        {positions.length ? <div className={styles.positions}>{positions.map((position) => <details key={position.id} className={styles.position} id={`position-${position.slug}`}>
+        <BlurHeading id="career-openings">Available Positions</BlurHeading>
+        {positions.length ? <div className={styles.positions}>{positions.map((position) => <details data-fade key={position.id} className={styles.position} id={`position-${position.slug}`}>
           <summary><span><strong>{position.title}</strong><span className={styles.positionMeta}>{[position.department, position.location, position.employmentType].filter(Boolean).join(" · ")}</span></span><span className={styles.expand} aria-hidden="true">+</span></summary>
           <div className={styles.positionBody}>
             <p>{position.summary}</p>
@@ -40,7 +41,7 @@ export default async function CareerPage() {
         </details>)}</div> : <div className={styles.empty}><h3>No positions available at the moment</h3><p>Please check back for future opportunities.</p></div>}
       </section>
       <section className={`${styles.section} ${styles.application}`} aria-labelledby="career-apply">
-        <div><h2 id="career-apply">Apply for a Position</h2><p>Applications are currently closed.</p></div>
+        <div><BlurHeading id="career-apply">Apply for a Position</BlurHeading><p>Applications are currently closed.</p></div>
         <form aria-label="Job application" aria-describedby="career-closed">
           <p id="career-closed" className={styles.closed}>Applications are currently closed.</p>
           <fieldset disabled>

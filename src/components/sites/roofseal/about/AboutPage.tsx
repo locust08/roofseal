@@ -1,5 +1,6 @@
 "use client";
-import { useState } from "react";
+import { BlurHeading } from "@/components/sites/roofseal/shared/BlurHeading";
+import { useState, useSyncExternalStore, type CSSProperties } from "react";
 import { asset } from "../shared/assets";
 import { Breadcrumbs, Icon } from "../shared/ui";
 import styles from "./about.module.css";
@@ -30,6 +31,13 @@ const milestones = [
     "imgImage216",
   ],
 ];
+function subscribeMilestoneLayout(callback: () => void) {
+  const query = window.matchMedia("(max-width: 1100px)");
+  query.addEventListener("change", callback);
+  return () => query.removeEventListener("change", callback);
+}
+const compactMilestones = () => window.matchMedia("(max-width: 1100px)").matches;
+const desktopMilestones = () => false;
 const environmental = [
   "Promote energy-efficient roofing and insulation systems that help reduce heat transfer and energy consumption",
   "Encourage the use of durable and recyclable metal roofing materials for long-term sustainability",
@@ -52,8 +60,21 @@ const esgCommitments = [
 ];
 export function AboutPage() {
   const [expanded, setExpanded] = useState(false);
-  const [offset, setOffset] = useState(0);
+  const [offset, setOffset] = useState(milestones.length);
+  const [sliding, setSliding] = useState(false);
+  const compact = useSyncExternalStore(subscribeMilestoneLayout, compactMilestones, desktopMilestones);
+  const visibleMilestones = compact ? 2 : 3;
   const [esg, setEsg] = useState(0);
+  function moveMilestones(direction: -1 | 1) {
+    if (sliding) return;
+    const next = offset + direction;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setOffset(milestones.length + ((next % milestones.length) + milestones.length) % milestones.length);
+      return;
+    }
+    setSliding(true);
+    setOffset(next);
+  }
   return (
     <main className={styles.about}>
       <Breadcrumbs items={[{ label: "About Us" }]} />
@@ -65,10 +86,10 @@ export function AboutPage() {
         />
         <div className={`wide ${styles.introGrid}`}>
           <div className={styles.introCopy}>
-            <h1>
+            <BlurHeading as="h1">
               A <em>Trusted Manufacturer of Metal Roofing</em>,
               <em> Doors &amp; Frames</em> In Malaysia
-            </h1>
+            </BlurHeading>
             <CompanyIntroduction />
             {expanded && <div id="about-company-details"><CompanyDetails /></div>}
             <button
@@ -115,26 +136,21 @@ export function AboutPage() {
       </section>
       <section className={styles.values} id="core-values">
         <div className={styles.responsiveValuesBackground} aria-hidden="true">
-          <img src="/sites/roofseal/about/core-values-responsive.webp" alt="" />
+          <img src="/sites/roofseal/about/core-values-mobile.webp" alt="" />
         </div>
         <img
           className={styles.valuesBackground}
-          src={a("3878", "imgSectionBackground")}
-          alt=""
-        />
-        <img
-          className={styles.valuesDiagonal}
-          src={a("3878", "imgSectionBackground1")}
+          src="/sites/roofseal/about/core-values-desktop.webp"
           alt=""
         />
         <div className={`wide ${styles.valuesGrid}`}>
           <div className={styles.core}>
-            <h2>
+            <BlurHeading>
               <em>Core Values</em>
-            </h2>
+            </BlurHeading>
             <div className={styles.valueGrid}>
               {values.map(([label, img]) => (
-                <article key={label}>
+                <article data-fade key={label}>
                   <div className={styles.valueIcon}>
                     <span style={{ maskImage: `url(${a("3878", img)})` }} />
                   </div>
@@ -161,7 +177,7 @@ export function AboutPage() {
                   <div className={styles.valueIcon}>
                     <span style={{ maskImage: `url(${a("3878", img)})` }} />
                   </div>
-                  <h2>{title}</h2>
+                  <BlurHeading>{title}</BlurHeading>
                 </header>
                 <p>{copy}</p>
               </article>
@@ -181,9 +197,9 @@ export function AboutPage() {
           alt="Roofseal team"
         />
         <div className={styles.teamCopy}>
-          <h2>
+          <BlurHeading>
             <em>Experienced Roofing Specialists </em>Behind Every Solution
-          </h2>
+          </BlurHeading>
           <p>
             Our team brings practical industry knowledge, technical experience,
             and strong product understanding to support every roofing,
@@ -199,11 +215,11 @@ export function AboutPage() {
       <section className={styles.certificates}>
         <div className={`narrow ${styles.certGrid}`}>
           <div>
-            <h2>
+            <BlurHeading>
               <em>Quality Standards</em>
               <br />
               You Can Rely On
-            </h2>
+            </BlurHeading>
             <p>
               Roofseal is committed to maintaining reliable product quality,
               proper manufacturing practices, and trusted material standards to
@@ -249,9 +265,9 @@ export function AboutPage() {
         />
         <div className="narrow">
           <div className={styles.centerHeading}>
-            <h2>
+            <BlurHeading>
               Over 30 Years of Roofing <em>Experience</em>
-            </h2>
+            </BlurHeading>
             <p>
               Since 1990, Roofseal has grown from a metal roofing subcontractor
               into a trusted manufacturer and supplier of complete roofing
@@ -262,34 +278,48 @@ export function AboutPage() {
             <div className={styles.timelineLine} />
             <button
               className={`${styles.timelineArrow} ${styles.previous}`}
-              onClick={() => setOffset((offset + 2) % 3)}
+              onClick={() => moveMilestones(-1)}
+              disabled={sliding}
               aria-label="Previous milestones"
             >
               <Icon name="chevron-left" />
             </button>
             <button
               className={`${styles.timelineArrow} ${styles.next}`}
-              onClick={() => setOffset((offset + 1) % 3)}
+              onClick={() => moveMilestones(1)}
+              disabled={sliding}
               aria-label="Next milestones"
             >
               <Icon name="chevron-right" />
             </button>
-            <div className={styles.milestoneCards}>
-              {[0, 1, 2].map((n) => {
-                const [year, copy, img] = milestones[(n + offset) % 3];
+            <div className={styles.milestoneViewport} aria-label="Roofseal milestones" aria-roledescription="carousel">
+            <div
+              className={styles.milestoneCards}
+              data-sliding={sliding}
+              style={{ "--milestone-index": offset } as CSSProperties}
+              onTransitionEnd={(event) => {
+                if (event.target !== event.currentTarget || event.propertyName !== "transform") return;
+                // Identical copies let the track wrap without a visible jump.
+                setSliding(false);
+                setOffset(milestones.length + offset % milestones.length);
+              }}
+            >
+              {Array.from({ length: milestones.length * 3 }, (_, n) => {
+                const [year, copy, img] = milestones[n % milestones.length];
                 return (
-                  <article key={year}>
+                  <article key={n} aria-hidden={n < offset || n >= offset + visibleMilestones}>
                     <span className={styles.calendar}>
                       <Icon name="calendar" />
                     </span>
-                    <h2>
+                    <BlurHeading>
                       <em>{year}</em>
-                    </h2>
+                    </BlurHeading>
                     <img src={a("3735", img)} alt={`Roofseal in ${year}`} />
                     <p>{copy}</p>
                   </article>
                 );
               })}
+            </div>
             </div>
           </div>
         </div>
@@ -301,9 +331,9 @@ export function AboutPage() {
       </section>
       <section className={styles.esg}>
         <div className={styles.esgHeading}>
-          <h2>
+          <BlurHeading>
             <em>ESG</em> Commitment
-          </h2>
+          </BlurHeading>
           <p>
             Roofseal is committed to integrating sustainable practices into our
             operations and product solutions through Environmental, Social, and

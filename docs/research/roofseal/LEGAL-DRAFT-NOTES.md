@@ -1,5 +1,9 @@
 # BugHerd #22 — legal page drafts
 
+## Designer revision — 6 November 2026
+
+The designer requested removing the second language if it was not on the original website. The original homepage/footer has no policy links, and targeted searches found no indexed Roofseal policy pages. The bilingual text was generated for #22 from the implementation and general privacy-notice guidance; it was never extracted from Roofseal's existing website. The local review pages now contain English only, without a language selector or Malay draft notice. The English policy text remains generated review copy, with its draft status and noindex metadata retained. This is a presentation revision, not client approval of the policy wording. The original provenance and drafting history follow below.
+
 Generated English and Bahasa Malaysia drafts for client review on localhost only. These are not approved Roofseal policies or a statement of legal compliance. Both routes carry visible draft notices and `robots: noindex, nofollow`; there is no approved effective date. Nothing was deployed, sent to BugHerd or written to CMS data.
 
 Routes: `/terms-and-conditions` and `/privacy-policy`. They reuse the shared Breadcrumbs, Banner (existing asset 28352:1837) and Cta with a scoped reading layout.

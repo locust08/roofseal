@@ -1,3 +1,4 @@
+import { BlurHeading } from "@/components/sites/roofseal/shared/BlurHeading";
 import Link from "next/link";
 import type { ProductApplication } from "@/cms/product-application";
 import styles from "./product-information.module.css";
@@ -22,7 +23,7 @@ export function ProductInformation({ slug, application }: { slug: string; applic
   if (application) return <section className={`narrow ${styles.information}`} aria-label="More Information">
     <div className={styles.label}>More Information</div>
     <div className={styles.body}>
-      <h2>Application</h2>
+      <BlurHeading>Application</BlurHeading>
       <img className={styles.applicationImage} src={application.image} alt={application.imageAlt} width={application.imageWidth} height={application.imageHeight} />
       <div className={styles.tableScroll} role="region" aria-label="Fastener application table" tabIndex={0}>
         <table className={styles.applicationTable}>
@@ -46,7 +47,7 @@ export function ProductInformation({ slug, application }: { slug: string; applic
   return <section className={`narrow ${styles.information}`} aria-label="More Information">
     <div className={styles.label}>More Information</div>
     <div className={styles.body}>
-      <h2>{content.title}</h2>
+      <BlurHeading>{content.title}</BlurHeading>
       {content.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
       <p><Link href="/contact-us">Contact us</Link>{content.contactAfter}</p>
     </div>

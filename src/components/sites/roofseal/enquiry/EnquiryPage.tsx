@@ -1,5 +1,6 @@
 "use client";
 
+import { BlurHeading } from "@/components/sites/roofseal/shared/BlurHeading";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useQuote } from "../shared/site-shell";
@@ -9,7 +10,7 @@ import styles from "./enquiry.module.css";
 
 function ContactDetails() {
   return <div className={styles.details}>
-    <h2>Roofseal Resources (M) Sdn Bhd</h2>
+    <BlurHeading>Roofseal Resources (M) Sdn Bhd</BlurHeading>
     <p><Icon name="map-marker-alt" /><span>No.1 &amp; 1-A, Jalan 1/7, Seksyen 1,<br />Bandar Teknologi Kajang,<br />43500 Semenyih, Selangor, Malaysia</span></p>
     <p><Icon name="envelope" /><a href="mailto:enquiry@roofseal.com.my">enquiry@roofseal.com.my</a></p>
     <p><Icon name="phone" /><span><a href="tel:+60387234776">+(60)3 8723 4776</a><br /><a href="tel:+60126388476">+(60)12 638 8476</a></span></p>
@@ -31,13 +32,13 @@ export function EnquiryPage({ kind }: { kind: "contact" | "quote" }) {
     {!isQuote && <Banner title="Contact Us" />}
     <section className={`${styles.intro} wide`}>
       <p className={styles.eyebrow}>{isQuote ? "Your project. Our expertise." : "Get in touch"}</p>
-      {isQuote ? <h1>Let’s Build Your Next Project.</h1> : <h2>Talk to Our Team.</h2>}
+      {isQuote ? <BlurHeading as="h1">Let’s Build Your Next Project.</BlurHeading> : <BlurHeading>Talk to Our Team.</BlurHeading>}
       <p>{isQuote ? "Review your selected products and share your project requirements with our team." : "Speak to Roofseal about your roofing, insulation, doors and frames requirements."}</p>
     </section>
     <section className={`${styles.layout} wide`} aria-label={title}>
       <aside className={styles.sidebar}>
         {isQuote ? <>
-          <h2>Your Selected Products</h2>
+          <BlurHeading>Your Selected Products</BlurHeading>
           {!ready ? <p role="status">Loading your quote list…</p> : items.length ? <>
             <p>{items.length} {items.length === 1 ? "product" : "products"} in your quote list.</p>
             <ul className={styles.products}>{items.map((item) => <li key={item.id}>
@@ -50,8 +51,8 @@ export function EnquiryPage({ kind }: { kind: "contact" | "quote" }) {
         </> : <ContactDetails />}
       </aside>
       <div className={styles.formCard}>
-        {reference ? <div role="status" tabIndex={-1} ref={successRef} className="enquiry-success"><h2>Thank You</h2><p>Your {isQuote ? "quotation request" : "enquiry"} has been received.</p><p>Reference: <strong>{reference}</strong></p><button className={styles.again} onClick={() => setReference("")}>Start a new {isQuote ? "quotation request" : "enquiry"}</button></div> : <>
-          <h2>{isQuote ? "Your Enquiry Details" : "Send Us an Enquiry"}</h2>
+        {reference ? <div role="status" tabIndex={-1} ref={successRef} className="enquiry-success"><BlurHeading>Thank You</BlurHeading><p>Your {isQuote ? "quotation request" : "enquiry"} has been received.</p><p>Reference: <strong>{reference}</strong></p><button className={styles.again} onClick={() => setReference("")}>Start a new {isQuote ? "quotation request" : "enquiry"}</button></div> : <>
+          <BlurHeading>{isQuote ? "Your Enquiry Details" : "Send Us an Enquiry"}</BlurHeading>
           <p className={styles.required}>Fields marked * are required.</p>
           {isQuote && (!ready || !items.length) ? <p>{ready ? "Add a product to your quote list to complete your quotation request." : "Loading your selected products…"}</p> : <EnquiryForm kind={kind} productIds={isQuote ? items.map((item) => item.id) : []} draft={drafts[kind]} onDraftChange={(draft) => setDraft(kind, draft)} onPendingChange={setPending} onSuccess={(savedReference) => { setDraft(kind, {}); if (isQuote) clearQuote(); setReference(savedReference); }} />}
         </>}

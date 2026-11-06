@@ -1,3 +1,4 @@
+import { BlurHeading } from "@/components/sites/roofseal/shared/BlurHeading";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { categoryView } from "@/cms/view-models";
@@ -23,7 +24,7 @@ export default async function CategoryPage({ params }: Props) {
     <Breadcrumbs items={[{ label: "Products", href: "/metal-roofing-division" }, { label: category.view.name }]} />
     <Banner title={category.view.name} node="28352:1837" />
     <section className={styles.body}>
-      <div className={styles.intro}><h2>{category.view.heading}</h2><p>{category.view.description}</p></div>
+      <div className={styles.intro}><BlurHeading>{category.view.heading}</BlurHeading><p>{category.view.description}</p></div>
       <hr className={styles.divider} />
       {children.length > 0 && <CategoryGrid categories={children} variant={category.view.slug === "insulation" ? "insulation" : category.view.slug === "gutter-roof-component" ? "gutter" : undefined} columns={category.view.slug === "insulation" || category.view.slug === "gutter-roof-component" ? 4 : 3} />}
       {category.view.slug !== "insulation" && products.length > 0 && <ProductGrid products={products} />}

@@ -114,7 +114,7 @@
   position: absolute;
   right: 0;
   top: 0;
-  width: 61.56%;
+  width: 64.22%;
   height: 100%;
   object-fit: cover;
 }
@@ -889,4 +889,67 @@
 }
 @media(max-width:600px) {
   .teamCopy { left: auto; right: auto; width: calc(100% - 40px); }
+}
+
+/* #70: use the supplied overlays in their original orientation. */
+@media (max-width: 1000px) {
+  .responsiveValuesBackground { top: 22%; container-type: normal; }
+  .responsiveValuesBackground img { inset: 0; width: 100%; height: 100%; object-fit: fill; transform: none; }
+  .core { background: transparent; }
+  .core::before { display: none; }
+}
+/* #71: retain Figma's top-right glass overlay and original photo framing. */
+.team { height: 45vw; position: relative; display: block; padding: 0; background: #f5f5f5; }
+.teamLayer { display: none; }
+.teamPhoto { position: absolute; inset: auto; left: -.01%; top: -44.86%; width: 102.2%; height: auto; max-width: none; object-fit: contain; }
+.teamCopy { position: absolute; inset: auto; left: auto; right: 2.604167vw; top: 3.125vw; width: 36.1%; margin: 0; padding: clamp(22px, 2.083333vw, 40px); transform: none; text-align: left; background: rgba(255,255,255,.7); backdrop-filter: blur(7.5px); z-index: 1; }
+.teamCopy h2 { font-size: clamp(24px, 2.083333vw, 40px); line-height: 1.2; letter-spacing: -.03em; }
+.teamCopy p { margin-top: clamp(18px, 1.5625vw, 30px); font-size: clamp(14px, .833333vw, 16px); line-height: 1.5; }
+@media (max-width: 1450px) {
+  .teamCopy { width: 42%; }
+  .teamPhoto { top: -39%; }
+}
+@media (max-width: 1100px) {
+  /* Two equal tracks reserve the lower half for faces even if the copy grows.
+     The panel remains over the full-bleed photograph, never above the section. */
+  .team { display: grid; grid-template-rows: 1fr 1fr; height: auto; min-height: 700px; }
+  .teamPhoto { inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center bottom; }
+  .teamCopy { grid-row: 1; position: relative; inset: auto; width: auto; margin: 30px 30px 0; padding: 25px; align-self: start; }
+  .teamCopy h2 { font-size: clamp(24px, 3.2vw, 30px); }
+  .teamCopy p { font-size: 16px; margin-top: 20px; }
+}
+@media (max-width: 600px) {
+  .team { min-height: 620px; }
+  .teamCopy { margin: 20px 20px 0; padding: 20px; }
+  .teamCopy h2 { font-size: 24px; }
+  .teamCopy p { font-size: 14px; margin-top: 18px; }
+}
+@media (max-width: 360px) {
+  .team { min-height: 660px; }
+}
+/* #72: one continuous horizontal track; incoming/outgoing cards move together. */
+.milestoneViewport { overflow: hidden; padding-block: 5px; }
+.milestoneCards {
+  --milestone-visible: 3;
+  display: flex;
+  gap: 20px;
+  transform: translateX(calc(var(--milestone-index) * -1 * ((100% + 20px) / var(--milestone-visible))));
+  transition: transform 900ms cubic-bezier(.22,.61,.36,1);
+}
+.milestoneCards[data-sliding="false"] { transition: none; }
+.milestoneCards article,
+.milestoneCards article:nth-child(n) {
+  display: flex;
+  flex: 0 0 calc((100% - (var(--milestone-visible) - 1) * 20px) / var(--milestone-visible));
+  min-width: 0;
+  animation: none;
+}
+/* Years stay legible while the complete card is sliding. */
+.milestoneCards [data-blur-heading] [data-blur-word] { animation: none; opacity: 1; filter: none; translate: none; }
+.timelineArrow:disabled { cursor: default; }
+@media (max-width: 1100px) {
+  .milestoneCards { --milestone-visible: 2; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .milestoneCards { transition: none; }
 }

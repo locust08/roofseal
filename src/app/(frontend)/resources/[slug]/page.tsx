@@ -1,8 +1,9 @@
+import { BlurHeading } from "@/components/sites/roofseal/shared/BlurHeading";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, permanentRedirect } from "next/navigation";
 import { resourceHref } from "@/lib/resource-links";
-import { RichText } from "@payloadcms/richtext-lexical/react";
+import { RichText } from "@/components/sites/roofseal/shared/RichText";
 import { getResource } from "@/lib/cms-content";
 import { mediaUrl } from "@/cms/view-models";
 import { Breadcrumbs, Cta, Icon } from "@/components/sites/roofseal/shared/ui";
@@ -26,7 +27,7 @@ export default async function ResourcePage({ params }: Props) {
     <Breadcrumbs items={[{ label: "Resources", href: "/resources" }, { label: resource.title }]} />
     <article className={`${styles.prose} narrow`}>
       <Link href="/resources" className={styles.back}><Icon name="chevron-left" /> Back</Link>
-      <h1>{resource.title}</h1>
+      <BlurHeading as="h1">{resource.title}</BlurHeading>
       {resource.excerpt && <p>{resource.excerpt}</p>}
       {files.map((file) => <a className={styles.download} href={mediaUrl(file)} target="_blank" rel="noreferrer" key={file.id}><Icon name="download" /> {files.length === 1 ? "Download Catalogue" : file.alt}</a>)}
       {resource.content && <RichText data={resource.content} />}

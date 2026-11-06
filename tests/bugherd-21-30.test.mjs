@@ -32,11 +32,13 @@ test('fire-door supporting content and supplied ESG commitments are present', as
   const about = await page('/about');
   for (const text of ['Safe and healthy working environment', 'Training and skills improvement', 'Ethical business practices', 'Continuous improvement and operational excellence']) assert.ok(about.includes(text), text);
 });
-test('both policy pages are bilingual review drafts and excluded from indexing', async () => {
+test('both policy pages are English review drafts and excluded from indexing', async () => {
   for (const path of ['/terms-and-conditions', '/privacy-policy']) {
     const html = await page(path);
     assert.ok(html.includes('Draft for client review'));
-    assert.ok(html.includes('lang="ms"'));
+    assert.ok(html.includes('lang="en"'));
+    assert.ok(!html.includes('lang="ms"'));
+    assert.ok(!html.includes('Bahasa Malaysia'));
     assert.match(html, /name="robots" content="[^"]*noindex/);
   }
 });

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { RichText } from "@payloadcms/richtext-lexical/react";
+import { RichText } from "@/components/sites/roofseal/shared/RichText";
 import { getResource } from "@/lib/cms-content";
 import { mediaUrl } from "@/cms/view-models";
 import { BlogArticle } from "@/components/sites/roofseal/resources/BlogArticle";

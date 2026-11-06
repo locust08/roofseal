@@ -1,5 +1,6 @@
 "use client";
 
+import { BlurHeading } from "@/components/sites/roofseal/shared/BlurHeading";
 import { useState } from "react";
 import Link from "next/link";
 import type { ProductView, ProductCardView } from "@/cms/view-models";
@@ -33,9 +34,9 @@ export function ProductPage({ product, related }: { product: ProductView; relate
             </div>
           </div>
           <div className={styles.info}>
-            <h1>{product.title}</h1>
+            <BlurHeading as="h1">{product.title}</BlurHeading>
             <div className={styles.description}>
-              <h2>Product Description</h2>
+              <BlurHeading>Product Description</BlurHeading>
               {product.features.length ? <ul>{product.features.map((feature, i) => <li key={i}>{feature}</li>)}</ul> : <p>{product.description}</p>}
               {product.specifications.length > 0 && <dl>{product.specifications.map((spec) => <div key={spec.label}><dt>{spec.label}</dt><dd>{spec.value}</dd></div>)}</dl>}
             </div>
@@ -54,8 +55,8 @@ export function ProductPage({ product, related }: { product: ProductView; relate
       {related.length > 0 && <section className={styles.recommendations}>
         <img className={styles.topCut} src={asset("28318:4405", "imgSectionBackground1")} alt="" />
         <div className="narrow">
-          <h2>You Might Also Like</h2>
-          <div className={styles.cards}>{related.map((item) => <Link key={item.id} className={styles.card} href={item.href}>
+          <BlurHeading>You Might Also Like</BlurHeading>
+          <div className={styles.cards}>{related.map((item) => <Link data-fade key={item.id} className={styles.card} href={item.href}>
             <img src={item.image} alt={item.title} /><div><p>{item.category}</p><h3>{item.title}</h3></div>
           </Link>)}</div>
         </div>

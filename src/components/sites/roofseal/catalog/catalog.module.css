@@ -337,3 +337,7 @@
 @media(max-width:600px) {
  .insulationCards :global(.category-card h3) { font-size: 20px; }
 }
+
+/* #81: a continuous gradient replaces the decorative section cut. */
+.faq { background: linear-gradient(to bottom, #f5f5f5, #fff); }
+.faq > .cut { display: none; }

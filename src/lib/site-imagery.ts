@@ -1,6 +1,8 @@
 // Approved Drive exports. Unmapped pages retain their existing artwork.
 const banner = (name: string) => `/sites/roofseal/banners/${name}.webp`;
 export const bannerImages: Record<string, string> = {
+  "Metal Roof Projects": banner("portfolio-metal-roof"),
+  "Metal Doors & Frame Projects": banner("portfolio-doors-frames"),
   "Roof Covering": banner("dekstop-banner-roof-covering"),
   "Insulation": banner("dekstop-banner-insulation"),
   "Gutter & Roof Component": banner("dekstop-banner-gutter-roof-component"),
