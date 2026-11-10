@@ -19,6 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ResourcePage({ params }: Props) {
   const resource = await getResource((await params).slug);
   if (!resource || resource.type === "gallery") notFound();
+  if (resource.type === "catalogue" && !mediaUrl(resource.file)) notFound();
   const canonical = resourceHref(resource);
   if (canonical !== `/resources/${resource.slug}`) permanentRedirect(canonical);
   const files = [resource.file, ...(resource.attachments || [])].filter((m): m is Media => !!m && typeof m !== "number");
